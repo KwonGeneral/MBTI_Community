@@ -13,4 +13,23 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="noto_regular" parent="android:TextAppearance">
+        <item name="android:fontFamily">@font/noto_regular</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="noto_bold" parent="android:TextAppearance">
+        <item name="android:fontFamily">@font/noto_bold</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="noto_medium" parent="android:TextAppearance">
+        <item name="android:fontFamily">@font/noto_medium</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+    <style name="noto_lite" parent="android:TextAppearance">
+        <item name="android:fontFamily">@font/noto_light</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
 </resources>
