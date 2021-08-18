@@ -1,12 +1,12 @@
-package com.kwon.mbti_community.signup
+package com.kwon.mbti_community.z_common.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.kwon.mbti_community.R
 
-class SignupActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_signup)
+        setContentView(R.layout.activity_main)
     }
 }

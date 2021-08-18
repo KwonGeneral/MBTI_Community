@@ -104,4 +104,6 @@ dependencies {
     implementation 'androidx.window:window:1.0.0-alpha10'
     // Instrumented testing
     androidTestImplementation "androidx.test:core:1.4.0"
+    // CardView
+    implementation "androidx.cardview:cardview:1.0.0"
 }

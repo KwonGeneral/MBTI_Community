@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_background"
-    tools:context=".login.LoginActivity">
+    tools:context=".login.view.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -148,7 +148,7 @@
             android:layout_marginBottom="15dp"
             android:gravity="center"
             android:text="I forgot my password?"
-            android:textColor="#61316E"
+            android:textColor="#B26EFF"
             android:textSize="14sp" />
 
         <Button
@@ -157,7 +157,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="60dp"
             android:layout_marginEnd="60dp"
-            android:backgroundTint="#53AF6D"
+            android:backgroundTint="#6B58FF"
             android:text="Login"
             android:textColor="#daffffff" />
 
@@ -177,7 +177,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="60dp"
             android:layout_marginEnd="60dp"
-            android:backgroundTint="#F7D24A"
+            android:backgroundTint="#B26EFF"
             android:text="Signup"
             android:textColor="#aa000000" />
 
