@@ -1,5 +1,6 @@
 package com.kwon.mbti_community.chain.view
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,7 +12,7 @@ import com.kwon.mbti_community.R
 import com.kwon.mbti_community.board.view.BoardFragment
 import com.kwon.mbti_community.hobby.view.HobbyFragment
 import com.kwon.mbti_community.home.view.HomeFragment
-import com.kwon.mbti_community.job.view.JobFragment
+import com.kwon.mbti_community.write.view.WriteFragment
 import com.kwon.mbti_community.mypage.view.MypageFragment
 import kotlinx.android.synthetic.main.activity_chain.*
 
@@ -19,7 +20,7 @@ class ChainActivity : AppCompatActivity() {
     private lateinit var home_fragment: HomeFragment
     private lateinit var board_fragment: BoardFragment
     private lateinit var hobby_fragment: HobbyFragment
-    private lateinit var job_fragment: JobFragment
+    private lateinit var write_fragment: WriteFragment
     private lateinit var mypage_fragment: MypageFragment
     private lateinit var bnv_menu: BottomNavigationMenuView
 
@@ -37,22 +38,47 @@ class ChainActivity : AppCompatActivity() {
         changeFragment(0)
 
         nav_home_layout.setOnClickListener {
+            nav_home.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#3C1969"))
+            nav_board.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
+            nav_write.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
+            nav_hobby.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
+            nav_mypage.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
             changeFragment(0)
 //            nav_home_layout.setBackgroundResource(R.drawable.click_effect)
         }
         nav_board_layout.setOnClickListener {
+            nav_home.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
+            nav_board.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#3C1969"))
+            nav_write.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
+            nav_hobby.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
+            nav_mypage.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
             changeFragment(1)
 //            nav_board_layout.setBackgroundResource(R.drawable.click_effect)
         }
-        nav_hobby_layout.setOnClickListener {
+        nav_write_layout.setOnClickListener {
+            nav_home.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
+            nav_board.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
+            nav_write.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#3C1969"))
+            nav_hobby.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
+            nav_mypage.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
             changeFragment(2)
 //            nav_hobby_layout.setBackgroundResource(R.drawable.click_effect)
         }
-        nav_job_layout.setOnClickListener {
+        nav_hobby_layout.setOnClickListener {
+            nav_home.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
+            nav_board.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
+            nav_write.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
+            nav_hobby.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#3C1969"))
+            nav_mypage.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
             changeFragment(3)
 //            nav_job_layout.setBackgroundResource(R.drawable.click_effect)
         }
         nav_mypage_layout.setOnClickListener {
+            nav_home.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
+            nav_board.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
+            nav_write.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
+            nav_hobby.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
+            nav_mypage.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#3C1969"))
             changeFragment(4)
 //            nav_mypage_layout.setBackgroundResource(R.drawable.click_effect)
         }
@@ -70,15 +96,15 @@ class ChainActivity : AppCompatActivity() {
             board_fragment.arguments = bundle
             supportFragmentManager.beginTransaction().replace(R.id.chain_frag, board_fragment).commit()
         } else if (int == 2) {
+            Log.d("TEST", "글쓰기 프레그먼트")
+            write_fragment = WriteFragment.newInstance()
+            write_fragment.arguments = bundle
+            supportFragmentManager.beginTransaction().replace(R.id.chain_frag, write_fragment).commit()
+        } else if (int == 3) {
             Log.d("TEST", "취미 프레그먼트")
             hobby_fragment = HobbyFragment.newInstance()
             hobby_fragment.arguments = bundle
             supportFragmentManager.beginTransaction().replace(R.id.chain_frag, hobby_fragment).commit()
-        } else if (int == 3) {
-            Log.d("TEST", "직업 프레그먼트")
-            job_fragment = JobFragment.newInstance()
-            job_fragment.arguments = bundle
-            supportFragmentManager.beginTransaction().replace(R.id.chain_frag, job_fragment).commit()
         } else if (int == 4) {
             Log.d("TEST", "마이페이지 프레그먼트")
             mypage_fragment = MypageFragment.newInstance()

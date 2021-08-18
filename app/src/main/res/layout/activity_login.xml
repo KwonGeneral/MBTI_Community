@@ -16,6 +16,7 @@
         android:layout_marginBottom="50dp"
         android:background="#3C1969"
         android:elevation="40dp"
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,68 +26,51 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible"
+            tools:visibility="visible">
 
             <TextView
-                android:id="@+id/textView"
-                style="@style/noto_regular"
+                android:id="@+id/textView9"
+                style="@style/noto_medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:text="Login With\nFaceBook"
-                android:textColor="#baffffff"
-                android:textSize="12sp" />
-
-            <RelativeLayout
-                android:layout_width="180dp"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:background="@drawable/login_circle"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:id="@+id/view"
-                        android:layout_width="40dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/facebook"
-                        android:backgroundTint="#7BB8EE" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_alignParentStart="false"
-                    android:layout_alignParentLeft="false"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/login_circle"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:id="@+id/view3"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/twitter"
-                        android:backgroundTint="#7BB8EE" />
-                </LinearLayout>
-
-            </RelativeLayout>
+                android:gravity="end"
+                android:text="P"
+                android:textColor="#4179d1"
+                android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/textView2"
-                style="@style/noto_regular"
+                android:id="@+id/textView6"
+                style="@style/noto_medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:text="Login With\nTwiiter"
+                android:gravity="bottom"
+                android:text="opo"
                 android:textColor="#baffffff"
-                android:textSize="12sp" />
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView11"
+                style="@style/noto_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="C"
+                android:textColor="#C73279"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView7"
+                style="@style/noto_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:paddingTop="3dp"
+                android:text="hap"
+                android:textColor="#baffffff"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -94,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="60dp"
             android:hint="ID"
             android:textColorHint="#4affffff"
@@ -147,8 +131,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="15dp"
             android:gravity="center"
-            android:text="I forgot my password?"
-            android:textColor="#B26EFF"
+            android:text="Forgot your password"
+            android:textColor="#cc4179d1"
             android:textSize="14sp" />
 
         <Button
@@ -157,7 +141,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="60dp"
             android:layout_marginEnd="60dp"
-            android:backgroundTint="#6B58FF"
+            android:backgroundTint="#4179d1"
             android:text="Login"
             android:textColor="#daffffff" />
 
@@ -177,9 +161,79 @@
             android:layout_height="50dp"
             android:layout_marginStart="60dp"
             android:layout_marginEnd="60dp"
-            android:backgroundTint="#B26EFF"
+            android:backgroundTint="#C73279"
             android:text="Signup"
-            android:textColor="#aa000000" />
+            android:textColor="#daffffff" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView"
+                style="@style/noto_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:text="FaceBook\nLogin"
+                android:textColor="#baffffff"
+                android:textSize="12sp" />
+
+            <RelativeLayout
+                android:layout_width="120dp"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/login_circle"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="20dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/facebook"
+                        android:backgroundTint="#4179d1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_alignParentStart="false"
+                    android:layout_alignParentLeft="false"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/login_circle"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:id="@+id/view3"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/twitter"
+                        android:backgroundTint="#4179d1" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textView2"
+                style="@style/noto_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:text="Twiiter\nLogin"
+                android:textColor="#baffffff"
+                android:textSize="12sp" />
+        </LinearLayout>
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,7 +25,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:background="@drawable/top_background"
             android:elevation="30dp"
             android:gravity="center"
@@ -47,20 +47,19 @@
 
                     <View
                         android:id="@+id/nav_home"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentStart="false"
                         android:layout_alignParentEnd="false"
                         android:layout_centerInParent="true"
-                        android:layout_centerVertical="true"
                         android:layout_gravity="center"
                         android:background="@drawable/home"
-                        android:backgroundTint="#aaffffff" />
+                        android:backgroundTint="#3C1969" />
 
                     <View
                         android:id="@+id/view2"
                         android:layout_width="1dp"
-                        android:layout_height="25dp"
+                        android:layout_height="10dp"
                         android:layout_alignParentTop="false"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="false"
@@ -88,21 +87,53 @@
 
                     <View
                         android:id="@+id/nav_board"
-                        android:layout_width="28dp"
-                        android:layout_height="24dp"
+                        android:layout_width="22dp"
+                        android:layout_height="20dp"
                         android:layout_centerInParent="true"
-                        android:layout_centerVertical="false"
                         android:background="@drawable/board"
-                        android:backgroundTint="#aaffffff" />
+                        android:backgroundTint="#dfffffff" />
 
                     <View
                         android:id="@+id/view5"
                         android:layout_width="1dp"
-                        android:layout_height="25dp"
+                        android:layout_height="10dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:background="#44CDCDCD"
                         tools:visibility="visible" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/nav_write_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/click_effect"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <View
+                        android:id="@+id/nav_write"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/add_board"
+                        android:backgroundTint="#dfffffff" />
+
+                    <View
+                        android:id="@+id/view6"
+                        android:layout_width="1dp"
+                        android:layout_height="10dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="#44CDCDCD" />
                 </RelativeLayout>
 
             </LinearLayout>
@@ -123,51 +154,16 @@
 
                     <View
                         android:id="@+id/nav_hobby"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="19dp"
+                        android:layout_height="20dp"
                         android:layout_centerInParent="true"
-                        android:layout_centerHorizontal="true"
                         android:background="@drawable/hobby"
-                        android:backgroundTint="#aaffffff" />
-
-                    <View
-                        android:id="@+id/view6"
-                        android:layout_width="1dp"
-                        android:layout_height="25dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:background="#44CDCDCD" />
-                </RelativeLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/nav_job_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/click_effect"
-                android:clickable="true"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <View
-                        android:id="@+id/nav_job"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_centerInParent="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/job"
-                        android:backgroundTint="#aaffffff" />
+                        android:backgroundTint="#dfffffff" />
 
                     <View
                         android:id="@+id/view7"
                         android:layout_width="1dp"
-                        android:layout_height="25dp"
+                        android:layout_height="10dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:background="#44CDCDCD" />
@@ -191,12 +187,11 @@
 
                     <View
                         android:id="@+id/nav_mypage"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="19dp"
+                        android:layout_height="20dp"
                         android:layout_centerInParent="true"
-                        android:layout_centerVertical="true"
                         android:background="@drawable/mypage"
-                        android:backgroundTint="#aaffffff" />
+                        android:backgroundTint="#dfffffff" />
                 </RelativeLayout>
 
             </LinearLayout>

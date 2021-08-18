@@ -1,4 +1,4 @@
-package com.kwon.mbti_community.job.view
+package com.kwon.mbti_community.write.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,27 +11,27 @@ import android.util.Log
 import android.annotation.SuppressLint
 import android.content.Context
 
-class JobFragment : Fragment(), AdapterView.OnItemSelectedListener {
+class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
     companion object{
-        fun newInstance() : JobFragment {
-            return JobFragment()
+        fun newInstance() : WriteFragment {
+            return WriteFragment()
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("TEST","JobFragment - onCreate")
+        Log.d("TEST","WriteFragment - onCreate")
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.d("TEST","JobFragment - onAttach")
+        Log.d("TEST","WriteFragment - onAttach")
     }
 
     @SuppressLint("ResourceType")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.d("TEST","JobFragment - onCreateView")
-        val view=inflater.inflate(R.layout.fragment_job, container, false)
+        Log.d("TEST","AddBoardFragment - onCreateView")
+        val view=inflater.inflate(R.layout.fragment_write, container, false)
 
         val bundle = Bundle()
         val bundle_arguments = arguments
@@ -50,21 +50,21 @@ class JobFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onPause() {
         super.onPause()
-        Log.d("TEST", "JobFragment - onPause")
+        Log.d("TEST", "WriteFragment - onPause")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("TEST", "JobFragment - onResume")
+        Log.d("TEST", "WriteFragment - onResume")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("TEST", "JobFragment - onStop")
+        Log.d("TEST", "WriteFragment - onStop")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("TEST", "JobFragment - onDestroy")
+        Log.d("TEST", "WriteFragment - onDestroy")
     }
 }
