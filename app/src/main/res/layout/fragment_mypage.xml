@@ -187,9 +187,9 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="55dp"
                     android:layout_marginTop="15dp"
-                    android:background="@drawable/activity_background"
+                    android:background="@drawable/lovely_background"
                     android:gravity="bottom"
                     android:paddingStart="10dp"
                     android:paddingTop="4dp"
@@ -220,14 +220,14 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
                         android:text="2021-08-19 02:57"
-                        android:textColor="#CDCDCD"
-                        android:textSize="11sp" />
+                        android:textColor="#aaCDCDCD"
+                        android:textSize="10sp" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="55dp"
                     android:layout_marginTop="15dp"
                     android:background="@drawable/activity_background"
                     android:gravity="bottom"
@@ -269,8 +269,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
                         android:text="2021-08-19 01:11"
-                        android:textColor="#CDCDCD"
-                        android:textSize="11sp" />
+                        android:textColor="#aaCDCDCD"
+                        android:textSize="10sp" />
 
                 </RelativeLayout>
 

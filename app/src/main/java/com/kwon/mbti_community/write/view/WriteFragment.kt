@@ -10,6 +10,9 @@ import android.widget.AdapterView
 import android.util.Log
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.widget.TextView
 
 class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
     companion object{
@@ -30,13 +33,69 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     @SuppressLint("ResourceType")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.d("TEST","AddBoardFragment - onCreateView")
+        Log.d("TEST","WriteFragment - onCreateView")
         val view=inflater.inflate(R.layout.fragment_write, container, false)
 
         val bundle = Bundle()
         val bundle_arguments = arguments
         val username = bundle_arguments?.getString("username").toString()
-        bundle.putString("username", username);
+        bundle.putString("username", username)
+
+        val write_select_daily = view.findViewById<TextView>(R.id.write_select_daily)
+        val write_select_free = view.findViewById<TextView>(R.id.write_select_free)
+        val write_select_question = view.findViewById<TextView>(R.id.write_select_question)
+        val write_select_hobby = view.findViewById<TextView>(R.id.write_select_hobby)
+        val write_select_job = view.findViewById<TextView>(R.id.write_select_job)
+        val write_select_support = view.findViewById<TextView>(R.id.write_select_support)
+
+        write_select_daily.setOnClickListener {
+            write_select_daily.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#C73279"))
+            write_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_hobby.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_job.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_support.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+        }
+        write_select_free.setOnClickListener {
+            write_select_daily.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#C73279"))
+            write_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_hobby.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_job.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_support.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+        }
+        write_select_question.setOnClickListener {
+            write_select_daily.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#C73279"))
+            write_select_hobby.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_job.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_support.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+        }
+        write_select_hobby.setOnClickListener {
+            write_select_daily.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_hobby.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#C73279"))
+            write_select_job.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_support.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+        }
+        write_select_job.setOnClickListener {
+            write_select_daily.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_hobby.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_job.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#C73279"))
+            write_select_support.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+        }
+        write_select_support.setOnClickListener {
+            write_select_daily.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_hobby.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_job.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+            write_select_support.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#C73279"))
+        }
 
         return view
     }

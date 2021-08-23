@@ -15,5 +15,9 @@ class LoginActivity : AppCompatActivity() {
             MoveActivity().chain_move(this)
             finish()
         }
+
+        login_signup_btn.setOnClickListener {
+            MoveActivity().signup_move(this)
+        }
     }
 }

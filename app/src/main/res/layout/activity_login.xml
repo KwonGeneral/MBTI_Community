@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_background"
+    android:background="#66ffffff"
     tools:context=".login.view.LoginActivity">
 
     <LinearLayout
@@ -14,8 +14,8 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="50dp"
-        android:background="#3C1969"
-        android:elevation="40dp"
+        android:background="@drawable/login_background"
+        android:elevation="10dp"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="P"
+                android:text="포포"
                 android:textColor="#4179d1"
                 android:textSize="20sp" />
 
@@ -47,7 +47,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
-                android:text="opo"
                 android:textColor="#baffffff"
                 android:textSize="16sp" />
 
@@ -57,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:text="C"
+                android:text="찹"
                 android:textColor="#C73279"
                 android:textSize="20sp" />
 
@@ -68,10 +67,20 @@
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
                 android:paddingTop="3dp"
-                android:text="hap"
                 android:textColor="#baffffff"
                 android:textSize="16sp" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/login_status_message"
+            style="@style/noto_regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:gravity="center"
+            android:textColor="#ff0000"
+            android:textSize="14sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/id_input"
@@ -80,7 +89,7 @@
             android:layout_marginStart="60dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="60dp"
-            android:hint="ID"
+            android:hint="아이디"
             android:textColorHint="#4affffff"
             app:boxCollapsedPaddingTop="4dp">
 
@@ -88,7 +97,7 @@
                 style="@style/noto_regular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#3C1969"
+                android:backgroundTint="@android:color/transparent"
                 android:gravity="bottom"
                 android:inputType="text"
                 android:textColor="#baffffff"
@@ -105,7 +114,7 @@
             android:layout_marginStart="60dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="60dp"
-            android:hint="Password"
+            android:hint="비밀번호"
             android:textColorHint="#4affffff"
             app:boxCollapsedPaddingTop="4dp">
 
@@ -113,7 +122,7 @@
                 style="@style/noto_regular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#3C1969"
+                android:backgroundTint="@android:color/transparent"
                 android:gravity="bottom"
                 android:inputType="textPassword"
                 android:textColor="#baffffff"
@@ -133,16 +142,19 @@
             android:gravity="center"
             android:text="Forgot your password"
             android:textColor="#cc4179d1"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone"
+            tools:visibility="gone" />
 
         <Button
             android:id="@+id/login_btn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="60dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="60dp"
             android:backgroundTint="#4179d1"
-            android:text="Login"
+            android:text="로그인"
             android:textColor="#daffffff" />
 
         <View
@@ -162,7 +174,7 @@
             android:layout_marginStart="60dp"
             android:layout_marginEnd="60dp"
             android:backgroundTint="#C73279"
-            android:text="Signup"
+            android:text="회원가입"
             android:textColor="#daffffff" />
 
         <LinearLayout
@@ -170,7 +182,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="gone">
 
             <TextView
                 android:id="@+id/textView"

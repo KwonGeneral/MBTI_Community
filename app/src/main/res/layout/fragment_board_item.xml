@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/post_border"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                card_view:cardBackgroundColor="@android:color/transparent"
+                card_view:cardCornerRadius="8dp"
+                card_view:cardUseCompatPadding="true"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@android:color/transparent"
+                android:backgroundTint="@android:color/transparent"
+                android:clipToPadding="false">
+
+                <View
+                    android:id="@+id/board_user_profile2"
+                    tools:visibility="visible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/profile" />
+
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingStart="24dp">
+
+                <TextView
+                    android:id="@+id/board_user_nickname2"
+                    style="@style/noto_medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="KwonGeneral"
+                    android:textColor="#ba000000"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/board_user_message2"
+                    style="@style/noto_lite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1 hours ago"
+                    android:textColor="#9a000000"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <View
+                    android:id="@+id/board_user_more2"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/more_menu" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/board_user_title2"
+                style="@style/noto_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="이제 곧 점심시간"
+                android:textColor="#ba000000"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/board_user_content2"
+                style="@style/noto_regular"
+                card_view:lineHeight="19dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="배가 별로 고프지가 않다.\n돈가스가 너무 질려..;;"
+                android:textColor="#ba000000"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/board_like_btn"
+                    style="@style/noto_regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="10dp"
+                    android:text="좋아요"
+                    android:textColor="#C73279"
+                    android:textSize="12sp" />
+
+                <View
+                    android:id="@+id/view38"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/heart"
+                    android:backgroundTint="#C73279" />
+
+                <TextView
+                    android:id="@+id/textView19"
+                    style="@style/noto_medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10"
+                    android:textColor="#C73279"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/textView16"
+                    style="@style/noto_regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="명의 사람들이 좋아합니다"
+                    android:textColor="#ba000000"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/qna_comment_layout2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/qna_create_comment2"
+                    style="@style/noto_regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="댓글보기"
+                    android:textColor="#4179d1"
+                    android:textSize="12sp" />
+
+                <View
+                    android:id="@+id/view36"
+                    android:layout_width="12dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/arrow_down_icon"
+                    android:backgroundTint="#aa4179d1" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

@@ -27,12 +27,134 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/white_top_background"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/qna_top_background"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/write_select_daily"
+                        style="@style/noto_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/top_left_click_effect"
+                        android:backgroundTint="#C73279"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="일상"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view15"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#77ffffff" />
+
+                    <TextView
+                        android:id="@+id/write_select_free"
+                        style="@style/noto_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/top_click_effect"
+                        android:backgroundTint="#000000"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="자유"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view35"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#77ffffff" />
+
+                    <TextView
+                        android:id="@+id/write_select_question"
+                        style="@style/noto_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/top_click_effect"
+                        android:backgroundTint="#000000"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="질문"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view29"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#77ffffff" />
+
+                    <TextView
+                        android:id="@+id/write_select_hobby"
+                        style="@style/noto_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/top_click_effect"
+                        android:backgroundTint="#000000"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="취미"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view30"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#77ffffff" />
+
+                    <TextView
+                        android:id="@+id/write_select_job"
+                        style="@style/noto_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/top_click_effect"
+                        android:backgroundTint="#000000"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="직업"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view31"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#77ffffff" />
+
+                    <TextView
+                        android:id="@+id/write_select_support"
+                        style="@style/noto_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/top_right_click_effect"
+                        android:backgroundTint="#000000"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="응원"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/user_mbti"
                 style="@style/noto_medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:gravity="center"
                 android:text="ENTJ"

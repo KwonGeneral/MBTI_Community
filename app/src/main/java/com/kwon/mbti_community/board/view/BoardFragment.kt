@@ -15,6 +15,12 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.view.isVisible
+import com.kwon.mbti_community.board.model.BoardData
+import com.kwon.mbti_community.board.model.BoardInterface
+import com.kwon.mbti_community.z_common.connect.Connect
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
     companion object{
@@ -42,6 +48,34 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.d("TEST","BoardFragment - onCreateView")
         val view=inflater.inflate(R.layout.fragment_board, container, false)
+
+        val access_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Imt3b250YWV3YW4iLCJwYXNzd29yZCI6IlExSlFJV3BMYWNlTmkzTnppNXEzZXc9PSIsInRva2VuX3R5cGUiOiJhY2Nlc3NfdG9rZW4iLCJ0aW1lIjoiMjAyMS0wOC0yMCAxNzoyNjo1OSJ9.XTxTH9CwpnKwlDyP2XgZ-fLClN9KqtJFDgLfC0sVGFQ"
+        val conn = Connect().connect(access_token)
+        val board_api: BoardInterface = conn.create(BoardInterface::class.java)
+
+        board_api.getBoard().enqueue(object: Callback<List<BoardData>> {
+            override fun onResponse(call: Call<List<BoardData>>, response: Response<List<BoardData>>) {
+                val body = response.body()
+
+                if(body != null){
+                    for(nn in body) {
+                        Log.d("TEST", "하하하 : $nn")
+                    }
+//                    recyclerView=view.findViewById(R.id.notice_recycler) as RecyclerView
+//                    val reverse_manager = LinearLayoutManager(requireContext())
+//                    reverse_manager.reverseLayout = true
+//                    reverse_manager.stackFromEnd = true
+//
+//                    recyclerView.layoutManager = reverse_manager
+//                    recyclerView.adapter= Notice_Adapter(requireContext(), items)
+                }
+                Log.d("TEST", "왔다~ -> $body")
+            }
+
+            override fun onFailure(call: Call<List<BoardData>>, t: Throwable) {
+                Log.d("TEST", "Failed : 실패입니다 11 -> " + t.message)
+            }
+        })
 
         val bundle = Bundle()
         val bundle_arguments = arguments
