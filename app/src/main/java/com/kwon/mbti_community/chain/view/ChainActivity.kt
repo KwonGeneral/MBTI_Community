@@ -24,6 +24,13 @@ class ChainActivity : AppCompatActivity() {
     private lateinit var mypage_fragment: MypageFragment
     private lateinit var bnv_menu: BottomNavigationMenuView
 
+    var share_access_token = ""
+    var share_username = ""
+    var share_nickname = ""
+    var share_profile = ""
+    var share_user_type = ""
+    var share_message = ""
+
     //뒤로가기 연속 클릭 대기 시간
     var mBackWait:Long = 0
 
@@ -34,6 +41,21 @@ class ChainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chain)
         Log.d("TEST", "ChainActivity - onCreate")
+
+        // 로그인에서 값 가져오기
+        share_access_token = intent.getStringExtra("access_token").toString()
+        share_username = intent.getStringExtra("username").toString()
+        share_nickname = intent.getStringExtra("nickname").toString()
+        share_profile = intent.getStringExtra("profile").toString()
+        share_user_type = intent.getStringExtra("user_type").toString()
+        share_message = intent.getStringExtra("message").toString()
+
+        Log.d("TEST", "share_access_token : $share_access_token")
+        Log.d("TEST", "share_username : $share_username")
+        Log.d("TEST", "share_nickname : $share_nickname")
+        Log.d("TEST", "share_profile : $share_profile")
+        Log.d("TEST", "share_user_type : $share_user_type")
+        Log.d("TEST", "share_message : $share_message")
 
         changeFragment(0)
 
@@ -85,6 +107,13 @@ class ChainActivity : AppCompatActivity() {
     }
 
     fun changeFragment(int: Int) {
+        bundle.putString("access_token", share_access_token)
+        bundle.putString("username", share_username)
+        bundle.putString("nickname", share_nickname)
+        bundle.putString("profile", share_profile)
+        bundle.putString("user_type", share_user_type)
+        bundle.putString("share_message", share_message)
+
         if (int == 0) {
             Log.d("TEST", "홈 프레그먼트")
             home_fragment = HomeFragment.newInstance()

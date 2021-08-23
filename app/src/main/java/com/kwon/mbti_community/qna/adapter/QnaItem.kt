@@ -1,6 +1,6 @@
-package com.kwon.mbti_community.board.adapter
+package com.kwon.mbti_community.qna.adapter
 
-class BoardItem constructor(
+class QnaItem constructor(
     val id: Int,
     val board_content: String?,
     val board_like_count: String?,

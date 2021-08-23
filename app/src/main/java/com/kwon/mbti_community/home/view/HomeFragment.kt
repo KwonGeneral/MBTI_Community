@@ -13,6 +13,15 @@ import android.content.Context
 import android.widget.ImageView
 
 class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
+
+    // 값 전달 변수
+    var share_access_token = ""
+    var share_username = ""
+    var share_nickname = ""
+    var share_profile = ""
+    var share_user_type = ""
+    var share_message = ""
+
     companion object{
         fun newInstance() : HomeFragment {
             return HomeFragment()
@@ -34,10 +43,22 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         Log.d("TEST","HomeFragment - onCreateView")
         val view=inflater.inflate(R.layout.fragment_home, container, false)
 
+        // 값 전달
         val bundle = Bundle()
         val bundle_arguments = arguments
-        val username = bundle_arguments?.getString("username").toString()
-        bundle.putString("username", username)
+        share_access_token = bundle_arguments?.getString("access_token").toString()
+        share_username = bundle_arguments?.getString("username").toString()
+        share_nickname = bundle_arguments?.getString("nickname").toString()
+        share_profile = bundle_arguments?.getString("profile").toString()
+        share_user_type = bundle_arguments?.getString("user_type").toString()
+        share_message = bundle_arguments?.getString("share_message").toString()
+
+        Log.d("TEST", "share_access_token : $share_access_token")
+        Log.d("TEST", "share_username : $share_username")
+        Log.d("TEST", "share_nickname : $share_nickname")
+        Log.d("TEST", "share_profile : $share_profile")
+        Log.d("TEST", "share_user_type : $share_user_type")
+        Log.d("TEST", "share_message : $share_message")
 
         // 프로필 이미지 모서리 둥글게 설정
 

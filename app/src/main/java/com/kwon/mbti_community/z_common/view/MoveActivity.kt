@@ -15,11 +15,15 @@ class MoveActivity : MoveInterface, AppCompatActivity() {
         super.onCreate(savedInstanceState, persistentState)
     }
 
-    override fun chain_move(activity: Activity, key: String?, value: String?) {
+    override fun chain_move(activity: Activity, hash:HashMap<String, String>) {
         val intent = Intent(activity, ChainActivity::class.java)
-        if(key != null && value != null){
-            intent.putExtra(key, value)
-        }
+        intent.putExtra("access_token", hash["access_token"])
+        intent.putExtra("username", hash["username"])
+        intent.putExtra("nickname", hash["nickname"])
+        intent.putExtra("profile", hash["profile"])
+        intent.putExtra("user_type", hash["user_type"])
+        intent.putExtra("message", hash["message"])
+
         activity.startActivity(intent)
         activity.finish()
         return

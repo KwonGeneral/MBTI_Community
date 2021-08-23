@@ -2,12 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/signup_all_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#66ffffff"
     tools:context=".signup.view.SignupActivity">
 
     <LinearLayout
+        android:id="@+id/signup_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="20dp"
@@ -28,48 +30,7 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/signup_nickname_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="60dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="60dp"
-                android:hint="닉네임"
-                android:textColorHint="#4affffff"
-                app:boxCollapsedPaddingTop="4dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    style="@style/noto_regular"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@android:color/transparent"
-                    android:gravity="bottom"
-                    android:inputType="text"
-                    android:paddingEnd="25dp"
-                    android:textColor="#baffffff"
-                    android:textColorHighlight="@color/design_default_color_primary"
-                    android:textCursorDrawable="@drawable/input_cursor"
-                    android:textSize="14sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <View
-                android:id="@+id/signup_nickname_circle"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_alignEnd="@id/signup_nickname_input"
-                android:layout_marginTop="35dp"
-                android:background="@drawable/check_circle"
-                android:backgroundTint="#aaCDCDCD" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/signup_id_input"
+                android:id="@+id/signup_username_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="60dp"
@@ -80,6 +41,7 @@
                 app:boxCollapsedPaddingTop="4dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/signup_username_input"
                     style="@style/noto_regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -95,13 +57,13 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <View
-                android:id="@+id/signup_id_circle"
+                android:id="@+id/signup_username_circle"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:layout_alignEnd="@id/signup_id_input"
+                android:layout_alignEnd="@id/signup_username_layout"
                 android:layout_marginTop="35dp"
                 android:background="@drawable/check_circle"
-                android:backgroundTint="#aaCDCDCD" />
+                android:backgroundTint="#66CDCDCD" />
 
         </RelativeLayout>
 
@@ -110,7 +72,7 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/signup_password_input"
+                android:id="@+id/signup_password_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="60dp"
@@ -121,6 +83,7 @@
                 app:boxCollapsedPaddingTop="4dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/signup_password_input"
                     style="@style/noto_regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -139,10 +102,10 @@
                 android:id="@+id/signup_password_circle"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:layout_alignEnd="@id/signup_password_input"
+                android:layout_alignEnd="@id/signup_password_layout"
                 android:layout_marginTop="35dp"
                 android:background="@drawable/check_circle"
-                android:backgroundTint="#aaCDCDCD" />
+                android:backgroundTint="#66CDCDCD" />
 
         </RelativeLayout>
 
@@ -151,7 +114,7 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/signup_password_check_input"
+                android:id="@+id/signup_password_check_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="60dp"
@@ -162,6 +125,7 @@
                 app:boxCollapsedPaddingTop="4dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/signup_password_check_input"
                     style="@style/noto_regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -180,12 +144,70 @@
                 android:id="@+id/signup_password_check_circle"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:layout_alignEnd="@id/signup_password_check_input"
+                android:layout_alignEnd="@id/signup_password_check_layout"
                 android:layout_marginTop="35dp"
                 android:background="@drawable/check_circle"
-                android:backgroundTint="#aaCDCDCD" />
+                android:backgroundTint="#66CDCDCD" />
 
         </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/signup_nickname_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="60dp"
+                android:hint="닉네임"
+                android:textColorHint="#4affffff"
+                app:boxCollapsedPaddingTop="4dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/signup_nickname_input"
+                    style="@style/noto_regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/transparent"
+                    android:gravity="bottom"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:paddingEnd="25dp"
+                    android:textColor="#baffffff"
+                    android:textColorHighlight="@color/design_default_color_primary"
+                    android:textCursorDrawable="@drawable/input_cursor"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:id="@+id/signup_nickname_circle"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignEnd="@id/signup_nickname_layout"
+                android:layout_marginTop="35dp"
+                android:background="@drawable/check_circle"
+                android:backgroundTint="#66CDCDCD" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/mbti_spinner_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="43dp"
+            android:orientation="vertical">
+
+            <Spinner
+                android:id="@+id/mbti_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/signup_submit_btn"

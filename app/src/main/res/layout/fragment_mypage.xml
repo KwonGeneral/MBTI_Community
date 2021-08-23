@@ -62,16 +62,15 @@
                     android:paddingStart="24dp">
 
                     <TextView
-                        android:id="@+id/user_nickname"
+                        android:id="@+id/mypage_user_nickname"
                         style="@style/noto_medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="KwonGeneral"
                         android:textColor="#ba000000"
                         android:textSize="20sp" />
 
                     <TextView
-                        android:id="@+id/user_message"
+                        android:id="@+id/mypage_user_message"
                         style="@style/noto_lite"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -104,12 +103,11 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/user_following"
+                        android:id="@+id/mypage_user_mbti"
                         style="@style/noto_regular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="ENTJ"
                         android:textColor="#ba000000"
                         android:textSize="20sp" />
 
@@ -138,12 +136,11 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/user_followers"
+                        android:id="@+id/mypage_user_board_count"
                         style="@style/noto_regular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="1,082"
                         android:textColor="#ba000000"
                         android:textSize="20sp" />
 

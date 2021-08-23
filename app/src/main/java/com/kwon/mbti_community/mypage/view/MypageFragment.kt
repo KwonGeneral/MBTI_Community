@@ -13,8 +13,23 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.widget.TextView
+import com.kwon.mbti_community.mypage.model.GetBoardCountData
+import com.kwon.mbti_community.mypage.model.MypageInterface
+import com.kwon.mbti_community.z_common.connect.Connect
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
+
+    // 값 전달 변수
+    var share_access_token = ""
+    var share_username = ""
+    var share_nickname = ""
+    var share_profile = ""
+    var share_user_type = ""
+    var share_message = ""
+
     companion object{
         fun newInstance() : MypageFragment {
             return MypageFragment()
@@ -31,15 +46,52 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
         Log.d("TEST","MypageFragment - onAttach")
     }
 
-    @SuppressLint("ResourceType")
+    @SuppressLint("ResourceType", "SetTextI18n")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.d("TEST","MypageFragment - onCreateView")
         val view=inflater.inflate(R.layout.fragment_mypage, container, false)
 
+        // 값 전달
         val bundle = Bundle()
         val bundle_arguments = arguments
-        val username = bundle_arguments?.getString("username").toString()
-        bundle.putString("username", username)
+        share_access_token = bundle_arguments?.getString("access_token").toString()
+        share_username = bundle_arguments?.getString("username").toString()
+        share_nickname = bundle_arguments?.getString("nickname").toString()
+        share_profile = bundle_arguments?.getString("profile").toString()
+        share_user_type = bundle_arguments?.getString("user_type").toString()
+        share_message = bundle_arguments?.getString("share_message").toString()
+
+        Log.d("TEST", "share_access_token : $share_access_token")
+        Log.d("TEST", "share_username : $share_username")
+        Log.d("TEST", "share_nickname : $share_nickname")
+        Log.d("TEST", "share_profile : $share_profile")
+        Log.d("TEST", "share_user_type : $share_user_type")
+        Log.d("TEST", "share_message : $share_message")
+
+        // 설정해줘야 하는 값
+        view.findViewById<TextView>(R.id.mypage_user_nickname).text = share_nickname
+        view.findViewById<TextView>(R.id.mypage_user_mbti).text = share_user_type
+
+        // API 셋팅
+        val access_token = share_access_token
+        val conn = Connect().connect(access_token)
+        val mypage_api: MypageInterface = conn.create(MypageInterface::class.java)
+
+        // API 통신 : 글 카운트 가져오기
+        mypage_api.getBoardCount().enqueue(object: Callback<GetBoardCountData> {
+            override fun onResponse(call: Call<GetBoardCountData>, response: Response<GetBoardCountData>) {
+                val body = response.body()
+                if(body != null) {
+                    view.findViewById<TextView>(R.id.mypage_user_board_count).text = body.data.board_total_count.toString()
+                }
+                Log.d("TEST", "getBoardCount 통신성공 바디 -> $body")
+            }
+
+            override fun onFailure(call: Call<GetBoardCountData>, t: Throwable) {
+                Log.d("TEST", "getBoardCount 통신실패 에러 -> " + t.message)
+            }
+        })
+
 
         val select_feel_very_good = view.findViewById<TextView>(R.id.select_feel_very_good)
         val select_feel_good = view.findViewById<TextView>(R.id.select_feel_good)

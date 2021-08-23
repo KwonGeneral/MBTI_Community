@@ -2,9 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_all_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#66ffffff"
+    android:background="@drawable/login_two_background"
     tools:context=".login.view.LoginActivity">
 
     <LinearLayout
@@ -82,55 +83,91 @@
             android:textColor="#ff0000"
             android:textSize="14sp" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/id_input"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="60dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="60dp"
-            android:hint="아이디"
-            android:textColorHint="#4affffff"
-            app:boxCollapsedPaddingTop="4dp">
+            android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputEditText
-                style="@style/noto_regular"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/login_username_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/transparent"
-                android:gravity="bottom"
-                android:inputType="text"
-                android:textColor="#baffffff"
-                android:textColorHighlight="@color/design_default_color_primary"
-                android:textCursorDrawable="@drawable/input_cursor"
-                android:textSize="14sp" />
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="60dp"
+                android:hint="아이디"
+                android:textColorHint="#4affffff"
+                app:boxCollapsedPaddingTop="4dp">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/login_username_input"
+                    style="@style/noto_regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/transparent"
+                    android:gravity="bottom"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:paddingEnd="25dp"
+                    android:textColor="#baffffff"
+                    android:textColorHighlight="@color/design_default_color_primary"
+                    android:textCursorDrawable="@drawable/input_cursor"
+                    android:textSize="14sp" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/password_input"
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:id="@+id/login_username_circle"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignEnd="@id/login_username_layout"
+                android:layout_marginTop="35dp"
+                android:background="@drawable/check_circle"
+                android:backgroundTint="#66CDCDCD" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="60dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="60dp"
-            android:hint="비밀번호"
-            android:textColorHint="#4affffff"
-            app:boxCollapsedPaddingTop="4dp">
+            android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputEditText
-                style="@style/noto_regular"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/login_password_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/transparent"
-                android:gravity="bottom"
-                android:inputType="textPassword"
-                android:textColor="#baffffff"
-                android:textColorHighlight="@color/design_default_color_primary"
-                android:textCursorDrawable="@drawable/input_cursor"
-                android:textSize="14sp" />
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="60dp"
+                android:hint="비밀번호"
+                android:textColorHint="#4affffff"
+                app:boxCollapsedPaddingTop="4dp">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/login_password_input"
+                    style="@style/noto_regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/transparent"
+                    android:gravity="bottom"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    android:paddingEnd="25dp"
+                    android:textColor="#baffffff"
+                    android:textColorHighlight="@color/design_default_color_primary"
+                    android:textCursorDrawable="@drawable/input_cursor"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:id="@+id/login_password_circle"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignEnd="@id/login_password_layout"
+                android:layout_marginTop="35dp"
+                android:background="@drawable/check_circle"
+                android:backgroundTint="#66CDCDCD" />
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/find_password_text"
@@ -151,7 +188,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="60dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="60dp"
             android:backgroundTint="#4179d1"
             android:text="로그인"

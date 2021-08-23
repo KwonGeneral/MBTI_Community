@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/write_frame_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#caffffff"
@@ -175,7 +176,6 @@
                 android:paddingBottom="30dp">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/title_input"
                     style="@style/noto_regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -184,6 +184,7 @@
                     app:boxCollapsedPaddingTop="4dp">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/write_title_input"
                         style="@style/noto_regular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -207,6 +208,7 @@
                     app:boxCollapsedPaddingTop="4dp">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/write_content_input"
                         style="@style/noto_regular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -221,7 +223,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/write_submit_btn"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginStart="60dp"

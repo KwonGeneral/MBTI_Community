@@ -6,15 +6,34 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.kwon.mbti_community.R
-import android.widget.AdapterView
 import android.util.Log
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.widget.TextView
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
+import com.kwon.mbti_community.board.model.BoardInterface
+import com.kwon.mbti_community.board.model.CreateBoardData
+import com.kwon.mbti_community.z_common.connect.Connect
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
+
+    // 값 전달 변수
+    var share_access_token = ""
+    var share_username = ""
+    var share_nickname = ""
+    var share_profile = ""
+    var share_user_type = ""
+    var share_message = ""
+
+    var temp_board_type:String = "daily"
+
     companion object{
         fun newInstance() : WriteFragment {
             return WriteFragment()
@@ -36,10 +55,78 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
         Log.d("TEST","WriteFragment - onCreateView")
         val view=inflater.inflate(R.layout.fragment_write, container, false)
 
+        // 값 전달
         val bundle = Bundle()
         val bundle_arguments = arguments
-        val username = bundle_arguments?.getString("username").toString()
-        bundle.putString("username", username)
+        share_access_token = bundle_arguments?.getString("access_token").toString()
+        share_username = bundle_arguments?.getString("username").toString()
+        share_nickname = bundle_arguments?.getString("nickname").toString()
+        share_profile = bundle_arguments?.getString("profile").toString()
+        share_user_type = bundle_arguments?.getString("user_type").toString()
+        share_message = bundle_arguments?.getString("share_message").toString()
+
+        Log.d("TEST", "share_access_token : $share_access_token")
+        Log.d("TEST", "share_username : $share_username")
+        Log.d("TEST", "share_nickname : $share_nickname")
+        Log.d("TEST", "share_profile : $share_profile")
+        Log.d("TEST", "share_user_type : $share_user_type")
+        Log.d("TEST", "share_message : $share_message")
+
+        // API 셋팅
+        val access_token = share_access_token
+        val conn = Connect().connect(access_token)
+        val board_api: BoardInterface = conn.create(BoardInterface::class.java)
+
+        val write_submit_btn = view.findViewById<Button>(R.id.write_submit_btn)
+
+        // 작성 완료 버튼 클릭
+        write_submit_btn.setOnClickListener {
+            val write_title_input = view.findViewById<TextInputEditText>(R.id.write_title_input).text.toString()
+            val write_content_input = view.findViewById<TextInputEditText>(R.id.write_content_input).text.toString()
+            view.findViewById<TextInputEditText>(R.id.write_title_input).text!!.clear()
+            view.findViewById<TextInputEditText>(R.id.write_content_input).text!!.clear()
+
+            // 키보드 내리기
+            val mInputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            mInputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+
+            Log.d("TEST", "write_title_input : $write_title_input")
+            Log.d("TEST", "write_content_input : $write_content_input")
+
+            if(write_title_input.replace(" ", "") == "" || write_content_input.replace(" ", "") == "") {
+                return@setOnClickListener
+            }
+
+            // 게시글 생성 API
+            val parameter:HashMap<String, String> = HashMap()
+            parameter["board_title"] = write_title_input
+            parameter["board_content"] = write_content_input
+            parameter["board_type"] = temp_board_type
+            parameter["board_username"] = share_username
+            parameter["board_like_count"] = "0"
+            parameter["board_nickname"] = share_nickname
+            parameter["board_user_type"] = share_user_type
+
+            board_api.createBoard(parameter).enqueue(object: Callback<CreateBoardData> {
+                override fun onResponse(call: Call<CreateBoardData>, response: Response<CreateBoardData>) {
+                    val body = response.body()
+
+                    if(body != null) {
+                        Snackbar
+                            .make(view.findViewById<FrameLayout>(R.id.write_frame_layout), "게시글이 업로드 되었습니다.", 1000)
+                            .setBackgroundTint(Color.parseColor("#666666"))
+                            .setTextColor(Color.parseColor("#aaffffff"))
+                            .show()
+                    }
+
+                    Log.d("TEST", "createBoard 통신성공 바디 -> $body")
+                }
+
+                override fun onFailure(call: Call<CreateBoardData>, t: Throwable) {
+                    Log.d("TEST", "createBoard 통신실패 에러 -> " + t.message)
+                }
+            })
+        }
 
         val write_select_daily = view.findViewById<TextView>(R.id.write_select_daily)
         val write_select_free = view.findViewById<TextView>(R.id.write_select_free)
@@ -49,6 +136,7 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val write_select_support = view.findViewById<TextView>(R.id.write_select_support)
 
         write_select_daily.setOnClickListener {
+            temp_board_type = "daily"
             write_select_daily.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#C73279"))
             write_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             write_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
@@ -57,6 +145,7 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
             write_select_support.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
         }
         write_select_free.setOnClickListener {
+            temp_board_type = "free"
             write_select_daily.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             write_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#C73279"))
             write_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
@@ -65,6 +154,7 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
             write_select_support.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
         }
         write_select_question.setOnClickListener {
+            temp_board_type = "question"
             write_select_daily.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             write_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             write_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#C73279"))
@@ -73,6 +163,7 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
             write_select_support.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
         }
         write_select_hobby.setOnClickListener {
+            temp_board_type = "hobby"
             write_select_daily.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             write_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             write_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
@@ -81,6 +172,7 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
             write_select_support.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
         }
         write_select_job.setOnClickListener {
+            temp_board_type = "job"
             write_select_daily.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             write_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             write_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
@@ -89,6 +181,7 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
             write_select_support.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
         }
         write_select_support.setOnClickListener {
+            temp_board_type = "support"
             write_select_daily.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             write_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             write_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
