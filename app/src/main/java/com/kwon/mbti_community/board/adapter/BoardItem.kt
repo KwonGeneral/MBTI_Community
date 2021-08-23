@@ -3,7 +3,7 @@ package com.kwon.mbti_community.board.adapter
 class BoardItem constructor(
     val id: Int,
     val board_content: String,
-    val board_like_count: Int,
+    val board_like_count: String,
     val board_nickname: String,
     val board_profile: String,
     val board_title: String,

@@ -7,5 +7,5 @@ interface BoardInterface {
     @GET("/board/")
     fun getBoard(
 //        @Query("get_email") get_email: CharSequence,
-    ): Call<List<BoardData>>
+    ): Call<BoardData>
 }

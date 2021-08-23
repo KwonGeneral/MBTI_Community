@@ -15,6 +15,10 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.kwon.mbti_community.board.adapter.BoardAdapter
+import com.kwon.mbti_community.board.adapter.BoardItem
 import com.kwon.mbti_community.board.model.BoardData
 import com.kwon.mbti_community.board.model.BoardInterface
 import com.kwon.mbti_community.z_common.connect.Connect
@@ -23,6 +27,10 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
+    lateinit var recyclerView: RecyclerView
+    var items = arrayListOf<BoardItem>()
+    var items_no_list = arrayListOf<String>()
+
     companion object{
         fun newInstance() : BoardFragment {
             return BoardFragment()
@@ -53,26 +61,31 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val conn = Connect().connect(access_token)
         val board_api: BoardInterface = conn.create(BoardInterface::class.java)
 
-        board_api.getBoard().enqueue(object: Callback<List<BoardData>> {
-            override fun onResponse(call: Call<List<BoardData>>, response: Response<List<BoardData>>) {
+        board_api.getBoard().enqueue(object: Callback<BoardData> {
+            override fun onResponse(call: Call<BoardData>, response: Response<BoardData>) {
                 val body = response.body()
 
                 if(body != null){
-                    for(nn in body) {
+                    for(nn in body.data) {
                         Log.d("TEST", "하하하 : $nn")
+                        items.add(
+                            BoardItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, nn.board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at)
+                        )
                     }
-//                    recyclerView=view.findViewById(R.id.notice_recycler) as RecyclerView
-//                    val reverse_manager = LinearLayoutManager(requireContext())
-//                    reverse_manager.reverseLayout = true
-//                    reverse_manager.stackFromEnd = true
+
+
+                    recyclerView=view.findViewById(R.id.board_recycler) as RecyclerView
+                    val reverse_manager = LinearLayoutManager(requireContext())
+                    reverse_manager.reverseLayout = true
+                    reverse_manager.stackFromEnd = true
 //
-//                    recyclerView.layoutManager = reverse_manager
-//                    recyclerView.adapter= Notice_Adapter(requireContext(), items)
+                    recyclerView.layoutManager = reverse_manager
+                    recyclerView.adapter= BoardAdapter(requireContext(), items)
                 }
                 Log.d("TEST", "왔다~ -> $body")
             }
 
-            override fun onFailure(call: Call<List<BoardData>>, t: Throwable) {
+            override fun onFailure(call: Call<BoardData>, t: Throwable) {
                 Log.d("TEST", "Failed : 실패입니다 11 -> " + t.message)
             }
         })

@@ -3,7 +3,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
@@ -23,21 +23,21 @@
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
-                card_view:cardBackgroundColor="@android:color/transparent"
-                card_view:cardCornerRadius="8dp"
-                card_view:cardUseCompatPadding="true"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@android:color/transparent"
                 android:backgroundTint="@android:color/transparent"
-                android:clipToPadding="false">
+                android:clipToPadding="false"
+                card_view:cardBackgroundColor="@android:color/transparent"
+                card_view:cardCornerRadius="8dp"
+                card_view:cardUseCompatPadding="true">
 
                 <View
-                    android:id="@+id/board_user_profile2"
-                    tools:visibility="visible"
+                    android:id="@+id/board_user_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/profile" />
+                    android:background="@drawable/profile"
+                    tools:visibility="visible" />
 
             </androidx.cardview.widget.CardView>
 
@@ -50,7 +50,7 @@
                 android:paddingStart="24dp">
 
                 <TextView
-                    android:id="@+id/board_user_nickname2"
+                    android:id="@+id/board_user_nickname"
                     style="@style/noto_medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/board_user_message2"
+                    android:id="@+id/board_datetime"
                     style="@style/noto_lite"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
                 android:orientation="vertical">
 
                 <View
-                    android:id="@+id/board_user_more2"
+                    android:id="@+id/board_user_more"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:background="@drawable/more_menu" />
@@ -90,7 +90,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/board_user_title2"
+                android:id="@+id/board_user_title"
                 style="@style/noto_medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -99,15 +99,15 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/board_user_content2"
+                android:id="@+id/board_user_content"
                 style="@style/noto_regular"
-                card_view:lineHeight="19dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="배가 별로 고프지가 않다.\n돈가스가 너무 질려..;;"
                 android:textColor="#ba000000"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                card_view:lineHeight="19dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -128,7 +128,7 @@
                     style="@style/noto_regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingEnd="10dp"
+                    android:paddingEnd="5dp"
                     android:text="좋아요"
                     android:textColor="#C73279"
                     android:textSize="12sp" />
@@ -138,14 +138,16 @@
                     android:layout_width="11dp"
                     android:layout_height="11dp"
                     android:layout_gravity="center"
+                    android:layout_marginEnd="2dp"
                     android:background="@drawable/heart"
                     android:backgroundTint="#C73279" />
 
                 <TextView
-                    android:id="@+id/textView19"
+                    android:id="@+id/board_like_count"
                     style="@style/noto_medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
                     android:text="10"
                     android:textColor="#C73279"
                     android:textSize="12sp" />
@@ -161,7 +163,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/qna_comment_layout2"
+                android:id="@+id/qna_comment_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -169,7 +171,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/qna_create_comment2"
+                    android:id="@+id/qna_create_comment"
                     style="@style/noto_regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

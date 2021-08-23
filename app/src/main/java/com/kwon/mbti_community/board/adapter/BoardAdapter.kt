@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kwon.mbti_community.R
+import kotlinx.android.synthetic.main.fragment_board_item.view.*
 
 
 class BoardAdapter constructor(var context:Context, var items:ArrayList<BoardItem>):
@@ -31,6 +32,12 @@ class BoardAdapter constructor(var context:Context, var items:ArrayList<BoardIte
         val vh: VH =holder as VH
 
         val item= items[position]
+
+//        vh.itemView.board_user_profile = item.board_profile
+        vh.itemView.board_user_nickname.text = item.board_nickname
+        vh.itemView.board_user_title.text = item.board_title
+        vh.itemView.board_user_content.text = item.board_content
+        vh.itemView.board_like_count.text = item.board_like_count.toString()
         /*
         vh.itemView.title_text.text = item.notice_data["notice_title"]
         vh.itemView.content_text.text = item.notice_data["notice_content"]

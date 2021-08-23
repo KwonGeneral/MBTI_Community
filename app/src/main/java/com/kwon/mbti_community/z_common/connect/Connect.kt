@@ -34,8 +34,8 @@ class Connect : ConnectInterface {
 
         val retrofit: Retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-//            .baseUrl("http://192.168.0.38:3333")
-            .baseUrl("https://kwonputer.com")
+            .baseUrl("http://192.168.0.38:3333")
+//            .baseUrl("https://kwonputer.com")
             .client(httpClient.build())
             .build()
 
