@@ -5,7 +5,7 @@
     android:id="@+id/login_all_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_two_background"
+    android:background="@drawable/login_three_background"
     tools:context=".login.view.LoginActivity">
 
     <LinearLayout
@@ -38,8 +38,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="포포"
-                android:textColor="#4179d1"
+                android:text="MBTI "
+                android:textColor="#F7CF46"
                 android:textSize="20sp" />
 
             <TextView
@@ -57,8 +57,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:text="찹"
-                android:textColor="#C73279"
+                android:text=" 커뮤니티"
+                android:textColor="#ffffff"
                 android:textSize="20sp" />
 
             <TextView
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
                 android:paddingTop="3dp"
-                android:textColor="#baffffff"
+                android:textColor="#ffffff"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -190,9 +190,9 @@
             android:layout_marginStart="60dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="60dp"
-            android:backgroundTint="#4179d1"
+            android:backgroundTint="#F7CF46"
             android:text="로그인"
-            android:textColor="#daffffff" />
+            android:textColor="#ba000000" />
 
         <View
             android:id="@+id/view4"
@@ -210,7 +210,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="60dp"
             android:layout_marginEnd="60dp"
-            android:backgroundTint="#C73279"
+            android:backgroundTint="#53AF6D"
             android:text="회원가입"
             android:textColor="#daffffff" />
 

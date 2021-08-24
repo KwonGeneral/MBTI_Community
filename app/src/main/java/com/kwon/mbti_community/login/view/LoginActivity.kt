@@ -181,7 +181,10 @@ class LoginActivity : AppCompatActivity() {
 
                             MoveActivity().chain_move(this@LoginActivity, hash)
                         }
-
+                    } else {
+                        login_status_message.text = "아이디 또는 비밀번호가 틀렸습니다"
+                        login_username_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#ff0000"))
+                        login_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#ff0000"))
                     }
 
                 }

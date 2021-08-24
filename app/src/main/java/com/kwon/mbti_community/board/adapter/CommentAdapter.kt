@@ -1,12 +1,14 @@
 package com.kwon.mbti_community.board.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kwon.mbti_community.R
 import com.kwon.mbti_community.board.model.BoardInterface
+import com.kwon.mbti_community.board.model.LikeCommentData
 import com.kwon.mbti_community.board.view.BoardFragment
 import com.kwon.mbti_community.z_common.connect.Connect
 import kotlinx.android.synthetic.main.fragment_comment_item.view.*
@@ -50,6 +52,30 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
         } else {
             vh.itemView.comment_user_abled_layout.visibility = View.GONE
             vh.itemView.comment_user_disabled_layout.visibility = View.VISIBLE
+        }
+
+        vh.itemView.comment_like_btn.setOnClickListener {
+            val parameter:HashMap<String, Int> = HashMap()
+            parameter["comment_id"] = item.id!!
+
+            comment_api.likeComment(parameter).enqueue(object: Callback<LikeCommentData> {
+                override fun onResponse(call: Call<LikeCommentData>, response: Response<LikeCommentData>) {
+                    val body = response.body()
+                    if(body != null) {
+                        if(body.data.username != "kwontaewan") {
+                            vh.itemView.comment_like_count.text = (vh.itemView.comment_like_count.text.toString().toInt() + 1).toString()
+                        }else {
+                            vh.itemView.comment_like_count.text = (vh.itemView.comment_like_count.text.toString().toInt() - 1).toString()
+                        }
+                    }
+
+                    Log.d("TEST", "likeBoard 통신성공 바디 -> $body")
+                }
+
+                override fun onFailure(call: Call<LikeCommentData>, t: Throwable) {
+                    Log.d("TEST", "likeBoard 통신실패 에러 -> " + t.message)
+                }
+            })
         }
     }
 

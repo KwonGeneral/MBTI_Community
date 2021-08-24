@@ -30,4 +30,16 @@ interface BoardInterface {
     fun getComment(
         @Query("board_id") board_id: Int
     ): Call<GetCommentData>
+
+    // 코멘트 생성
+    @POST("/board/comment/")
+    fun createComment(
+        @Body parameters: HashMap<String, String>
+    ): Call<CreateCommentData>
+
+    // 코멘트 좋아요 클릭
+    @POST("/like/comment/")
+    fun likeComment(
+        @Body parameters: HashMap<String, Int>
+    ): Call<LikeCommentData>
 }

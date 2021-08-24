@@ -54,6 +54,18 @@ data class LikeBoardArrayData(
     val board: Int,
 )
 
+data class LikeCommentData(
+    val code: String,
+    val data: LikeCommentArrayData,
+    val message: String
+)
+
+data class LikeCommentArrayData(
+    val id: Int,
+    val username: String,
+    val comment: Int,
+)
+
 data class GetCommentData(
     val code: String,
     val data: List<ArrayGetCommentData>,
@@ -61,6 +73,27 @@ data class GetCommentData(
 )
 
 data class ArrayGetCommentData(
+    val board_id: Int,
+    val comment_content: String,
+    val comment_like_count: Int,
+    val comment_nickname: String,
+    val comment_profile: String,
+    val comment_title: String,
+    val comment_user_id: Int,
+    val comment_user_type: String,
+    val comment_username: String,
+    val created_at: String,
+    val id: Int,
+    val updated_at: String
+)
+
+data class CreateCommentData (
+    val code: String,
+    val data: ArrayCreateCommentData,
+    val message: String
+)
+
+data class ArrayCreateCommentData (
     val board_id: Int,
     val comment_content: String,
     val comment_like_count: Int,

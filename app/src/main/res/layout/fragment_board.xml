@@ -30,15 +30,17 @@
 
                 <TextView
                     android:id="@+id/select_text"
+                    style="@style/noto_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="ISTP"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
 
                 <View
                     android:id="@+id/view14"
-                    android:layout_width="20dp"
-                    android:layout_height="30dp"
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
                     android:background="@drawable/arrow_down" />
             </LinearLayout>
 
