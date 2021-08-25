@@ -7,137 +7,508 @@
     android:background="#caffffff"
     tools:context=".qna.view.QnaFragment">
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/qna_top_rel_layout"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@drawable/top_background"
-        android:gravity="center"
-        android:orientation="vertical">
-
-    </LinearLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="120dp">
 
         <LinearLayout
+            android:id="@+id/qna_top_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
+            android:background="@drawable/top_background"
+            android:gravity="top"
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/only_select_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="60dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/white_top_background"
-                android:orientation="vertical">
+                android:layout_height="75dp"
+                android:gravity="center">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/qna_top_background"
+                    android:id="@+id/top_select_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/qna_select_free"
+                        android:id="@+id/select_text"
+                        style="@style/noto_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ISTP"
+                        android:textColor="#ffffff"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:id="@+id/view14"
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/arrow_down" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/top_mbit_menu_layout"
+                android:layout_width="match_parent"
+                android:layout_height="155dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/board_border"
+                android:gravity="top"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/menu_istp"
                         style="@style/noto_regular"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/top_left_click_effect"
-                        android:backgroundTint="#C73279"
                         android:clickable="true"
                         android:gravity="center"
-                        android:text="자유"
+                        android:text="ISTP"
                         android:textSize="14sp" />
 
                     <View
-                        android:id="@+id/view15"
+                        android:id="@+id/view20"
                         android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="#77ffffff" />
+                        android:layout_height="match_parent" />
 
                     <TextView
-                        android:id="@+id/qna_select_question"
+                        android:id="@+id/menu_isfp"
                         style="@style/noto_regular"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/top_click_effect"
-                        android:backgroundTint="#000000"
                         android:clickable="true"
                         android:gravity="center"
-                        android:text="질문"
+                        android:text="ISFP"
                         android:textSize="14sp" />
 
                     <View
-                        android:id="@+id/view29"
+                        android:id="@+id/view21"
                         android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="#77ffffff" />
+                        android:layout_height="match_parent" />
 
                     <TextView
-                        android:id="@+id/qna_select_hobby"
+                        android:id="@+id/menu_istj"
                         style="@style/noto_regular"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/top_click_effect"
-                        android:backgroundTint="#000000"
                         android:clickable="true"
                         android:gravity="center"
-                        android:text="취미"
+                        android:text="ISTJ"
                         android:textSize="14sp" />
 
                     <View
-                        android:id="@+id/view30"
+                        android:id="@+id/view22"
                         android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="#77ffffff" />
+                        android:layout_height="match_parent" />
 
                     <TextView
-                        android:id="@+id/qna_select_job"
-                        style="@style/noto_regular"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/top_click_effect"
-                        android:backgroundTint="#000000"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:text="직업"
-                        android:textSize="14sp" />
-
-                    <View
-                        android:id="@+id/view31"
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="#77ffffff" />
-
-                    <TextView
-                        android:id="@+id/qna_select_support"
+                        android:id="@+id/menu_isfj"
                         style="@style/noto_regular"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/top_right_click_effect"
-                        android:backgroundTint="#000000"
                         android:clickable="true"
                         android:gravity="center"
-                        android:text="응원"
+                        android:text="ISFJ"
                         android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/menu_intp"
+                        style="@style/noto_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/top_click_effect"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="INTP"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view23"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/menu_infp"
+                        style="@style/noto_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/top_click_effect"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="INFP"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view24"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/menu_intj"
+                        style="@style/noto_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/top_click_effect"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="INTJ"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view25"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/menu_infj"
+                        style="@style/noto_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/top_click_effect"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="INFJ"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/menu_estp"
+                        style="@style/noto_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/top_click_effect"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="ESTP"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view26"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/menu_esfp"
+                        style="@style/noto_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/top_click_effect"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="ESFP"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view27"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/menu_estj"
+                        style="@style/noto_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/top_click_effect"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="ESTJ"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view28"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/menu_esfj"
+                        style="@style/noto_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/top_click_effect"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="ESFJ"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/menu_entp"
+                        style="@style/noto_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/bottom_left_click_effect"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="ENTP"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view8"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/menu_enfp"
+                        style="@style/noto_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/top_click_effect"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="ENFP"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view12"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/menu_entj"
+                        style="@style/noto_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/top_click_effect"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="ENTJ"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/view13"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/menu_enfj"
+                        style="@style/noto_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/bottom_right_click_effect"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:text="ENFJ"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:visibility="gone"
+                    tools:visibility="gone">
+
+                    <EditText
+                        android:id="@+id/editTextTextPersonName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="Search"
+                        android:inputType="text"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="20dp" />
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        style="@style/noto_medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="70dp"
+                        android:layout_marginStart="4dp"
+                        android:gravity="center"
+                        android:text="Cancel"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/qna_select_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/white_top_background"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/qna_top_background"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/qna_select_free"
+                            style="@style/noto_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/top_left_click_effect"
+                            android:backgroundTint="#C73279"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:text="자유"
+                            android:textSize="14sp" />
+
+                        <View
+                            android:id="@+id/view15"
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="#77ffffff" />
+
+                        <TextView
+                            android:id="@+id/qna_select_question"
+                            style="@style/noto_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/top_click_effect"
+                            android:backgroundTint="#000000"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:text="질문"
+                            android:textSize="14sp" />
+
+                        <View
+                            android:id="@+id/view29"
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="#77ffffff" />
+
+                        <TextView
+                            android:id="@+id/qna_select_hobby"
+                            style="@style/noto_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/top_click_effect"
+                            android:backgroundTint="#000000"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:text="취미"
+                            android:textSize="14sp" />
+
+                        <View
+                            android:id="@+id/view30"
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="#77ffffff" />
+
+                        <TextView
+                            android:id="@+id/qna_select_job"
+                            style="@style/noto_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/top_click_effect"
+                            android:backgroundTint="#000000"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:text="직업"
+                            android:textSize="14sp" />
+
+                        <View
+                            android:id="@+id/view31"
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="#77ffffff" />
+
+                        <TextView
+                            android:id="@+id/qna_select_support"
+                            style="@style/noto_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/top_right_click_effect"
+                            android:backgroundTint="#000000"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:text="응원"
+                            android:textSize="14sp" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+        </ScrollView>
+    </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/qna_main_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="120dp"
         android:layout_marginEnd="10dp"
         android:background="@android:color/transparent"
         android:backgroundTint="#caffffff">

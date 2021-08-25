@@ -42,4 +42,16 @@ interface BoardInterface {
     fun likeComment(
         @Body parameters: HashMap<String, Int>
     ): Call<LikeCommentData>
+
+    // 게시글 삭제
+    @POST("/board/delete/")
+    fun deleteBoard(
+        @Body parameters: HashMap<String, Int>
+    ): Call<DeleteBoardData>
+
+    // 코멘트 삭제
+    @POST("/board/comment/delete/")
+    fun deleteComment(
+        @Body parameters: HashMap<String, Int>
+    ): Call<DeleteCommentData>
 }

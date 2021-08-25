@@ -65,13 +65,6 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
         Log.d("TEST","BoardFragment - onCreateView")
         val view=inflater.inflate(R.layout.fragment_board, container, false)
 
-        val select_text = view.findViewById<TextView>(R.id.select_text)
-        val top_select_layout = view.findViewById<LinearLayout>(R.id.top_select_layout)
-        val only_select_layout = view.findViewById<LinearLayout>(R.id.only_select_layout)
-        val top_mbit_menu_layout = view.findViewById<LinearLayout>(R.id.top_mbit_menu_layout)
-        val board_top_layout = view.findViewById<LinearLayout>(R.id.board_top_layout)
-        val board_scroll_view = view.findViewById<ScrollView>(R.id.board_scroll_view).layoutParams as ViewGroup.MarginLayoutParams
-
         // 값 전달
         val bundle = Bundle()
         val bundle_arguments = arguments
@@ -90,7 +83,7 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
         Log.d("TEST", "share_message : $share_message")
 
         // 최상단 MBTI 표기 변경 -> 게시판도 변경해서 불러와야할 필요가 있음.
-        select_text.text = share_user_type
+//        select_text.text = share_user_type
 
         // API 셋팅
         val access_token = share_access_token
@@ -104,8 +97,10 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 if(body != null){
                     for(nn in body.data) {
                         Log.d("TEST", "하하하 : $nn")
+                        var my_item_count_check:Int
+                        if(nn.board_username == share_username) { my_item_count_check = 1 } else { my_item_count_check = 0 }
                         items.add(
-                            BoardItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, nn.board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at)
+                            BoardItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, nn.board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at, my_item_count_check)
                         )
                     }
 
@@ -125,69 +120,6 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 Log.d("TEST", "Board - getBoard 통신실패 에러 -> " + t.message)
             }
         })
-
-        val menu_istp = view.findViewById<TextView>(R.id.menu_istp)
-        val menu_isfp = view.findViewById<TextView>(R.id.menu_isfp)
-        val menu_istj = view.findViewById<TextView>(R.id.menu_istj)
-        val menu_isfj = view.findViewById<TextView>(R.id.menu_isfj)
-
-        val menu_intp = view.findViewById<TextView>(R.id.menu_intp)
-        val menu_infp = view.findViewById<TextView>(R.id.menu_infp)
-        val menu_intj = view.findViewById<TextView>(R.id.menu_intj)
-        val menu_infj = view.findViewById<TextView>(R.id.menu_infj)
-
-        val menu_estp = view.findViewById<TextView>(R.id.menu_estp)
-        val menu_esfp = view.findViewById<TextView>(R.id.menu_esfp)
-        val menu_estj = view.findViewById<TextView>(R.id.menu_estj)
-        val menu_esfj = view.findViewById<TextView>(R.id.menu_esfj)
-
-        val menu_entp = view.findViewById<TextView>(R.id.menu_entp)
-        val menu_enfp = view.findViewById<TextView>(R.id.menu_enfp)
-        val menu_entj = view.findViewById<TextView>(R.id.menu_entj)
-        val menu_enfj = view.findViewById<TextView>(R.id.menu_enfj)
-
-        fun change_option(select_item:TextView) {
-            only_select_layout.visibility = View.VISIBLE
-            top_mbit_menu_layout.visibility = View.GONE
-            board_top_layout.layoutParams.height = 100.dp()
-            board_scroll_view.setMargins(10.dp(), 60.dp(), 10.dp(), 0)
-            select_text.text = select_item.text
-        }
-
-        top_select_layout.setOnClickListener {
-            Log.d("TEST", "???? : ${top_mbit_menu_layout.isVisible}")
-            if(top_mbit_menu_layout.isVisible) {
-                only_select_layout.visibility = View.VISIBLE
-                top_mbit_menu_layout.visibility = View.GONE
-                board_top_layout.layoutParams.height = 100.dp()
-                board_scroll_view.setMargins(10.dp(), 60.dp(), 10.dp(), 0)
-            }else {
-                only_select_layout.visibility = View.GONE
-                top_mbit_menu_layout.visibility = View.VISIBLE
-                board_top_layout.layoutParams.height = 200.dp()
-                board_scroll_view.setMargins(10.dp(), 180.dp(), 10.dp(), 0)
-            }
-        }
-
-        menu_istp.setOnClickListener { change_option(menu_istp) }
-        menu_isfp.setOnClickListener { change_option(menu_isfp) }
-        menu_istj.setOnClickListener { change_option(menu_istj) }
-        menu_isfj.setOnClickListener { change_option(menu_isfj) }
-
-        menu_intp.setOnClickListener { change_option(menu_intp) }
-        menu_infp.setOnClickListener { change_option(menu_infp) }
-        menu_intj.setOnClickListener { change_option(menu_intj) }
-        menu_infj.setOnClickListener { change_option(menu_infj) }
-
-        menu_estp.setOnClickListener { change_option(menu_estp) }
-        menu_esfp.setOnClickListener { change_option(menu_esfp) }
-        menu_estj.setOnClickListener { change_option(menu_estj) }
-        menu_esfj.setOnClickListener { change_option(menu_esfj) }
-
-        menu_entp.setOnClickListener { change_option(menu_entp) }
-        menu_enfp.setOnClickListener { change_option(menu_enfp) }
-        menu_entj.setOnClickListener { change_option(menu_entj) }
-        menu_enfj.setOnClickListener { change_option(menu_enfj) }
 
         return view
     }

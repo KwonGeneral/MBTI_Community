@@ -8,6 +8,11 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Gravity
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.snackbar.Snackbar
 import com.kwon.mbti_community.R
 import com.kwon.mbti_community.login.model.LoginData
@@ -27,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
     var login_username_count = 0
     var login_password_count = 0
 
-    //    퍼미션 체크:저장소 읽기,인터넷,네트워크, 위치정보, GPS, 카메라, 저장소 읽기,절전모드 방지
+    // 권한 체크 : 저장소 읽기, 인터넷, 네트워크, 위치정보, GPS, 카메라, 저장소 읽기, 절전모드 방지
     val permission_list = arrayOf(
         Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.INTERNET,
@@ -70,11 +75,16 @@ class LoginActivity : AppCompatActivity() {
 
         // 회원가입 성공
         if(get_signup_status == "success") {
-            Snackbar
-                .make(login_all_layout, "회원가입을 환영합니다", 2000)
-                .setBackgroundTint(Color.parseColor("#292929"))
-                .setTextColor(Color.parseColor("#ffffff"))
-                .show()
+            val snack: Snackbar = Snackbar
+                .make(findViewById<ConstraintLayout>(R.id.login_all_layout), "회원가입을 환영합니다", 2000)
+                .setBackgroundTint(Color.parseColor("#ffffff"))
+                .setTextColor(Color.parseColor("#ba000000"))
+
+            val snack_view = snack.view
+            val params = snack_view.layoutParams as FrameLayout.LayoutParams
+            params.gravity = Gravity.TOP
+            snack_view.layoutParams = params
+            snack.show()
         }
 
         // 텍스트 변환 감지 : 아이디
@@ -87,7 +97,7 @@ class LoginActivity : AppCompatActivity() {
 
                 if(username_reg != null) {
                     login_username_count = 1
-                    login_username_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#ffffff"))
+                    login_username_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#53AF6D"))
                 } else {
                     login_username_count = 0
                     login_username_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#66CDCDCD"))
@@ -116,7 +126,7 @@ class LoginActivity : AppCompatActivity() {
 
                 if(password_reg != null) {
                     login_password_count = 1
-                    login_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#ffffff"))
+                    login_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#53AF6D"))
                 } else {
                     login_password_count = 0
                     login_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#66CDCDCD"))

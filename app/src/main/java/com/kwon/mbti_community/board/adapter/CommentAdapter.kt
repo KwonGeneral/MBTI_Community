@@ -3,14 +3,19 @@ package com.kwon.mbti_community.board.adapter
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.kwon.mbti_community.R
 import com.kwon.mbti_community.board.model.BoardInterface
+import com.kwon.mbti_community.board.model.DeleteBoardData
+import com.kwon.mbti_community.board.model.DeleteCommentData
 import com.kwon.mbti_community.board.model.LikeCommentData
 import com.kwon.mbti_community.board.view.BoardFragment
 import com.kwon.mbti_community.z_common.connect.Connect
+import kotlinx.android.synthetic.main.fragment_board_item.view.*
 import kotlinx.android.synthetic.main.fragment_comment_item.view.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -43,7 +48,6 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
 
         val item= items[position]
 
-//        vh.itemView.comment_user_profile = item.comment_profile
         if(item.comment_nickname != null) {
             vh.itemView.comment_user_nickname.text = item.comment_nickname
             vh.itemView.comment_user_title.text = item.comment_title
@@ -54,6 +58,10 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
             vh.itemView.comment_user_disabled_layout.visibility = View.VISIBLE
         }
 
+        if(item.my_item_count == 1) {
+            vh.itemView.comment_user_more.visibility = View.VISIBLE
+        }
+
         vh.itemView.comment_like_btn.setOnClickListener {
             val parameter:HashMap<String, Int> = HashMap()
             parameter["comment_id"] = item.id!!
@@ -62,20 +70,61 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
                 override fun onResponse(call: Call<LikeCommentData>, response: Response<LikeCommentData>) {
                     val body = response.body()
                     if(body != null) {
-                        if(body.data.username != "kwontaewan") {
+                        Log.d("TEST", "??? : ${body.data.username}")
+                        if(body.code == "S0001") {
                             vh.itemView.comment_like_count.text = (vh.itemView.comment_like_count.text.toString().toInt() + 1).toString()
                         }else {
                             vh.itemView.comment_like_count.text = (vh.itemView.comment_like_count.text.toString().toInt() - 1).toString()
                         }
                     }
 
-                    Log.d("TEST", "likeBoard 통신성공 바디 -> $body")
+                    Log.d("TEST", "likeComment 통신성공 바디 -> $body")
                 }
 
                 override fun onFailure(call: Call<LikeCommentData>, t: Throwable) {
-                    Log.d("TEST", "likeBoard 통신실패 에러 -> " + t.message)
+                    Log.d("TEST", "likeComment 통신실패 에러 -> " + t.message)
                 }
             })
+        }
+
+        // 댓글 추가메뉴 클릭이벤트
+        vh.itemView.comment_user_more.setOnClickListener {
+            val popup = PopupMenu(context, vh.itemView.comment_user_more)
+
+            val inf: MenuInflater = popup.menuInflater
+            inf.inflate(R.menu.board_menu, popup.menu)
+
+            popup.setOnMenuItemClickListener { menu_item ->
+                when (menu_item.itemId) {
+                    R.id.board_update_menu -> {
+                        Log.d("TEST", "메뉴 - 수정버튼 클릭")
+                        true
+                    }
+                    R.id.board_delete_menu -> {
+                        Log.d("TEST", "메뉴 - 삭제버튼 클릭")
+                        val del_parm:HashMap<String, Int> = HashMap()
+                        del_parm["comment_id"] = item.id!!
+                        comment_api.deleteComment(del_parm).enqueue(object: Callback<DeleteCommentData> {
+                            override fun onResponse(call: Call<DeleteCommentData>, response: Response<DeleteCommentData>) {
+                                val body = response.body()
+                                if(body != null) {
+                                    items.removeAt(position)
+                                    notifyDataSetChanged()
+                                }
+                                Log.d("TEST", "deleteComment 통신성공 바디 -> $body")
+                            }
+
+                            override fun onFailure(call: Call<DeleteCommentData>, t: Throwable) {
+                                Log.d("TEST", "deleteComment 통신실패 에러 -> " + t.message)
+                            }
+                        })
+                        true
+                    }
+                    else -> false
+                }
+            }
+
+            popup.show()
         }
     }
 

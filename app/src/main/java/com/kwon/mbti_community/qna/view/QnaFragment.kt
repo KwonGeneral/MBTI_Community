@@ -12,11 +12,14 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.util.TypedValue
+import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
+import android.widget.RelativeLayout
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.kwon.mbti_community.board.adapter.BoardAdapter
-import com.kwon.mbti_community.board.adapter.BoardItem
 import com.kwon.mbti_community.board.model.BoardInterface
 import com.kwon.mbti_community.board.model.GetBoardData
 import com.kwon.mbti_community.qna.adapter.QnaAdapter
@@ -53,6 +56,11 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         Log.d("TEST","QnaFragment - onAttach")
+    }
+
+    fun Int.dp(): Int {
+        val metrics = resources.displayMetrics
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), metrics).toInt()
     }
 
     @SuppressLint("ResourceType")
@@ -97,8 +105,10 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     if(body != null){
                         for(nn in body.data) {
                             Log.d("TEST", "하하하 : $nn")
+                            var my_item_count_check:Int
+                            if(nn.board_username == share_username) { my_item_count_check = 1 } else { my_item_count_check = 0 }
                             items.add(
-                                QnaItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, nn.board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at)
+                                QnaItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, nn.board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at, my_item_count_check)
                             )
                         }
 
@@ -163,6 +173,86 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
             qna_select_job.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             qna_select_support.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#C73279"))
         }
+
+        val select_text = view.findViewById<TextView>(R.id.select_text)
+        val top_select_layout = view.findViewById<LinearLayout>(R.id.top_select_layout)
+        val only_select_layout = view.findViewById<LinearLayout>(R.id.only_select_layout)
+        val top_mbit_menu_layout = view.findViewById<LinearLayout>(R.id.top_mbit_menu_layout)
+        val qna_top_layout = view.findViewById<LinearLayout>(R.id.qna_top_layout)
+        val qna_top_rel_layout = view.findViewById<RelativeLayout>(R.id.qna_top_rel_layout)
+        val qna_select_scroll_view = view.findViewById<ScrollView>(R.id.qna_select_scroll_view).layoutParams as ViewGroup.MarginLayoutParams
+        val qna_main_scroll_view = view.findViewById<ScrollView>(R.id.qna_main_scroll_view).layoutParams as ViewGroup.MarginLayoutParams
+
+        val menu_istp = view.findViewById<TextView>(R.id.menu_istp)
+        val menu_isfp = view.findViewById<TextView>(R.id.menu_isfp)
+        val menu_istj = view.findViewById<TextView>(R.id.menu_istj)
+        val menu_isfj = view.findViewById<TextView>(R.id.menu_isfj)
+
+        val menu_intp = view.findViewById<TextView>(R.id.menu_intp)
+        val menu_infp = view.findViewById<TextView>(R.id.menu_infp)
+        val menu_intj = view.findViewById<TextView>(R.id.menu_intj)
+        val menu_infj = view.findViewById<TextView>(R.id.menu_infj)
+
+        val menu_estp = view.findViewById<TextView>(R.id.menu_estp)
+        val menu_esfp = view.findViewById<TextView>(R.id.menu_esfp)
+        val menu_estj = view.findViewById<TextView>(R.id.menu_estj)
+        val menu_esfj = view.findViewById<TextView>(R.id.menu_esfj)
+
+        val menu_entp = view.findViewById<TextView>(R.id.menu_entp)
+        val menu_enfp = view.findViewById<TextView>(R.id.menu_enfp)
+        val menu_entj = view.findViewById<TextView>(R.id.menu_entj)
+        val menu_enfj = view.findViewById<TextView>(R.id.menu_enfj)
+
+        fun change_option(select_item:TextView) {
+            only_select_layout.visibility = View.VISIBLE
+            top_mbit_menu_layout.visibility = View.GONE
+            qna_top_layout.layoutParams.height = 100.dp()
+            qna_top_rel_layout.layoutParams.height = 120.dp()
+//            qna_select_scroll_view.setMargins(10.dp(), 60.dp(), 10.dp(), 0)
+            qna_main_scroll_view.setMargins(10.dp(), 120.dp(), 10.dp(), 0)
+            select_text.text = select_item.text
+        }
+
+        change_option(menu_entp)
+
+        top_select_layout.setOnClickListener {
+            if(top_mbit_menu_layout.isVisible) {
+                only_select_layout.visibility = View.VISIBLE
+                top_mbit_menu_layout.visibility = View.GONE
+                qna_top_layout.layoutParams.height = 100.dp()
+                qna_top_rel_layout.layoutParams.height = 120.dp()
+//                qna_select_scroll_view.setMargins(10.dp(), 60.dp(), 10.dp(), 0)
+                qna_main_scroll_view.setMargins(10.dp(), 100.dp(), 10.dp(), 0)
+                
+            }else {
+                only_select_layout.visibility = View.GONE
+                top_mbit_menu_layout.visibility = View.VISIBLE
+                qna_top_layout.layoutParams.height = 220.dp()
+                qna_top_rel_layout.layoutParams.height = 240.dp()
+//                qna_select_scroll_view.setMargins(10.dp(), 180.dp(), 10.dp(), 0)
+                qna_main_scroll_view.setMargins(10.dp(), 240.dp(), 10.dp(), 0)
+            }
+        }
+
+        menu_istp.setOnClickListener { change_option(menu_istp) }
+        menu_isfp.setOnClickListener { change_option(menu_isfp) }
+        menu_istj.setOnClickListener { change_option(menu_istj) }
+        menu_isfj.setOnClickListener { change_option(menu_isfj) }
+
+        menu_intp.setOnClickListener { change_option(menu_intp) }
+        menu_infp.setOnClickListener { change_option(menu_infp) }
+        menu_intj.setOnClickListener { change_option(menu_intj) }
+        menu_infj.setOnClickListener { change_option(menu_infj) }
+
+        menu_estp.setOnClickListener { change_option(menu_estp) }
+        menu_esfp.setOnClickListener { change_option(menu_esfp) }
+        menu_estj.setOnClickListener { change_option(menu_estj) }
+        menu_esfj.setOnClickListener { change_option(menu_esfj) }
+
+        menu_entp.setOnClickListener { change_option(menu_entp) }
+        menu_enfp.setOnClickListener { change_option(menu_enfp) }
+        menu_entj.setOnClickListener { change_option(menu_entj) }
+        menu_enfj.setOnClickListener { change_option(menu_enfj) }
 
         return view
     }

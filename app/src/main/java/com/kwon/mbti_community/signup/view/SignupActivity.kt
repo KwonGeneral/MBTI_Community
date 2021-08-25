@@ -8,11 +8,13 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.view.View.OnTouchListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.snackbar.Snackbar
 import com.kwon.mbti_community.R
 import com.kwon.mbti_community.signup.model.SignupData
@@ -92,7 +94,7 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
                 if(username_reg != null) {
                     username_count = 1
-                    signup_username_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#ffffff"))
+                    signup_username_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#53AF6D"))
                 } else {
                     username_count = 0
                     signup_username_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#66CDCDCD"))
@@ -120,7 +122,7 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
                 if(password_reg != null) {
                     Log.d("TEST", "정규표현식 통과")
-                    signup_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#ffffff"))
+                    signup_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#53AF6D"))
                 } else {
                     Log.d("TEST", "정규표현식 통과 XXXXX")
                     signup_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#66CDCDCD"))
@@ -133,8 +135,8 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                         signup_password_check_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#66CDCDCD"))
                         Log.d("TEST", "비밀번호가 불일치 : $temp_password")
                     } else {
-                        signup_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#ffffff"))
-                        signup_password_check_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#ffffff"))
+                        signup_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#53AF6D"))
+                        signup_password_check_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#53AF6D"))
                         password_count = 1
                     }
                 }
@@ -167,7 +169,7 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
                         if(password_reg != null) {
                             Log.d("TEST", "정규표현식 통과")
-                            signup_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#ffffff"))
+                            signup_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#53AF6D"))
                         } else {
                             Log.d("TEST", "정규표현식 통과 XXXXX")
                             signup_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#66CDCDCD"))
@@ -175,8 +177,8 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
                         Log.d("TEST", "비밀번호가 불일치 : $temp_password")
                     } else {
-                        signup_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#ffffff"))
-                        signup_password_check_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#ffffff"))
+                        signup_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#53AF6D"))
+                        signup_password_check_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#53AF6D"))
                         password_count = 1
                     }
                 }
@@ -200,7 +202,7 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
                 if(nickname_reg != null) {
                     nickname_count = 1
-                    signup_nickname_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#ffffff"))
+                    signup_nickname_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#53AF6D"))
                 } else {
                     nickname_count = 0
                     signup_nickname_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#66CDCDCD"))
@@ -223,34 +225,65 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             mInputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
 
             if(username_count == 0) {
-                Snackbar
-                    .make(signup_layout, "아이디가 올바르지 않습니다", 2000)
-                    .setBackgroundTint(Color.parseColor("#292929"))
-                    .setTextColor(Color.parseColor("#ffffff"))
-                    .show()
+                val snack: Snackbar = Snackbar
+                    .make(findViewById<ConstraintLayout>(R.id.signup_all_layout), "아이디가 올바르지 않습니다", 2000)
+                    .setBackgroundTint(Color.parseColor("#ffffff"))
+                    .setTextColor(Color.parseColor("#ba000000"))
+
+                val snack_view = snack.view
+                val params = snack_view.layoutParams as FrameLayout.LayoutParams
+                params.gravity = Gravity.TOP
+                snack_view.layoutParams = params
+                snack.show()
 
                 signup_username_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#ff0000"))
 
                 return@setOnClickListener
             }
             if(password_count == 0) {
-                Snackbar
-                    .make(signup_layout, "비밀번호를 확인해주세요", 2000)
-                    .setBackgroundTint(Color.parseColor("#292929"))
-                    .setTextColor(Color.parseColor("#ffffff"))
-                    .show()
+                val snack: Snackbar = Snackbar
+                    .make(findViewById<ConstraintLayout>(R.id.signup_all_layout), "비밀번호를 확인해주세요", 2000)
+                    .setBackgroundTint(Color.parseColor("#ffffff"))
+                    .setTextColor(Color.parseColor("#ba000000"))
+
+                val snack_view = snack.view
+                val params = snack_view.layoutParams as FrameLayout.LayoutParams
+                params.gravity = Gravity.TOP
+                snack_view.layoutParams = params
+                snack.show()
                 
                 signup_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#ff0000"))
                 signup_password_check_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#ff0000"))
                 
                 return@setOnClickListener
             }
+            if(nickname_count == 0) {
+                val snack: Snackbar = Snackbar
+                    .make(findViewById<ConstraintLayout>(R.id.signup_all_layout), "닉네임을 확인해주세요", 2000)
+                    .setBackgroundTint(Color.parseColor("#ffffff"))
+                    .setTextColor(Color.parseColor("#ba000000"))
+
+                val snack_view = snack.view
+                val params = snack_view.layoutParams as FrameLayout.LayoutParams
+                params.gravity = Gravity.TOP
+                snack_view.layoutParams = params
+                snack.show()
+
+                signup_nickname_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#ff0000"))
+
+                return@setOnClickListener
+            }
             if(mbti_count == 0) {
-                Snackbar
-                    .make(signup_layout, "MBTI를 선택해주세요", 2000)
-                    .setBackgroundTint(Color.parseColor("#292929"))
-                    .setTextColor(Color.parseColor("#ffffff"))
-                    .show()
+                val snack: Snackbar = Snackbar
+                    .make(findViewById<ConstraintLayout>(R.id.signup_all_layout), "MBTI를 선택해주세요", 2000)
+                    .setBackgroundTint(Color.parseColor("#ffffff"))
+                    .setTextColor(Color.parseColor("#ba000000"))
+
+                val snack_view = snack.view
+                val params = snack_view.layoutParams as FrameLayout.LayoutParams
+                params.gravity = Gravity.TOP
+                snack_view.layoutParams = params
+                snack.show()
 
                 return@setOnClickListener
             }
@@ -283,21 +316,31 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     if(body != null) {
                         if(body.code == "E0003") {
                             // 닉네임 중복 오류
-                            Snackbar
-                                .make(signup_layout, "중복된 닉네임이 존재합니다.", 2000)
-                                .setBackgroundTint(Color.parseColor("#292929"))
-                                .setTextColor(Color.parseColor("#ffffff"))
-                                .show()
+                            val snack: Snackbar = Snackbar
+                                .make(findViewById<ConstraintLayout>(R.id.signup_all_layout), "중복된 닉네임이 존재합니다.", 2000)
+                                .setBackgroundTint(Color.parseColor("#ffffff"))
+                                .setTextColor(Color.parseColor("#ba000000"))
+
+                            val snack_view = snack.view
+                            val params = snack_view.layoutParams as FrameLayout.LayoutParams
+                            params.gravity = Gravity.TOP
+                            snack_view.layoutParams = params
+                            snack.show()
 
                             signup_nickname_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#ff0000"))
 
                         } else if(body.code == "E0004") {
                             // 아이디 중복 오류
-                            Snackbar
-                                .make(signup_layout, "중복된 아이디가 존재합니다.", 2000)
-                                .setBackgroundTint(Color.parseColor("#292929"))
-                                .setTextColor(Color.parseColor("#ffffff"))
-                                .show()
+                            val snack: Snackbar = Snackbar
+                                .make(findViewById<ConstraintLayout>(R.id.signup_all_layout), "중복된 아이디가 존재합니다.", 2000)
+                                .setBackgroundTint(Color.parseColor("#ffffff"))
+                                .setTextColor(Color.parseColor("#ba000000"))
+
+                            val snack_view = snack.view
+                            val params = snack_view.layoutParams as FrameLayout.LayoutParams
+                            params.gravity = Gravity.TOP
+                            snack_view.layoutParams = params
+                            snack.show()
 
                             signup_username_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#ff0000"))
                         } else if(body.code == "S0001") {

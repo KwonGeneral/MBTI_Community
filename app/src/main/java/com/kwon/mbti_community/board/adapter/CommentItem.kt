@@ -9,6 +9,7 @@ class CommentItem constructor(
     val comment_title: String?,
     val comment_user_type: String?,
     val comment_username: String?,
-    val updated_at: String?
+    val updated_at: String?,
+    val my_item_count: Int?, // 내 아이템인지 체크
 ) {
 }

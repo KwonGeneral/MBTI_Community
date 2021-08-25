@@ -2,9 +2,6 @@ package com.kwon.mbti_community.mypage.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.kwon.mbti_community.R
 import android.widget.AdapterView
 import android.util.Log
@@ -12,8 +9,18 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.view.*
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.kwon.mbti_community.mypage.adapter.MypageHistoryAdapter
+import com.kwon.mbti_community.mypage.adapter.MypageHistoryItem
 import com.kwon.mbti_community.mypage.model.GetBoardCountData
+import com.kwon.mbti_community.mypage.model.GetUserBoardData
 import com.kwon.mbti_community.mypage.model.MypageInterface
 import com.kwon.mbti_community.z_common.connect.Connect
 import retrofit2.Call
@@ -21,6 +28,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
+    lateinit var recyclerView: RecyclerView
+    var items = arrayListOf<MypageHistoryItem>()
+    var items_no_list = arrayListOf<String>()
 
     // 값 전달 변수
     var share_access_token = ""
@@ -92,7 +102,35 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
             }
         })
 
+        // API 통신 : 유저가 올린 게시글 가져오기
+        mypage_api.getUserBoard(share_username).enqueue(object: Callback<GetUserBoardData> {
+            override fun onResponse(call: Call<GetUserBoardData>, response: Response<GetUserBoardData>) {
+                val body = response.body()
+                if(body != null) {
+                    for(nn in body.data) {
+                        Log.d("TEST", "하하하 : $nn")
+                        items.add(
+                            MypageHistoryItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, nn.board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at)
+                        )
+                    }
 
+                    recyclerView=view.findViewById(R.id.mypage_history_recycler) as RecyclerView
+                    val reverse_manager = LinearLayoutManager(requireContext())
+                    reverse_manager.reverseLayout = true
+                    reverse_manager.stackFromEnd = true
+//
+                    recyclerView.layoutManager = reverse_manager
+                    recyclerView.adapter = MypageHistoryAdapter(requireContext(), items)
+                }
+                Log.d("TEST", "getBoardCount 통신성공 바디 -> $body")
+            }
+
+            override fun onFailure(call: Call<GetUserBoardData>, t: Throwable) {
+                Log.d("TEST", "getBoardCount 통신실패 에러 -> " + t.message)
+            }
+        })
+
+        /*
         val select_feel_very_good = view.findViewById<TextView>(R.id.select_feel_very_good)
         val select_feel_good = view.findViewById<TextView>(R.id.select_feel_good)
         val select_feel_so = view.findViewById<TextView>(R.id.select_feel_so)
@@ -134,6 +172,7 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
             select_feel_bad.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             select_feel_very_bad.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#C73279"))
         }
+         */
 
         return view
     }
@@ -164,4 +203,18 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
         super.onDestroy()
         Log.d("TEST", "MypageFragment - onDestroy")
     }
+
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        inflater.inflate(R.menu.board_menu, menu)
+//        super.onCreateOptionsMenu(menu, inflater)
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        when(item.itemId) {
+//            R.id.board_update_menu -> Log.d("TEST", "수정하기 버튼 클릭")
+//            R.id.board_delete_menu -> Log.d("TEST", "삭제하기 버튼 클릭")
+//        }
+//
+//        return super.onOptionsItemSelected(item)
+//    }
 }

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chain_all_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".chain.view.ChainActivity">
@@ -39,7 +40,9 @@
                 android:background="@drawable/click_effect"
                 android:clickable="true"
                 android:gravity="center|end"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:visibility="gone">
 
                 <RelativeLayout
                     android:layout_width="match_parent"

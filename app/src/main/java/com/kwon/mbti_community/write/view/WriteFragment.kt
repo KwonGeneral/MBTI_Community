@@ -1,26 +1,29 @@
 package com.kwon.mbti_community.write.view
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.kwon.mbti_community.R
-import android.util.Log
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.Bundle
+import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import com.kwon.mbti_community.R
 import com.kwon.mbti_community.board.model.BoardInterface
 import com.kwon.mbti_community.board.model.CreateBoardData
 import com.kwon.mbti_community.z_common.connect.Connect
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
@@ -112,11 +115,17 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     val body = response.body()
 
                     if(body != null) {
-                        Snackbar
+                        val snack: Snackbar = Snackbar
                             .make(view.findViewById<FrameLayout>(R.id.write_frame_layout), "게시글이 업로드 되었습니다.", 1000)
-                            .setBackgroundTint(Color.parseColor("#666666"))
-                            .setTextColor(Color.parseColor("#aaffffff"))
-                            .show()
+                            .setBackgroundTint(Color.parseColor("#ffffff"))
+                            .setTextColor(Color.parseColor("#ba000000"))
+
+                        val snack_view = snack.view
+                        val params = snack_view.layoutParams as FrameLayout.LayoutParams
+                        params.gravity = Gravity.TOP
+                        snack_view.layoutParams = params
+                        snack.show()
+                        
                     }
 
                     Log.d("TEST", "createBoard 통신성공 바디 -> $body")

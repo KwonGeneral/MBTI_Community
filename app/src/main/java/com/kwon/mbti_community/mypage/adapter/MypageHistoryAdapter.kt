@@ -1,7 +1,6 @@
-package com.kwon.mbti_community.board.adapter
+package com.kwon.mbti_community.mypage.adapter
 
 import android.content.Context
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuInflater
@@ -12,30 +11,37 @@ import android.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kwon.mbti_community.R
-import com.kwon.mbti_community.board.model.*
+import com.kwon.mbti_community.board.adapter.CommentAdapter
+import com.kwon.mbti_community.board.adapter.CommentItem
+import com.kwon.mbti_community.board.model.BoardInterface
+import com.kwon.mbti_community.board.model.CreateCommentData
+import com.kwon.mbti_community.board.model.DeleteBoardData
+import com.kwon.mbti_community.board.model.GetCommentData
+import com.kwon.mbti_community.mypage.model.MypageInterface
 import com.kwon.mbti_community.z_common.connect.Connect
-import kotlinx.android.synthetic.main.fragment_board_item.view.*
-import kotlinx.android.synthetic.main.fragment_board_item.view.comment_more_icon
+import kotlinx.android.synthetic.main.fragment_mypage_history_item.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 
 
-class BoardAdapter constructor(var context:Context, var items:ArrayList<BoardItem>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MypageHistoryAdapter constructor(var context: Context, var items:ArrayList<MypageHistoryItem>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     // 토큰 확인
     val app_file_path = context.getExternalFilesDir(null).toString()
     val token_file = File("$app_file_path/token.token")
     val access_token = token_file.readText()
     val conn = Connect().connect(access_token)
+    val mypage_api: MypageInterface = conn.create(MypageInterface::class.java)
     val board_api: BoardInterface = conn.create(BoardInterface::class.java)
 
     lateinit var recyclerView: RecyclerView
+//    var board_items = arrayListOf<BoardItem>()
     var comment_items = arrayListOf<CommentItem>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(context)
-        val itemView = inflater.inflate(R.layout.fragment_board_item, parent, false)
+        val itemView = inflater.inflate(R.layout.fragment_mypage_history_item, parent, false)
 
         return VH(itemView)
     }
@@ -45,58 +51,50 @@ class BoardAdapter constructor(var context:Context, var items:ArrayList<BoardIte
         notifyDataSetChanged()
     }
 
+
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val vh: VH =holder as VH
 
         val item= items[position]
 
-        vh.itemView.board_user_nickname.text = item.board_nickname
-        vh.itemView.board_user_title.text = item.board_title
-        vh.itemView.board_user_content.text = item.board_content
-        vh.itemView.board_like_count.text = item.board_like_count.toString()
+        vh.itemView.mypage_history_board_title.text = item.board_title
+        vh.itemView.mypage_history_board_like_count.text = item.board_like_count.toString()
 
-        if(item.my_item_count == 1) {
-            vh.itemView.board_user_more.visibility = View.VISIBLE
+        vh.itemView.mypage_history_user_nickname.text = item.board_nickname
+        vh.itemView.mypage_history_user_title.text = item.board_title
+        vh.itemView.mypage_history_user_content.text = item.board_content
+        vh.itemView.mypage_history_like_count.text = item.board_like_count.toString()
+
+        vh.itemView.mypage_history_board_more_close_btn.setOnClickListener {
+            vh.itemView.mypage_history_board_more_close_btn.visibility = View.GONE
+            vh.itemView.mypage_history_board_more_btn.visibility = View.VISIBLE
+            vh.itemView.mypage_history_board_default_layout.visibility = View.VISIBLE
+
+            vh.itemView.mypage_history_more_click_layout.visibility = View.GONE
         }
 
-        vh.itemView.board_like_btn.setOnClickListener {
-            val parameter:HashMap<String, Int> = HashMap()
-            parameter["board_id"] = item.id
-
-            board_api.likeBoard(parameter).enqueue(object: Callback<LikeBoardData> {
-                override fun onResponse(call: Call<LikeBoardData>, response: Response<LikeBoardData>) {
-                    val body = response.body()
-                    if(body != null) {
-                        if(body.code == "S0001") {
-                            vh.itemView.board_like_count.text = (vh.itemView.board_like_count.text.toString().toInt() + 1).toString()
-                        }else {
-                            vh.itemView.board_like_count.text = (vh.itemView.board_like_count.text.toString().toInt() - 1).toString()
-                        }
-                    }
-
-                    Log.d("TEST", "likeBoard 통신성공 바디 -> $body")
-                }
-
-                override fun onFailure(call: Call<LikeBoardData>, t: Throwable) {
-                    Log.d("TEST", "likeBoard 통신실패 에러 -> " + t.message)
-                }
-            })
+        vh.itemView.mypage_history_board_more_btn.setOnClickListener {
+            vh.itemView.mypage_history_board_more_close_btn.visibility = View.VISIBLE
+            vh.itemView.mypage_history_board_more_btn.visibility = View.GONE
+            vh.itemView.mypage_history_board_default_layout.visibility = View.GONE
+            
+            vh.itemView.mypage_history_more_click_layout.visibility = View.VISIBLE
+        }
+        
+        // 구분선
+        vh.itemView.mypage_history_comment_more_close_btn.setOnClickListener {
+            vh.itemView.mypage_history_comment_recycler.visibility = View.GONE
+            vh.itemView.mypage_history_comment_more_btn.visibility = View.VISIBLE
+            vh.itemView.mypage_history_comment_more_close_btn.visibility = View.GONE
+            vh.itemView.mypage_history_comment_input_layout.visibility = View.GONE
         }
 
-        vh.itemView.comment_more_close_btn.setOnClickListener {
-            vh.itemView.comment_more_icon.setBackgroundResource(R.drawable.arrow_down_icon)
-            vh.itemView.comment_recycler.visibility = View.GONE
-            vh.itemView.comment_more_btn.visibility = View.VISIBLE
-            vh.itemView.comment_more_close_btn.visibility = View.GONE
-            vh.itemView.comment_input_layout.visibility = View.GONE
-        }
-
-        vh.itemView.comment_more_btn.setOnClickListener {
-            vh.itemView.comment_more_icon.setBackgroundResource(R.drawable.arrow_up_icon)
-            vh.itemView.comment_recycler.visibility = View.VISIBLE
-            vh.itemView.comment_more_btn.visibility = View.GONE
-            vh.itemView.comment_more_close_btn.visibility = View.VISIBLE
-            vh.itemView.comment_input_layout.visibility = View.VISIBLE
+        vh.itemView.mypage_history_comment_more_btn.setOnClickListener {
+            vh.itemView.mypage_history_comment_recycler.visibility = View.VISIBLE
+            vh.itemView.mypage_history_comment_more_btn.visibility = View.GONE
+            vh.itemView.mypage_history_comment_more_close_btn.visibility = View.VISIBLE
+            vh.itemView.mypage_history_comment_input_layout.visibility = View.VISIBLE
             val mInputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             mInputMethodManager.hideSoftInputFromWindow(vh.itemView.windowToken, 0)
 
@@ -120,7 +118,7 @@ class BoardAdapter constructor(var context:Context, var items:ArrayList<BoardIte
                             )
                         }
 
-                        recyclerView = vh.itemView.findViewById(R.id.comment_recycler) as RecyclerView
+                        recyclerView = vh.itemView.findViewById(R.id.mypage_history_comment_recycler) as RecyclerView
                         val reverse_manager = LinearLayoutManager(context)
                         reverse_manager.reverseLayout = true
                         reverse_manager.stackFromEnd = true
@@ -136,11 +134,11 @@ class BoardAdapter constructor(var context:Context, var items:ArrayList<BoardIte
             })
         }
 
-        vh.itemView.comment_submit_btn.setOnClickListener {
-            val temp_comment_text = vh.itemView.comment_input.text
+        vh.itemView.mypage_history_comment_submit_btn.setOnClickListener {
+            val temp_comment_text = vh.itemView.mypage_history_comment_input.text
             if(temp_comment_text.toString() != "") {
-                vh.itemView.comment_input.clearFocus()
-                vh.itemView.comment_input.setText("")
+                vh.itemView.mypage_history_comment_input.clearFocus()
+                vh.itemView.mypage_history_comment_input.setText("")
                 val mInputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 mInputMethodManager.hideSoftInputFromWindow(vh.itemView.windowToken, 0)
 
@@ -159,7 +157,7 @@ class BoardAdapter constructor(var context:Context, var items:ArrayList<BoardIte
                             comment_items.add(
                                 CommentItem(body.data.id, body.data.comment_content, body.data.comment_like_count.toString(), body.data.comment_nickname, body.data.comment_profile, body.data.comment_title, body.data.comment_user_type, body.data.comment_username, body.data.updated_at, comment_my_item_count)
                             )
-                            recyclerView=vh.itemView.findViewById(R.id.comment_recycler) as RecyclerView
+                            recyclerView=vh.itemView.findViewById(R.id.mypage_history_comment_recycler) as RecyclerView
                             val reverse_manager = LinearLayoutManager(context)
                             reverse_manager.reverseLayout = true
                             reverse_manager.stackFromEnd = true
@@ -178,8 +176,8 @@ class BoardAdapter constructor(var context:Context, var items:ArrayList<BoardIte
         }
 
         // 게시글 추가메뉴 클릭이벤트
-        vh.itemView.board_user_more.setOnClickListener {
-            val popup = PopupMenu(context, vh.itemView.board_user_more)
+        vh.itemView.mypage_history_user_more.setOnClickListener {
+            val popup = PopupMenu(context, vh.itemView.mypage_history_user_more)
 
             val inf: MenuInflater = popup.menuInflater
             inf.inflate(R.menu.board_menu, popup.menu)
@@ -216,6 +214,7 @@ class BoardAdapter constructor(var context:Context, var items:ArrayList<BoardIte
 
             popup.show()
         }
+
     }
 
     override fun getItemCount(): Int {

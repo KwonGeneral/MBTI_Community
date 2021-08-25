@@ -38,8 +38,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="MBTI "
-                android:textColor="#F7CF46"
+                android:text="DAILY "
+                android:textColor="#53AF6D"
                 android:textSize="20sp" />
 
             <TextView
@@ -57,8 +57,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:text=" 커뮤니티"
-                android:textColor="#ffffff"
+                android:text=" MBTI"
+                android:textColor="#F7CF46"
                 android:textSize="20sp" />
 
             <TextView

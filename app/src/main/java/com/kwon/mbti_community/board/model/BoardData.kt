@@ -107,3 +107,25 @@ data class ArrayCreateCommentData (
     val id: Int,
     val updated_at: String
 )
+
+data class DeleteBoardData(
+    val code: String,
+    val data: DeleteArrayBoardData,
+    val message: String
+)
+
+data class DeleteArrayBoardData(
+    val board_title: String,
+    val id: Int
+)
+
+data class DeleteCommentData(
+    val code: String,
+    val data: DeleteArrayCommentData,
+    val message: String
+)
+
+data class DeleteArrayCommentData(
+    val comment_title: String,
+    val id: Int
+)

@@ -23,4 +23,9 @@
         <item>ENFJ</item>
         <item>ENFP</item>
     </string-array>
+
+    <string-array name="board_select_array">
+        <item>수정하기</item>
+        <item>삭제하기</item>
+    </string-array>
 </resources>

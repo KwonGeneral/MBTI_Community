@@ -5,7 +5,11 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.snackbar.Snackbar
 import com.kwon.mbti_community.R
@@ -17,7 +21,7 @@ import com.kwon.mbti_community.mypage.view.MypageFragment
 import kotlinx.android.synthetic.main.activity_chain.*
 
 class ChainActivity : AppCompatActivity() {
-    private lateinit var home_fragment: HomeFragment
+//    private lateinit var home_fragment: HomeFragment
     private lateinit var board_fragment: BoardFragment
     private lateinit var qna_fragment: QnaFragment
     private lateinit var write_fragment: WriteFragment
@@ -57,17 +61,17 @@ class ChainActivity : AppCompatActivity() {
         Log.d("TEST", "share_user_type : $share_user_type")
         Log.d("TEST", "share_message : $share_message")
 
-        changeFragment(0)
+        // 첫 화면 : 무한스크롤 게시판
+        changeFragment(1)
 
-        nav_home_layout.setOnClickListener {
-            nav_home.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#3C1969"))
-            nav_board.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
-            nav_write.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
-            nav_qna.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
-            nav_mypage.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
-            changeFragment(0)
-//            nav_home_layout.setBackgroundResource(R.drawable.click_effect)
-        }
+//        nav_home_layout.setOnClickListener {
+//            nav_home.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#3C1969"))
+//            nav_board.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
+//            nav_write.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
+//            nav_qna.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
+//            nav_mypage.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
+//            changeFragment(0)
+//        }
         nav_board_layout.setOnClickListener {
             nav_home.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
             nav_board.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#3C1969"))
@@ -115,10 +119,10 @@ class ChainActivity : AppCompatActivity() {
         bundle.putString("share_message", share_message)
 
         if (int == 0) {
-            Log.d("TEST", "홈 프레그먼트")
-            home_fragment = HomeFragment.newInstance()
-            home_fragment.arguments = bundle
-            supportFragmentManager.beginTransaction().replace(R.id.chain_frag, home_fragment).commit()
+            Log.d("TEST", "홈 프레그먼트 - 삭제됨")
+//            home_fragment = HomeFragment.newInstance()
+//            home_fragment.arguments = bundle
+//            supportFragmentManager.beginTransaction().replace(R.id.chain_frag, home_fragment).commit()
         } else if (int == 1) {
             Log.d("TEST", "게시판 프레그먼트")
             board_fragment = BoardFragment.newInstance()
@@ -149,11 +153,16 @@ class ChainActivity : AppCompatActivity() {
         // 뒤로가기 버튼 클릭
         if(System.currentTimeMillis() - mBackWait >= 1000 ) {
             mBackWait = System.currentTimeMillis()
-            Snackbar
-                .make(findViewById<FrameLayout>(R.id.chain_frag), "뒤로가기 버튼을 한번 더 누르면 종료됩니다.", 1000)
-                .setBackgroundTint(Color.parseColor("#666666"))
-                .setTextColor(Color.parseColor("#aaffffff"))
-                .show()
+            val snack: Snackbar = Snackbar
+                .make(findViewById<RelativeLayout>(R.id.chain_all_layout), "뒤로가기 버튼을 한번 더 누르면 종료됩니다.", 1000)
+                .setBackgroundTint(Color.parseColor("#ffffff"))
+                .setTextColor(Color.parseColor("#ba000000"))
+
+            val snack_view = snack.view
+            val params = snack_view.layoutParams as FrameLayout.LayoutParams
+            params.gravity = Gravity.TOP
+            snack_view.layoutParams = params
+            snack.show()
         } else {
             finish() //액티비티 종료
         }
