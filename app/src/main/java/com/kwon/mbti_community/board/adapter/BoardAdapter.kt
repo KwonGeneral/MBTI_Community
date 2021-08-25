@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.kwon.mbti_community.R
 import com.kwon.mbti_community.board.model.*
 import com.kwon.mbti_community.z_common.connect.Connect
@@ -55,8 +56,19 @@ class BoardAdapter constructor(var context:Context, var items:ArrayList<BoardIte
         vh.itemView.board_user_content.text = item.board_content
         vh.itemView.board_like_count.text = item.board_like_count.toString()
 
+        Glide.with(context)
+            .load(item.board_profile)
+            .placeholder(R.drawable.user_default_profile)
+            .error(R.drawable.user_default_profile)
+            .into(vh.itemView.board_user_profile)
+
+        vh.itemView.board_user_profile.setBackgroundResource(R.drawable.image_background_border)
+        vh.itemView.board_user_profile.clipToOutline = true
+
         if(item.my_item_count == 1) {
             vh.itemView.board_user_more.visibility = View.VISIBLE
+        } else {
+            vh.itemView.board_user_more.visibility = View.GONE
         }
 
         vh.itemView.board_like_btn.setOnClickListener {

@@ -186,6 +186,8 @@ class LoginActivity : AppCompatActivity() {
                             hash["username"] = body.data.user_info.username
                             hash["nickname"] = body.data.user_info.nickname
                             hash["profile"] = body.data.user_info.profile
+//                            hash["profile"] = "https://kwonputer.com/media/" + body.data.user_info.profile
+//                            hash["profile"] = "http://192.168.1.9:3333/media/" + body.data.user_info.profile
                             hash["user_type"] = body.data.user_info.user_type
                             hash["message"] = body.data.user_info.message
 

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.kwon.mbti_community.R
 import com.kwon.mbti_community.board.model.BoardInterface
 import com.kwon.mbti_community.board.model.DeleteBoardData
@@ -58,8 +59,19 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
             vh.itemView.comment_user_disabled_layout.visibility = View.VISIBLE
         }
 
+        Glide.with(context)
+            .load(item.comment_profile)
+            .placeholder(R.drawable.user_default_profile)
+            .error(R.drawable.user_default_profile)
+            .into(vh.itemView.comment_user_profile)
+
+        vh.itemView.comment_user_profile.setBackgroundResource(R.drawable.image_background_border)
+        vh.itemView.comment_user_profile.clipToOutline = true
+
         if(item.my_item_count == 1) {
             vh.itemView.comment_user_more.visibility = View.VISIBLE
+        } else {
+            vh.itemView.comment_user_more.visibility = View.GONE
         }
 
         vh.itemView.comment_like_btn.setOnClickListener {

@@ -11,10 +11,6 @@ import android.util.Log
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.TypedValue
-import android.widget.LinearLayout
-import android.widget.ScrollView
-import android.widget.TextView
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kwon.mbti_community.board.adapter.BoardAdapter
@@ -99,6 +95,7 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
                         Log.d("TEST", "하하하 : $nn")
                         var my_item_count_check:Int
                         if(nn.board_username == share_username) { my_item_count_check = 1 } else { my_item_count_check = 0 }
+
                         items.add(
                             BoardItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, nn.board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at, my_item_count_check)
                         )

@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.kwon.mbti_community.R
 import com.kwon.mbti_community.board.adapter.CommentAdapter
 import com.kwon.mbti_community.board.adapter.CommentItem
@@ -19,7 +20,9 @@ import com.kwon.mbti_community.board.model.DeleteBoardData
 import com.kwon.mbti_community.board.model.GetCommentData
 import com.kwon.mbti_community.mypage.model.MypageInterface
 import com.kwon.mbti_community.z_common.connect.Connect
+import kotlinx.android.synthetic.main.fragment_mypage.view.*
 import kotlinx.android.synthetic.main.fragment_mypage_history_item.view.*
+import kotlinx.android.synthetic.main.fragment_qna_item.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -66,6 +69,15 @@ class MypageHistoryAdapter constructor(var context: Context, var items:ArrayList
         vh.itemView.mypage_history_user_content.text = item.board_content
         vh.itemView.mypage_history_like_count.text = item.board_like_count.toString()
 
+        Glide.with(context)
+            .load(item.board_profile)
+            .placeholder(R.drawable.user_default_profile)
+            .error(R.drawable.user_default_profile)
+            .into(vh.itemView.mypage_history_user_profile)
+
+        vh.itemView.mypage_history_user_profile.setBackgroundResource(R.drawable.image_background_border)
+        vh.itemView.mypage_history_user_profile.clipToOutline = true
+
         vh.itemView.mypage_history_board_more_close_btn.setOnClickListener {
             vh.itemView.mypage_history_board_more_close_btn.visibility = View.GONE
             vh.itemView.mypage_history_board_more_btn.visibility = View.VISIBLE
@@ -78,10 +90,10 @@ class MypageHistoryAdapter constructor(var context: Context, var items:ArrayList
             vh.itemView.mypage_history_board_more_close_btn.visibility = View.VISIBLE
             vh.itemView.mypage_history_board_more_btn.visibility = View.GONE
             vh.itemView.mypage_history_board_default_layout.visibility = View.GONE
-            
+
             vh.itemView.mypage_history_more_click_layout.visibility = View.VISIBLE
         }
-        
+
         // 구분선
         vh.itemView.mypage_history_comment_more_close_btn.setOnClickListener {
             vh.itemView.mypage_history_comment_recycler.visibility = View.GONE
