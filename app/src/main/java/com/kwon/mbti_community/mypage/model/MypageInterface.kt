@@ -31,5 +31,5 @@ interface MypageInterface {
 //        @Part("comment") comment:String,
 //        @Part("user_type") user_type:String,
 //        @Part("password") password:String,
-    ): Call<UpdateUserData>
+    ): Call<UpdateUserProfileData>
 }

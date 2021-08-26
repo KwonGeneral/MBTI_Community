@@ -31,9 +31,9 @@ data class GetArrayUserBoardData(
     val updated_at: String
 )
 
-data class UpdateUserData(
+data class UpdateUserProfileData(
     val code: String,
-    val data: UpdateArrayUserData,
+    val data: String,
     val message: String
 )
 
