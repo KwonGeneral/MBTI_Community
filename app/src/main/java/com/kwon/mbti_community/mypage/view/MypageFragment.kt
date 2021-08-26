@@ -2,18 +2,24 @@ package com.kwon.mbti_community.mypage.view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Outline
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kwon.mbti_community.R
+import com.kwon.mbti_community.mypage.adapter.MypageHistoryAdapter
 import com.kwon.mbti_community.mypage.adapter.MypageHistoryItem
+import com.kwon.mbti_community.mypage.model.GetBoardCountData
+import com.kwon.mbti_community.mypage.model.GetUserBoardData
 import com.kwon.mbti_community.mypage.model.MypageInterface
 import com.kwon.mbti_community.mypage.model.UpdateUserProfileData
 import com.kwon.mbti_community.z_common.connect.Connect
@@ -88,14 +94,13 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
             .into(user_profile)
 
         user_profile.setBackgroundResource(R.drawable.image_background_border)
-        user_profile.clipToOutline = true
+//        user_profile.clipToOutline = true
 
         user_profile.outlineProvider = object : ViewOutlineProvider() {
             override fun getOutline(view: View, outline: Outline) {
                 outline.setRoundRect(0, 0, view.width, view.height, 20f)
             }
         }
-        user_profile.clipToOutline = true
 
         // 설정해줘야 하는 값
         view.findViewById<TextView>(R.id.mypage_user_nickname).text = share_nickname
@@ -106,73 +111,85 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val conn = Connect().connect(access_token)
         val mypage_api: MypageInterface = conn.create(MypageInterface::class.java)
 
-        // 유저 정보 수정 테스트
-        app_file_path = requireContext().getExternalFilesDir(null).toString()
-        val file = File("$app_file_path/car_number.jpeg")
-        val filename = "car_number.jpeg"
-        Log.d("TEST", " File : $file")
-        Log.d("TEST", " File Name : $filename")
+        // 유저 프로필 클릭 이벤트
+        user_profile.setOnClickListener {
+            // 앨범에서 사진을 선택할 수 있는 액티비티를 실행한다.
+            val albumIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            // 실행할 액티비티의 타입을 설정(이미지를 선택할 수 있는 것)
+            albumIntent.type = "image/*"
+            // 선택할 파일의 타입을 지정(안드로이드 OS가 사전작업을 할 수 있도록)
+            val mimeType = arrayOf("image/*")
+            albumIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
+            startActivityForResult(albumIntent, 0)
+        }
 
-        var requestBody : RequestBody = RequestBody.create(MediaType.parse("image/*"), file)
-        var part : MultipartBody.Part = MultipartBody.Part.createFormData("profile", filename, requestBody)
-
-        Log.d("TEST", " requestBody : $requestBody")
-        Log.d("TEST", " part : $part")
-        mypage_api.updateUserInfo(share_username, part).enqueue(object: Callback<UpdateUserProfileData> {
-            override fun onResponse(call: Call<UpdateUserProfileData>, response: Response<UpdateUserProfileData>) {
-                val body = response.body()
-                Log.d("TEST", "updateUserInfo 통신성공 바디 -> $body")
-            }
-
-            override fun onFailure(call: Call<UpdateUserProfileData>, t: Throwable) {
-                Log.d("TEST", "updateUserInfo 통신실패 에러 -> " + t.message)
-            }
-        })
-
-        // API 통신 : 글 카운트 가져오기
-//        mypage_api.getBoardCount().enqueue(object: Callback<GetBoardCountData> {
-//            override fun onResponse(call: Call<GetBoardCountData>, response: Response<GetBoardCountData>) {
-//                val bodys = response.body()
-//                if(bodys != null) {
-//                    view.findViewById<TextView>(R.id.mypage_user_board_count).text = bodys.data.board_total_count
-//                }
-//                Log.d("TEST", "getBoardCount 통신성공 바디 -> $bodys")
+        // 유저 프로필 이미지 변환 API
+//        app_file_path = requireContext().getExternalFilesDir(null).toString()
+//        val file = File("$app_file_path/car_number.jpeg")
+//        val filename = "car_number.jpeg"
+//        Log.d("TEST", " File : $file")
+//        Log.d("TEST", " File Name : $filename")
 //
-//                // API 통신 : 유저가 올린 게시글 가져오기
-//                mypage_api.getUserBoard(share_username).enqueue(object: Callback<GetUserBoardData> {
-//                    override fun onResponse(call: Call<GetUserBoardData>, response: Response<GetUserBoardData>) {
-//                        val body = response.body()
-//                        if(body != null) {
-//                            if(body.data.isNotEmpty()) {
-//                                for(nn in body.data) {
-//                                    Log.d("TEST", "하하하 : $nn")
-//                                    items.add(
-//                                        MypageHistoryItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, nn.board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at)
-//                                    )
-//                                }
+//        var requestBody : RequestBody = RequestBody.create(MediaType.parse("image/*"), file)
+//        var part : MultipartBody.Part = MultipartBody.Part.createFormData("profile", filename, requestBody)
 //
-//                                recyclerView=view.findViewById(R.id.mypage_history_recycler) as RecyclerView
-//                                val reverse_manager = LinearLayoutManager(requireContext())
-//                                reverse_manager.reverseLayout = true
-//                                reverse_manager.stackFromEnd = true
-////
-//                                recyclerView.layoutManager = reverse_manager
-//                                recyclerView.adapter = MypageHistoryAdapter(requireContext(), items)
-//                            }
-//                        }
-//                        Log.d("TEST", "getUserBoard 통신성공 바디 -> $body")
-//                    }
-//
-//                    override fun onFailure(call: Call<GetUserBoardData>, t: Throwable) {
-//                        Log.d("TEST", "getUserBoard 통신실패 에러 -> " + t.message)
-//                    }
-//                })
+//        Log.d("TEST", " requestBody : $requestBody")
+//        Log.d("TEST", " part : $part")
+//        mypage_api.updateUserInfo(share_username, part).enqueue(object: Callback<UpdateUserProfileData> {
+//            override fun onResponse(call: Call<UpdateUserProfileData>, response: Response<UpdateUserProfileData>) {
+//                val body = response.body()
+//                Log.d("TEST", "updateUserInfo 통신성공 바디 -> $body")
 //            }
 //
-//            override fun onFailure(call: Call<GetBoardCountData>, t: Throwable) {
-//                Log.d("TEST", "getBoardCount 통신실패 에러 -> " + t.message)
+//            override fun onFailure(call: Call<UpdateUserProfileData>, t: Throwable) {
+//                Log.d("TEST", "updateUserInfo 통신실패 에러 -> " + t.message)
 //            }
 //        })
+
+        // API 통신 : 글 카운트 가져오기
+        mypage_api.getBoardCount().enqueue(object: Callback<GetBoardCountData> {
+            override fun onResponse(call: Call<GetBoardCountData>, response: Response<GetBoardCountData>) {
+                val bodys = response.body()
+                if(bodys != null) {
+                    view.findViewById<TextView>(R.id.mypage_user_board_count).text = bodys.data.board_total_count
+                }
+                Log.d("TEST", "getBoardCount 통신성공 바디 -> $bodys")
+
+                // API 통신 : 유저가 올린 게시글 가져오기
+                mypage_api.getUserBoard(share_username).enqueue(object: Callback<GetUserBoardData> {
+                    override fun onResponse(call: Call<GetUserBoardData>, response: Response<GetUserBoardData>) {
+                        val body = response.body()
+                        if(body != null) {
+                            if(body.data.isNotEmpty()) {
+                                for(nn in body.data) {
+                                    Log.d("TEST", "하하하 : $nn")
+                                    items.add(
+                                        MypageHistoryItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, nn.board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at)
+                                    )
+                                }
+
+                                recyclerView=view.findViewById(R.id.mypage_history_recycler) as RecyclerView
+                                val reverse_manager = LinearLayoutManager(requireContext())
+                                reverse_manager.reverseLayout = true
+                                reverse_manager.stackFromEnd = true
+//
+                                recyclerView.layoutManager = reverse_manager
+                                recyclerView.adapter = MypageHistoryAdapter(requireContext(), items)
+                            }
+                        }
+                        Log.d("TEST", "getUserBoard 통신성공 바디 -> $body")
+                    }
+
+                    override fun onFailure(call: Call<GetUserBoardData>, t: Throwable) {
+                        Log.d("TEST", "getUserBoard 통신실패 에러 -> " + t.message)
+                    }
+                })
+            }
+
+            override fun onFailure(call: Call<GetBoardCountData>, t: Throwable) {
+                Log.d("TEST", "getBoardCount 통신실패 에러 -> " + t.message)
+            }
+        })
 
         /*
         val select_feel_very_good = view.findViewById<TextView>(R.id.select_feel_very_good)
