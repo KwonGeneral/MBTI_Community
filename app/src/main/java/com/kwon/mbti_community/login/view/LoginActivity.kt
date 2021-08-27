@@ -182,13 +182,16 @@ class LoginActivity : AppCompatActivity() {
                         } else {
                             val hash: HashMap<String, String> = HashMap()
                             saveTokenFile(body.data.access_token)
+                            val local_mac_profile = "http://192.168.0.38:3333/media/" + body.data.user_info.profile
+                            val local_home_profile = "http://192.168.1.9:3333/media/" + body.data.user_info.profile
+                            val deploy_profile = "https://kwonputer.com/media/" + body.data.user_info.profile
                             hash["access_token"] = body.data.access_token
                             hash["username"] = body.data.user_info.username
                             hash["nickname"] = body.data.user_info.nickname
                             hash["password"] = body.data.user_info.password
 //                            hash["profile"] = body.data.user_info.profile
 //                            hash["profile"] = "https://kwonputer.com/media/" + body.data.user_info.profile
-                            hash["profile"] = "http://192.168.0.38:3333/media/" + body.data.user_info.profile
+                            hash["profile"] = deploy_profile
                             hash["user_type"] = body.data.user_info.user_type
                             hash["message"] = body.data.user_info.message
                             hash["move_status"] = "1"

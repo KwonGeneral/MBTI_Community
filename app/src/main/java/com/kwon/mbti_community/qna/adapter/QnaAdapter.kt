@@ -127,8 +127,11 @@ class QnaAdapter constructor(var context:Context, var items:ArrayList<QnaItem>):
                                 Log.d("TEST", "getComment 데이터 확인 : $nn")
                                 var comment_my_item_count:Int
                                 if(nn.comment_username == item.board_username) { comment_my_item_count = 1 } else { comment_my_item_count = 0 }
+
+                                var check_comment_profile = nn.comment_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
+
                                 comment_items.add(
-                                    CommentItem(nn.id, nn.comment_content, nn.comment_like_count.toString(), nn.comment_nickname, nn.comment_profile, nn.comment_title, nn.comment_user_type, nn.comment_username, nn.updated_at, comment_my_item_count)
+                                    CommentItem(nn.id, nn.comment_content, nn.comment_like_count.toString(), nn.comment_nickname, check_comment_profile, nn.comment_title, nn.comment_user_type, nn.comment_username, nn.updated_at, comment_my_item_count)
                                 )
                             }
                         } else {
@@ -173,8 +176,11 @@ class QnaAdapter constructor(var context:Context, var items:ArrayList<QnaItem>):
                             Log.d("TEST", "createComment 데이터확인 : ${body.data}")
                             var comment_my_item_count:Int
                             if(body.data.comment_username == item.board_username) { comment_my_item_count = 1 } else { comment_my_item_count = 0 }
+
+                            var check_comment_profile = body.data.comment_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
+
                             comment_items.add(
-                                CommentItem(body.data.id, body.data.comment_content, body.data.comment_like_count.toString(), body.data.comment_nickname, body.data.comment_profile, body.data.comment_title, body.data.comment_user_type, body.data.comment_username, body.data.updated_at, comment_my_item_count)
+                                CommentItem(body.data.id, body.data.comment_content, body.data.comment_like_count.toString(), body.data.comment_nickname, check_comment_profile, body.data.comment_title, body.data.comment_user_type, body.data.comment_username, body.data.updated_at, comment_my_item_count)
                             )
                             recyclerView=vh.itemView.findViewById(R.id.qna_comment_recycler) as RecyclerView
                             val reverse_manager = LinearLayoutManager(context)

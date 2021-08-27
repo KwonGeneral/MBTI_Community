@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kwon.mbti_community.board.model.BoardInterface
 import com.kwon.mbti_community.board.model.GetBoardData
+import com.kwon.mbti_community.board.model.GetBoardUserTypeData
 import com.kwon.mbti_community.qna.adapter.QnaAdapter
 import com.kwon.mbti_community.qna.adapter.QnaItem
 import com.kwon.mbti_community.z_common.connect.Connect
@@ -80,6 +81,8 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
         share_user_type = bundle_arguments?.getString("user_type").toString()
         share_message = bundle_arguments?.getString("share_message").toString()
 
+        share_profile = share_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
+
         Log.d("TEST", "share_access_token : $share_access_token")
         Log.d("TEST", "share_username : $share_username")
         Log.d("TEST", "share_nickname : $share_nickname")
@@ -99,9 +102,12 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val qna_select_job = view.findViewById<TextView>(R.id.qna_select_job)
         val qna_select_support = view.findViewById<TextView>(R.id.qna_select_support)
 
-        fun getBoardApi(board_type:String) {
+        val select_text = view.findViewById<TextView>(R.id.select_text)
+        var select_board_type = "free"
+
+        fun getBoardApi(board_type:String, board_user_type:String) {
             items.clear()
-            board_api.getBoard(board_type).enqueue(object: Callback<GetBoardData> {
+            board_api.getBoard(board_type, board_user_type).enqueue(object: Callback<GetBoardData> {
                 override fun onResponse(call: Call<GetBoardData>, response: Response<GetBoardData>) {
                     val body = response.body()
 
@@ -110,8 +116,11 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
                             Log.d("TEST", "하하하 : $nn")
                             var my_item_count_check:Int
                             if(nn.board_username == share_username) { my_item_count_check = 1 } else { my_item_count_check = 0 }
+
+                            var check_board_profile = nn.board_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
+
                             items.add(
-                                QnaItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, nn.board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at, my_item_count_check)
+                                QnaItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, check_board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at, my_item_count_check)
                             )
                         }
 
@@ -134,10 +143,9 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
             })
         }
 
-        getBoardApi("free")
-
         qna_select_free.setOnClickListener {
-            getBoardApi("free")
+            getBoardApi("free", select_text.text.toString())
+            select_board_type = "free"
             qna_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#C73279"))
             qna_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             qna_select_hobby.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
@@ -145,7 +153,8 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
             qna_select_support.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
         }
         qna_select_question.setOnClickListener {
-            getBoardApi("question")
+            getBoardApi("question", select_text.text.toString())
+            select_board_type = "question"
             qna_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             qna_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#C73279"))
             qna_select_hobby.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
@@ -153,7 +162,8 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
             qna_select_support.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
         }
         qna_select_hobby.setOnClickListener {
-            getBoardApi("hobby")
+            getBoardApi("hobby", select_text.text.toString())
+            select_board_type = "hobby"
             qna_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             qna_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             qna_select_hobby.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#C73279"))
@@ -161,7 +171,8 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
             qna_select_support.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
         }
         qna_select_job.setOnClickListener {
-            getBoardApi("job")
+            getBoardApi("job", select_text.text.toString())
+            select_board_type = "job"
             qna_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             qna_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             qna_select_hobby.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
@@ -169,7 +180,8 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
             qna_select_support.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
         }
         qna_select_support.setOnClickListener {
-            getBoardApi("support")
+            getBoardApi("support", select_text.text.toString())
+            select_board_type = "support"
             qna_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             qna_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             qna_select_hobby.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
@@ -177,7 +189,6 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
             qna_select_support.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#C73279"))
         }
 
-        val select_text = view.findViewById<TextView>(R.id.select_text)
         val top_select_layout = view.findViewById<LinearLayout>(R.id.top_select_layout)
         val only_select_layout = view.findViewById<LinearLayout>(R.id.only_select_layout)
         val top_mbit_menu_layout = view.findViewById<LinearLayout>(R.id.top_mbit_menu_layout)
@@ -207,6 +218,7 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val menu_enfj = view.findViewById<TextView>(R.id.menu_enfj)
 
         fun change_option(select_item:TextView) {
+            items.clear()
             only_select_layout.visibility = View.VISIBLE
             top_mbit_menu_layout.visibility = View.GONE
             qna_top_layout.layoutParams.height = 100.dp()
@@ -214,9 +226,28 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
 //            qna_select_scroll_view.setMargins(10.dp(), 60.dp(), 10.dp(), 0)
             qna_main_scroll_view.setMargins(10.dp(), 120.dp(), 10.dp(), 0)
             select_text.text = select_item.text
+
+            getBoardApi(select_board_type, select_text.text.toString())
         }
 
-        change_option(menu_entp)
+        when(share_user_type) {
+            "ISTJ" -> change_option(menu_istj)
+            "ISTP" -> change_option(menu_istp)
+            "ISFJ" -> change_option(menu_isfj)
+            "ISFP" -> change_option(menu_isfp)
+            "INTJ" -> change_option(menu_intj)
+            "INTP" -> change_option(menu_intp)
+            "INFJ" -> change_option(menu_infj)
+            "INFP" -> change_option(menu_infp)
+            "ESTJ" -> change_option(menu_estj)
+            "ESTP" -> change_option(menu_estp)
+            "ESFJ" -> change_option(menu_esfj)
+            "ESFP" -> change_option(menu_esfp)
+            "ENTJ" -> change_option(menu_entj)
+            "ENTP" -> change_option(menu_entp)
+            "ENFJ" -> change_option(menu_enfj)
+            "ENFP" -> change_option(menu_enfp)
+        }
 
         top_select_layout.setOnClickListener {
             if(top_mbit_menu_layout.isVisible) {

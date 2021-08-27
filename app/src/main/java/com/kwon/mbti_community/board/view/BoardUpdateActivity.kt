@@ -108,7 +108,6 @@ class BoardUpdateActivity : AppCompatActivity() {
             kkk_hash["message"] = share_message!!
             kkk_hash["move_status"] = "1"
             MoveActivity().chain_move(this, kkk_hash)
-            finish()
         }
 
         // 글 수정
@@ -131,7 +130,6 @@ class BoardUpdateActivity : AppCompatActivity() {
                         ggg_hash["message"] = share_message!!
                         ggg_hash["move_status"] = "1"
                         MoveActivity().chain_move(this@BoardUpdateActivity, ggg_hash)
-                        finish()
                     }
                     Log.d("TEST", "getUserData 통신성공 바디 -> $body")
                 }
@@ -161,7 +159,6 @@ class BoardUpdateActivity : AppCompatActivity() {
                         rrr_hash["message"] = share_message!!
                         rrr_hash["move_status"] = "1"
                         MoveActivity().chain_move(this@BoardUpdateActivity, rrr_hash)
-                        finish()
                     }
                     Log.d("TEST", "getUserData 통신성공 바디 -> $body")
                 }
@@ -172,6 +169,21 @@ class BoardUpdateActivity : AppCompatActivity() {
             })
         }
 
+    }
+
+    override fun onBackPressed() {
+//        super.onBackPressed()
+        Log.d("TEST", "MypageProfileUpdateActivity - onBackPressed")
+        var zzz_hash:HashMap<String, String> = HashMap()
+        zzz_hash["access_token"] = share_access_token!!
+        zzz_hash["username"] = share_username!!
+        zzz_hash["nickname"] = share_nickname!!
+        zzz_hash["password"] = share_password!!
+        zzz_hash["profile"] = share_profile!!
+        zzz_hash["user_type"] = share_user_type!!
+        zzz_hash["message"] = share_message!!
+        zzz_hash["move_status"] = "1"
+        MoveActivity().chain_move(this, zzz_hash)
     }
 
     override fun onPause() {

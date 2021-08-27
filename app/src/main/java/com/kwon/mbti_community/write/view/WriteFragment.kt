@@ -78,12 +78,16 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
         Log.d("TEST", "share_user_type : $share_user_type")
         Log.d("TEST", "share_message : $share_message")
 
+        share_profile = share_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
+
         // API 셋팅
         val access_token = share_access_token
         val conn = Connect().connect(access_token)
         val board_api: BoardInterface = conn.create(BoardInterface::class.java)
 
         val write_submit_btn = view.findViewById<Button>(R.id.write_submit_btn)
+        val user_mbti = view.findViewById<TextView>(R.id.user_mbti)
+        user_mbti.text = share_user_type
 
         // 작성 완료 버튼 클릭
         write_submit_btn.setOnClickListener {
@@ -105,6 +109,7 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
             // 게시글 생성 API
             val parameter:HashMap<String, String> = HashMap()
+            parameter["board_profile"] = share_profile
             parameter["board_title"] = write_title_input
             parameter["board_content"] = write_content_input
             parameter["board_type"] = temp_board_type

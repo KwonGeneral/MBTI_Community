@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="DAILY "
+                android:text="일상 "
                 android:textColor="#53AF6D"
                 android:textSize="20sp" />
 
@@ -48,8 +48,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
+                android:text="속"
                 android:textColor="#baffffff"
-                android:textSize="16sp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/textView11"

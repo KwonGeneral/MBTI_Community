@@ -88,6 +88,8 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
         Log.d("TEST", "share_user_type : $share_user_type")
         Log.d("TEST", "share_message : $share_message")
 
+        share_profile = share_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
+
         // Glide로 이미지 표시하기
         val user_profile = view.findViewById<ImageView>(R.id.user_profile)
         Glide.with(requireContext())
@@ -139,7 +141,7 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
             hash["message"] = share_message
 
             MoveActivity().profile_update_move(context as ChainActivity, hash)
-            ChainActivity().finish()
+//            ChainActivity().finish()
         }
 
         // 유저 프로필 이미지 변환 API
@@ -165,50 +167,55 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
 //            }
 //        })
 
+        val mypage_user_board_count = view.findViewById<TextView>(R.id.mypage_user_board_count)
+
         // API 통신 : 글 카운트 가져오기
-        mypage_api.getBoardCount().enqueue(object: Callback<GetBoardCountData> {
-            override fun onResponse(call: Call<GetBoardCountData>, response: Response<GetBoardCountData>) {
-                val bodys = response.body()
-                if(bodys != null) {
-                    view.findViewById<TextView>(R.id.mypage_user_board_count).text = bodys.data.board_total_count
-                }
-                Log.d("TEST", "getBoardCount 통신성공 바디 -> $bodys")
+        if(share_access_token != "") {
+            mypage_api.getBoardCount(share_username).enqueue(object: Callback<GetBoardCountData> {
+                override fun onResponse(call: Call<GetBoardCountData>, response: Response<GetBoardCountData>) {
+                    val bodys = response.body()
+                    if(bodys != null) {
+                        mypage_user_board_count.text = bodys.data.board_total_count
+                    }
+                    Log.d("TEST", "getBoardCount 통신성공 바디 -> $bodys")
 
-                // API 통신 : 유저가 올린 게시글 가져오기
-                mypage_api.getUserBoard(share_username).enqueue(object: Callback<GetUserBoardData> {
-                    override fun onResponse(call: Call<GetUserBoardData>, response: Response<GetUserBoardData>) {
-                        val body = response.body()
-                        if(body != null) {
-                            if(body.data.isNotEmpty()) {
-                                for(nn in body.data) {
-                                    Log.d("TEST", "하하하 : $nn")
-                                    items.add(
-                                        MypageHistoryItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, nn.board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at)
-                                    )
-                                }
+                    // API 통신 : 유저가 올린 게시글 가져오기
+                    mypage_api.getUserBoard(share_username).enqueue(object: Callback<GetUserBoardData> {
+                        override fun onResponse(call: Call<GetUserBoardData>, response: Response<GetUserBoardData>) {
+                            val body = response.body()
+                            if(body != null) {
+                                if(body.data.isNotEmpty()) {
+                                    for(nn in body.data) {
+                                        Log.d("TEST", "하하하 : $nn")
+                                        items.add(
+                                            MypageHistoryItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, nn.board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at)
+                                        )
+                                    }
 
-                                recyclerView=view.findViewById(R.id.mypage_history_recycler) as RecyclerView
-                                val reverse_manager = LinearLayoutManager(requireContext())
-                                reverse_manager.reverseLayout = true
-                                reverse_manager.stackFromEnd = true
+                                    recyclerView=view.findViewById(R.id.mypage_history_recycler) as RecyclerView
+                                    val reverse_manager = LinearLayoutManager(requireContext())
+                                    reverse_manager.reverseLayout = true
+                                    reverse_manager.stackFromEnd = true
 //
-                                recyclerView.layoutManager = reverse_manager
-                                recyclerView.adapter = MypageHistoryAdapter(requireContext(), items)
+                                    recyclerView.layoutManager = reverse_manager
+                                    recyclerView.adapter = MypageHistoryAdapter(requireContext(), items)
+                                }
                             }
+                            Log.d("TEST", "getUserBoard 통신성공 바디 -> $body")
                         }
-                        Log.d("TEST", "getUserBoard 통신성공 바디 -> $body")
-                    }
 
-                    override fun onFailure(call: Call<GetUserBoardData>, t: Throwable) {
-                        Log.d("TEST", "getUserBoard 통신실패 에러 -> " + t.message)
-                    }
-                })
-            }
+                        override fun onFailure(call: Call<GetUserBoardData>, t: Throwable) {
+                            Log.d("TEST", "getUserBoard 통신실패 에러 -> " + t.message)
+                        }
+                    })
+                }
 
-            override fun onFailure(call: Call<GetBoardCountData>, t: Throwable) {
-                Log.d("TEST", "getBoardCount 통신실패 에러 -> " + t.message)
-            }
-        })
+                override fun onFailure(call: Call<GetBoardCountData>, t: Throwable) {
+                    Log.d("TEST", "getBoardCount 통신실패 에러 -> " + t.message)
+                }
+            })
+        }
+
 
         /*
         val select_feel_very_good = view.findViewById<TextView>(R.id.select_feel_very_good)

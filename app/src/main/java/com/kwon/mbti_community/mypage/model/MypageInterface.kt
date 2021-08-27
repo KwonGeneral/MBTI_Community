@@ -18,6 +18,7 @@ interface MypageInterface {
     // 유저 게시글 카운트
     @GET("/board/user_board_count/")
     fun getBoardCount(
+        @Query("username") username: String,
     ): Call<GetBoardCountData>
 
     // 유저가 올린 게시글만 가져오기

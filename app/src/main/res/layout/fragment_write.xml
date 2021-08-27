@@ -158,7 +158,6 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:gravity="center"
-                android:text="ENTJ"
                 android:textColor="#ba000000"
                 android:textSize="20sp" />
 

@@ -8,8 +8,15 @@ interface BoardInterface {
     // 일상 게시판 조회 -> 페이지 넘버로 수정할 필요 있음
     @GET("/board/")
     fun getBoard(
-        @Query("board_type") board_type: String
+        @Query("board_type") board_type: String,
+        @Query("board_user_type") board_user_type: String
     ): Call<GetBoardData>
+
+    // MBTI별 게시판 조회 -> 페이지 넘버로 수정할 필요 있음
+//    @GET("/board/")
+//    fun getBoardUserType(
+//        @Query("board_user_type") board_user_type: String
+//    ): Call<GetBoardUserTypeData>
 
     // 게시글 생성
     @POST("/board/")

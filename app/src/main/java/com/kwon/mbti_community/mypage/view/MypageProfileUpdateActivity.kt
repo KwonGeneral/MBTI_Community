@@ -114,7 +114,6 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
             kkk_hash["message"] = share_message
             kkk_hash["move_status"] = "4"
             MoveActivity().chain_move(this, kkk_hash)
-            finish()
         }
 
         // API 셋팅
@@ -275,6 +274,8 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
                                             share_user_type = bodyss.data.user_info[0].user_type
                                             share_message = bodyss.data.user_info[0].message
 
+                                            share_profile = share_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
+
                                             val snack: Snackbar = Snackbar
                                                 .make(findViewById<ConstraintLayout>(R.id.mypage_profile_all_layout), "수정된 프로필을 반영했습니다.", 2000)
                                                 .setBackgroundTint(Color.parseColor("#ffffff"))
@@ -333,6 +334,8 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
                                     share_profile = bodyxx.data.user_info[0].profile
                                     share_user_type = bodyxx.data.user_info[0].user_type
                                     share_message = bodyxx.data.user_info[0].message
+
+                                    share_profile = share_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
 
                                     val snack: Snackbar = Snackbar
                                         .make(findViewById<ConstraintLayout>(R.id.mypage_profile_all_layout), "수정된 프로필을 반영했습니다.", 2000)
@@ -496,7 +499,16 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
     override fun onBackPressed() {
 //        super.onBackPressed()
         Log.d("TEST", "MypageProfileUpdateActivity - onBackPressed")
-        finish() //액티비티 종료
+        var zzz_hash:HashMap<String, String> = HashMap()
+        zzz_hash["access_token"] = share_access_token
+        zzz_hash["username"] = share_username
+        zzz_hash["nickname"] = share_nickname
+        zzz_hash["password"] = share_password
+        zzz_hash["profile"] = share_profile
+        zzz_hash["user_type"] = share_user_type
+        zzz_hash["message"] = share_message
+        zzz_hash["move_status"] = "4"
+        MoveActivity().chain_move(this, zzz_hash)
     }
 
     // ========================== 스피너 제어 ==========================

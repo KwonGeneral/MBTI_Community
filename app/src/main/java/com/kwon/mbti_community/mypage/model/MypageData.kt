@@ -1,5 +1,9 @@
 package com.kwon.mbti_community.mypage.model
 
+data class TestBoardCountData(
+    val count:String
+)
+
 data class GetBoardCountData(
     val code: String,
     val data: GetArrayBoardCountData,

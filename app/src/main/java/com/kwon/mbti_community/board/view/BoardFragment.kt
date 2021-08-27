@@ -81,6 +81,8 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
         Log.d("TEST", "share_user_type : $share_user_type")
         Log.d("TEST", "share_message : $share_message")
 
+        share_profile = share_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
+
         // 최상단 MBTI 표기 변경 -> 게시판도 변경해서 불러와야할 필요가 있음.
 //        select_text.text = share_user_type
 
@@ -89,7 +91,7 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val conn = Connect().connect(access_token)
         val board_api: BoardInterface = conn.create(BoardInterface::class.java)
 
-        board_api.getBoard("daily").enqueue(object: Callback<GetBoardData> {
+        board_api.getBoard("daily", share_user_type).enqueue(object: Callback<GetBoardData> {
             override fun onResponse(call: Call<GetBoardData>, response: Response<GetBoardData>) {
                 val body = response.body()
 
@@ -99,8 +101,13 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
                         var my_item_count_check:Int
                         if(nn.board_username == share_username) { my_item_count_check = 1 } else { my_item_count_check = 0 }
 
+                        var check_board_profile = ""
+                        if(nn.board_profile != null && nn.board_profile != "" && nn.board_profile != "null") {
+                            check_board_profile = nn.board_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
+                        }
+
                         items.add(
-                            BoardItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, nn.board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at, my_item_count_check)
+                            BoardItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, check_board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at, my_item_count_check)
                         )
                     }
 
