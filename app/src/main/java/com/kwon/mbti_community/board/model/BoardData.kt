@@ -129,3 +129,45 @@ data class DeleteArrayCommentData(
     val comment_title: String,
     val id: Int
 )
+
+data class UpdateBoardData(
+    val code: String,
+    val data: UpdateArrayBoardData,
+    val message: String
+)
+
+data class UpdateArrayBoardData(
+    val board_content: String,
+    val board_like_count: Int,
+    val board_nickname: String,
+    val board_profile: String,
+    val board_title: String,
+    val board_type: String,
+    val board_user_id: Int,
+    val board_user_type: String,
+    val board_username: String,
+    val created_at: String,
+    val id: Int,
+    val updated_at: String
+)
+
+data class UpdateCommentData(
+    val code: String,
+    val data: UpdateArrayCommentData,
+    val message: String
+)
+
+data class UpdateArrayCommentData(
+    val board_id: Int,
+    val comment_content: String,
+    val comment_like_count: Int,
+    val comment_nickname: String,
+    val comment_profile: String,
+    val comment_title: String,
+    val comment_user_id: Int,
+    val comment_user_type: String,
+    val comment_username: String,
+    val created_at: String,
+    val id: Int,
+    val updated_at: String
+)

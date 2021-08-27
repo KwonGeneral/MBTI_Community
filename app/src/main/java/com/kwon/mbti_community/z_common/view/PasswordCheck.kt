@@ -23,4 +23,17 @@ class PasswordCheck: PasswordCheckInterface {
 
         return encText
     }
+
+    override fun check_aes256(encText:String): String? {
+        var decText: String? = null
+        try {
+            val key = "kwonputer7777777"
+            decText = decByKey(key, encText)
+            Log.d("TEST", "복호화 결과 : $decText")
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+
+        return decText
+    }
 }

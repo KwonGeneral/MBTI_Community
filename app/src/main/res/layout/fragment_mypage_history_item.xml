@@ -157,7 +157,8 @@
                 <ImageView
                     android:id="@+id/mypage_history_user_profile"
                     android:layout_width="60dp"
-                    android:layout_height="60dp" />
+                    android:layout_height="60dp"
+                    android:scaleType="fitXY" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
