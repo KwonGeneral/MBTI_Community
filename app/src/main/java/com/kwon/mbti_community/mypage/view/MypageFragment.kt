@@ -105,12 +105,12 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         // 유저 정보 수정 테스트
         app_file_path = requireContext().getExternalFilesDir(null).toString()
-        val file = File("/storage/emulated/0/Android/data/com.kwon.mbti_community/files/user_default_profile")
+        val file = File(app_file_path)
         val filename = "user_default_profile.png"
         Log.d("TEST", " File : $file")
         Log.d("TEST", " File Name : $filename")
-        var requestBody : RequestBody = RequestBody.create(MediaType.parse("image/*"), file)
-        val part: MultipartBody.Part = MultipartBody.Part.createFormData("profile", "user_default_profile", requestBody)
+        var requestBody : RequestBody = RequestBody.create(MediaType.parse("image/*"), "/storage/emulated/0/Android/data/com.kwon.mbti_community/files/user_default_profile.png")
+        val part: MultipartBody.Part = MultipartBody.Part.createFormData("profile", "user_default_profile.png", requestBody)
 
         Log.d("TEST", " requestBody : $requestBody")
         Log.d("TEST", " part : $part")
