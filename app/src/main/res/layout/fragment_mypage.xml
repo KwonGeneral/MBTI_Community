@@ -42,6 +42,7 @@
                     android:layout_width="95dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
+                    android:scaleType="fitXY"
                     android:src="@drawable/profile" />
 
                 <LinearLayout

@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kwon.mbti_community.R
 import com.kwon.mbti_community.board.model.*
+import com.kwon.mbti_community.chain.view.ChainActivity
 import com.kwon.mbti_community.z_common.connect.Connect
+import com.kwon.mbti_community.z_common.view.MoveActivity
 import kotlinx.android.synthetic.main.fragment_board_item.view.*
 import kotlinx.android.synthetic.main.fragment_board_item.view.comment_more_icon
 import retrofit2.Call
@@ -180,6 +182,7 @@ class BoardAdapter constructor(var context:Context, var items:ArrayList<BoardIte
                         }
 
                         Log.d("TEST", "createComment 통신성공 바디 -> $body")
+                        Log.d("TEST", "createComment 코드확인 -> ${response.code()}")
                     }
 
                     override fun onFailure(call: Call<CreateCommentData>, t: Throwable) {
@@ -200,6 +203,13 @@ class BoardAdapter constructor(var context:Context, var items:ArrayList<BoardIte
                 when (menu_item.itemId) {
                     R.id.board_update_menu -> {
                         Log.d("TEST", "메뉴 - 수정버튼 클릭")
+                        val bo_parm:HashMap<String, String> = HashMap()
+                        bo_parm["access_token"] = access_token
+                        bo_parm["username"] = item.board_username!!
+                        bo_parm["board_id"] = item.id!!.toString()
+                        bo_parm["board_title"] = item.board_title!!
+                        bo_parm["board_content"] = item.board_content!!
+                        MoveActivity().board_update_move(context as ChainActivity, bo_parm)
                         true
                     }
                     R.id.board_delete_menu -> {

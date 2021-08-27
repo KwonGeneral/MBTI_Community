@@ -15,7 +15,9 @@ import com.kwon.mbti_community.board.model.DeleteBoardData
 import com.kwon.mbti_community.board.model.DeleteCommentData
 import com.kwon.mbti_community.board.model.LikeCommentData
 import com.kwon.mbti_community.board.view.BoardFragment
+import com.kwon.mbti_community.chain.view.ChainActivity
 import com.kwon.mbti_community.z_common.connect.Connect
+import com.kwon.mbti_community.z_common.view.MoveActivity
 import kotlinx.android.synthetic.main.fragment_board_item.view.*
 import kotlinx.android.synthetic.main.fragment_comment_item.view.*
 import retrofit2.Call
@@ -54,19 +56,31 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
             vh.itemView.comment_user_title.text = item.comment_title
             vh.itemView.comment_user_content.text = item.comment_content
             vh.itemView.comment_like_count.text = item.comment_like_count.toString()
+
+            Glide.with(context)
+                .load(item.comment_profile)
+                .placeholder(R.drawable.user_default_profile)
+                .error(R.drawable.user_default_profile)
+                .into(vh.itemView.comment_user_profile)
+
+            vh.itemView.comment_user_profile.setBackgroundResource(R.drawable.image_background_border)
+            vh.itemView.comment_user_profile.clipToOutline = true
+
         } else {
             vh.itemView.comment_user_abled_layout.visibility = View.GONE
             vh.itemView.comment_user_disabled_layout.visibility = View.VISIBLE
         }
 
-        Glide.with(context)
-            .load(item.comment_profile)
-            .placeholder(R.drawable.user_default_profile)
-            .error(R.drawable.user_default_profile)
-            .into(vh.itemView.comment_user_profile)
+        Log.d("TEST", "??? : ${item.comment_profile}")
 
-        vh.itemView.comment_user_profile.setBackgroundResource(R.drawable.image_background_border)
-        vh.itemView.comment_user_profile.clipToOutline = true
+//        Glide.with(context)
+//            .load(item.comment_profile)
+//            .placeholder(R.drawable.user_default_profile)
+//            .error(R.drawable.user_default_profile)
+//            .into(vh.itemView.comment_user_profile)
+//
+//        vh.itemView.comment_user_profile.setBackgroundResource(R.drawable.image_background_border)
+//        vh.itemView.comment_user_profile.clipToOutline = true
 
         if(item.my_item_count == 1) {
             vh.itemView.comment_user_more.visibility = View.VISIBLE
@@ -110,6 +124,12 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
                 when (menu_item.itemId) {
                     R.id.board_update_menu -> {
                         Log.d("TEST", "메뉴 - 수정버튼 클릭")
+                        val bo_parm:HashMap<String, String> = HashMap()
+                        bo_parm["access_token"] = access_token
+                        bo_parm["username"] = item.comment_username!!
+                        bo_parm["comment_id"] = item.id!!.toString()
+                        bo_parm["comment_content"] = item.comment_content!!
+                        MoveActivity().board_update_move(context as ChainActivity, bo_parm)
                         true
                     }
                     R.id.board_delete_menu -> {

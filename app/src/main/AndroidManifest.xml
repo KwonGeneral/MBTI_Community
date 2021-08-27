@@ -21,9 +21,20 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:targetSandboxVersion="1"
         android:theme="@style/CustomTheme"
+        android:usesCleartextTraffic="true"
         tools:targetApi="n">
-        <activity android:name=".mypage.view.MypageProfileUpdateActivity"></activity>
+        <activity android:name=".board.view.BoardUpdateActivity"></activity>
+        <activity android:name=".mypage.view.MypageProfileUpdateActivity">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
         <activity android:name=".signup.view.SignupActivity" />
         <activity android:name=".chain.view.ChainActivity" />
         <activity android:name=".login.view.LoginActivity">

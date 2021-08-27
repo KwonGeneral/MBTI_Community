@@ -7,15 +7,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.snackbar.Snackbar
 import com.kwon.mbti_community.R
 import com.kwon.mbti_community.board.view.BoardFragment
 import com.kwon.mbti_community.qna.view.QnaFragment
-import com.kwon.mbti_community.home.view.HomeFragment
 import com.kwon.mbti_community.write.view.WriteFragment
 import com.kwon.mbti_community.mypage.view.MypageFragment
 import kotlinx.android.synthetic.main.activity_chain.*
@@ -31,11 +28,13 @@ class ChainActivity : AppCompatActivity() {
     var share_access_token = ""
     var share_username = ""
     var share_nickname = ""
+    var share_password = ""
     var share_profile = ""
     var share_user_type = ""
     var share_message = ""
+    var check_move_status = ""
 
-    //뒤로가기 연속 클릭 대기 시간
+    // 뒤로가기 연속 클릭 대기 시간
     var mBackWait:Long = 0
 
     var app_file_path: String? = null
@@ -50,19 +49,30 @@ class ChainActivity : AppCompatActivity() {
         share_access_token = intent.getStringExtra("access_token").toString()
         share_username = intent.getStringExtra("username").toString()
         share_nickname = intent.getStringExtra("nickname").toString()
+        share_password = intent.getStringExtra("password").toString()
         share_profile = intent.getStringExtra("profile").toString()
         share_user_type = intent.getStringExtra("user_type").toString()
         share_message = intent.getStringExtra("message").toString()
+        check_move_status = intent.getStringExtra("move_status").toString()
 
         Log.d("TEST", "share_access_token : $share_access_token")
         Log.d("TEST", "share_username : $share_username")
         Log.d("TEST", "share_nickname : $share_nickname")
+        Log.d("TEST", "share_password : $share_password")
         Log.d("TEST", "share_profile : $share_profile")
         Log.d("TEST", "share_user_type : $share_user_type")
         Log.d("TEST", "share_message : $share_message")
+        Log.d("TEST", "check_move_status : $check_move_status")
 
-        // 첫 화면 : 무한스크롤 게시판
-        changeFragment(1)
+        // 화면 전환 제어
+        if(check_move_status == "1") {
+            changeFragment(1)
+        } else if (check_move_status == "4") {
+            changeFragment(4)
+        } else {
+            changeFragment(1)
+        }
+
 
 //        nav_home_layout.setOnClickListener {
 //            nav_home.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#3C1969"))
@@ -114,6 +124,7 @@ class ChainActivity : AppCompatActivity() {
         bundle.putString("access_token", share_access_token)
         bundle.putString("username", share_username)
         bundle.putString("nickname", share_nickname)
+        bundle.putString("password", share_password)
         bundle.putString("profile", share_profile)
         bundle.putString("user_type", share_user_type)
         bundle.putString("share_message", share_message)

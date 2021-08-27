@@ -1,6 +1,7 @@
 package com.kwon.mbti_community.mypage.view
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Outline
@@ -16,13 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kwon.mbti_community.R
+import com.kwon.mbti_community.chain.view.ChainActivity
 import com.kwon.mbti_community.mypage.adapter.MypageHistoryAdapter
 import com.kwon.mbti_community.mypage.adapter.MypageHistoryItem
-import com.kwon.mbti_community.mypage.model.GetBoardCountData
-import com.kwon.mbti_community.mypage.model.GetUserBoardData
-import com.kwon.mbti_community.mypage.model.MypageInterface
-import com.kwon.mbti_community.mypage.model.UpdateUserProfileData
+import com.kwon.mbti_community.mypage.model.*
 import com.kwon.mbti_community.z_common.connect.Connect
+import com.kwon.mbti_community.z_common.view.MoveActivity
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -41,6 +41,7 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
     var share_access_token = ""
     var share_username = ""
     var share_nickname = ""
+    var share_password = ""
     var share_profile = ""
     var share_user_type = ""
     var share_message = ""
@@ -74,6 +75,7 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
         share_access_token = bundle_arguments?.getString("access_token").toString()
         share_username = bundle_arguments?.getString("username").toString()
         share_nickname = bundle_arguments?.getString("nickname").toString()
+        share_password = bundle_arguments?.getString("password").toString()
         share_profile = bundle_arguments?.getString("profile").toString()
         share_user_type = bundle_arguments?.getString("user_type").toString()
         share_message = bundle_arguments?.getString("share_message").toString()
@@ -81,6 +83,7 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
         Log.d("TEST", "share_access_token : $share_access_token")
         Log.d("TEST", "share_username : $share_username")
         Log.d("TEST", "share_nickname : $share_nickname")
+        Log.d("TEST", "share_password : $share_password")
         Log.d("TEST", "share_profile : $share_profile")
         Log.d("TEST", "share_user_type : $share_user_type")
         Log.d("TEST", "share_message : $share_message")
@@ -94,16 +97,17 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
             .into(user_profile)
 
         user_profile.setBackgroundResource(R.drawable.image_background_border)
-//        user_profile.clipToOutline = true
+        user_profile.clipToOutline = true
 
-        user_profile.outlineProvider = object : ViewOutlineProvider() {
-            override fun getOutline(view: View, outline: Outline) {
-                outline.setRoundRect(0, 0, view.width, view.height, 20f)
-            }
-        }
+//        user_profile.outlineProvider = object : ViewOutlineProvider() {
+//            override fun getOutline(view: View, outline: Outline) {
+//                outline.setRoundRect(0, 0, view.width, view.height, 20f)
+//            }
+//        }
 
         // 설정해줘야 하는 값
         view.findViewById<TextView>(R.id.mypage_user_nickname).text = share_nickname
+        view.findViewById<TextView>(R.id.mypage_user_message).text = share_message
         view.findViewById<TextView>(R.id.mypage_user_mbti).text = share_user_type
 
         // API 셋팅
@@ -113,14 +117,29 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         // 유저 프로필 클릭 이벤트
         user_profile.setOnClickListener {
-            // 앨범에서 사진을 선택할 수 있는 액티비티를 실행한다.
-            val albumIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            // 실행할 액티비티의 타입을 설정(이미지를 선택할 수 있는 것)
-            albumIntent.type = "image/*"
-            // 선택할 파일의 타입을 지정(안드로이드 OS가 사전작업을 할 수 있도록)
-            val mimeType = arrayOf("image/*")
-            albumIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
-            startActivityForResult(albumIntent, 0)
+//            // 앨범에서 사진을 선택할 수 있는 액티비티를 실행한다.
+//            val albumIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+//            // 실행할 액티비티의 타입을 설정(이미지를 선택할 수 있는 것)
+//            albumIntent.type = "image/*"
+//            // 선택할 파일의 타입을 지정(안드로이드 OS가 사전작업을 할 수 있도록)
+//            val mimeType = arrayOf("image/*")
+//            albumIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
+//            startActivityForResult(albumIntent, 0)
+        }
+
+        // 프로필 수정 버튼 클릭
+        view.findViewById<TextView>(R.id.profile_update_btn).setOnClickListener {
+            val hash: HashMap<String, String> = HashMap()
+            hash["access_token"] = share_access_token
+            hash["username"] = share_username
+            hash["nickname"] = share_nickname
+            hash["password"] = share_password
+            hash["profile"] = share_profile
+            hash["user_type"] = share_user_type
+            hash["message"] = share_message
+
+            MoveActivity().profile_update_move(context as ChainActivity, hash)
+            ChainActivity().finish()
         }
 
         // 유저 프로필 이미지 변환 API

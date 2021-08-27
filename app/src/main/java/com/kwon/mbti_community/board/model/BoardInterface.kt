@@ -1,10 +1,8 @@
 package com.kwon.mbti_community.board.model
 
+import com.kwon.mbti_community.mypage.model.UpdateUserInfoData
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface BoardInterface {
     // 일상 게시판 조회 -> 페이지 넘버로 수정할 필요 있음
@@ -18,6 +16,13 @@ interface BoardInterface {
     fun createBoard(
         @Body parameters: HashMap<String, String>
     ): Call<CreateBoardData>
+
+    // 게시글 수정
+    @PUT("/board/update/{id}")
+    fun updateBoard(
+        @Path("id") id:String,
+        @Body parameters: HashMap<String, String>
+    ): Call<UpdateBoardData>
 
     // 게시판 좋아요 클릭
     @POST("/like/board/")
@@ -36,6 +41,13 @@ interface BoardInterface {
     fun createComment(
         @Body parameters: HashMap<String, String>
     ): Call<CreateCommentData>
+
+    // 코멘트 수정
+    @PUT("/board/comment/update/{id}")
+    fun updateComment(
+        @Path("id") id:String,
+        @Body parameters: HashMap<String, String>
+    ): Call<UpdateCommentData>
 
     // 코멘트 좋아요 클릭
     @POST("/like/comment/")
