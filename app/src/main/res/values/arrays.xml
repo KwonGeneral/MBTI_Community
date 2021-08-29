@@ -2,22 +2,22 @@
 <resources>
     <string-array name="mbti_select_array">
         <item>MBTI를 선택해주세요</item>
-        <item>ㅡㅡㅡISㅡㅡㅡ</item>
+<!--        <item>ㅡㅡㅡISㅡㅡㅡ</item>-->
         <item>ISTJ</item>
         <item>ISTP</item>
         <item>ISFJ</item>
         <item>ISFP</item>
-        <item>ㅡㅡㅡINㅡㅡㅡ</item>
+<!--        <item>ㅡㅡㅡINㅡㅡㅡ</item>-->
         <item>INTJ</item>
         <item>INTP</item>
         <item>INFJ</item>
         <item>INFP</item>
-        <item>ㅡㅡㅡESㅡㅡㅡ</item>
+<!--        <item>ㅡㅡㅡESㅡㅡㅡ</item>-->
         <item>ESTJ</item>
         <item>ESTP</item>
         <item>ESFJ</item>
         <item>ESFP</item>
-        <item>ㅡㅡㅡENㅡㅡㅡ</item>
+<!--        <item>ㅡㅡㅡENㅡㅡㅡ</item>-->
         <item>ENTJ</item>
         <item>ENTP</item>
         <item>ENFJ</item>

@@ -1,9 +1,11 @@
 package com.kwon.mbti_community.board.view
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import com.kwon.mbti_community.R
 import com.kwon.mbti_community.board.model.BoardInterface
 import com.kwon.mbti_community.board.model.UpdateBoardData
@@ -57,6 +59,26 @@ class BoardUpdateActivity : AppCompatActivity() {
         Log.d("TEST", "share_board_title : $share_board_title")
         Log.d("TEST", "share_board_content : $share_board_content")
         Log.d("TEST", "share_comment_content : $share_comment_content")
+
+        // 전체 레이아웃 클릭 시, 포커스 해제
+        board_update_all_layout.setOnClickListener {
+            // 키보드 내리기
+            val mInputMethodManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            mInputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+            // 포커스 해제
+            board_update_title_input.clearFocus()
+            board_update_content_input.clearFocus()
+            comment_update_content_input.clearFocus()
+        }
+        board_update_main_layout.setOnClickListener {
+            // 키보드 내리기
+            val mInputMethodManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            mInputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+            // 포커스 해제
+            board_update_title_input.clearFocus()
+            board_update_content_input.clearFocus()
+            comment_update_content_input.clearFocus()
+        }
 
         val conn = Connect().connect(share_access_token)
         val mypage_api: MypageInterface = conn.create(MypageInterface::class.java)

@@ -103,6 +103,18 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
 //            }
 //        }
 
+        // 전체 레이아웃 클릭 시, 포커스 해제
+        mypage_profile_all_layout.setOnClickListener {
+            // 키보드 내리기
+            val mInputMethodManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            mInputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+            // 포커스 해제
+            mypage_profile_nickname_input.clearFocus()
+            mypage_profile_message_input.clearFocus()
+            mypage_profile_password_input.clearFocus()
+            mypage_profile_password_check_input.clearFocus()
+        }
+
         mypage_profile_close_btn.setOnClickListener {
             var kkk_hash:HashMap<String, String> = HashMap()
             kkk_hash["access_token"] = share_access_token
@@ -402,18 +414,18 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
                 "ISTP" -> temp_position = 3
                 "ISFJ" -> temp_position = 4
                 "ISFP" -> temp_position = 5
-                "INTJ" -> temp_position = 7
-                "INTP" -> temp_position = 8
-                "INFJ" -> temp_position = 9
-                "INFP" -> temp_position = 10
-                "ESTJ" -> temp_position = 12
-                "ESTP" -> temp_position = 13
-                "ESFJ" -> temp_position = 14
-                "ESFP" -> temp_position = 15
-                "ENTJ" -> temp_position = 17
-                "ENTP" -> temp_position = 18
-                "ENFJ" -> temp_position = 19
-                "ENFP" -> temp_position = 20
+                "INTJ" -> temp_position = 6
+                "INTP" -> temp_position = 7
+                "INFJ" -> temp_position = 8
+                "INFP" -> temp_position = 9
+                "ESTJ" -> temp_position = 10
+                "ESTP" -> temp_position = 11
+                "ESFJ" -> temp_position = 12
+                "ESFP" -> temp_position = 13
+                "ENTJ" -> temp_position = 14
+                "ENTP" -> temp_position = 15
+                "ENFJ" -> temp_position = 16
+                "ENFP" -> temp_position = 17
             }
 
             return temp_position
@@ -520,12 +532,7 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
 
         temp_select_mbti = position.toString()
 
-        if(temp_select_mbti == "MBTI를 선택해주세요"
-            || temp_select_mbti == "ㅡㅡㅡISㅡㅡㅡ"
-            || temp_select_mbti == "ㅡㅡㅡESㅡㅡㅡ"
-            || temp_select_mbti == "ㅡㅡㅡINㅡㅡㅡ"
-            || temp_select_mbti == "ㅡㅡㅡENㅡㅡㅡ") {
-
+        if(temp_select_mbti == "MBTI를 선택해주세요") {
             mbti_count = 0
         } else {
             mbti_count = 1

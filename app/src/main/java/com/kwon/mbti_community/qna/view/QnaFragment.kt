@@ -107,8 +107,8 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         fun getBoardApi(board_type:String, board_user_type:String) {
             items.clear()
-            board_api.getBoard(board_type, board_user_type).enqueue(object: Callback<GetBoardData> {
-                override fun onResponse(call: Call<GetBoardData>, response: Response<GetBoardData>) {
+            board_api.getBoardUserType(board_type, board_user_type).enqueue(object: Callback<GetBoardUserTypeData> {
+                override fun onResponse(call: Call<GetBoardUserTypeData>, response: Response<GetBoardUserTypeData>) {
                     val body = response.body()
 
                     if(body != null){
@@ -137,7 +137,7 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     Log.d("TEST", "Qna - getBoard 통신성공 바디 -> $body")
                 }
 
-                override fun onFailure(call: Call<GetBoardData>, t: Throwable) {
+                override fun onFailure(call: Call<GetBoardUserTypeData>, t: Throwable) {
                     Log.d("TEST", "Qna - getBoard 통신실패 에러 -> " + t.message)
                 }
             })

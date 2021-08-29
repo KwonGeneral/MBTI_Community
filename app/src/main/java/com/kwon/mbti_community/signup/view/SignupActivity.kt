@@ -75,6 +75,11 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             // 키보드 내리기
             val mInputMethodManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             mInputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+            // 포커스 해제
+            signup_username_input.clearFocus()
+            signup_nickname_input.clearFocus()
+            signup_password_input.clearFocus()
+            signup_password_check_input.clearFocus()
         }
         mbti_spinner.setOnTouchListener { _, _ ->
             // 키보드 내리기
@@ -348,7 +353,6 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                         }
                     }
 
-
                     Log.d("TEST", "Signup - createUser 통신성공 바디 -> $body")
                 }
 
@@ -369,12 +373,7 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         temp_select_mbti = position.toString()
 
-        if(temp_select_mbti == "MBTI를 선택해주세요"
-            || temp_select_mbti == "ㅡㅡㅡISㅡㅡㅡ"
-            || temp_select_mbti == "ㅡㅡㅡESㅡㅡㅡ"
-            || temp_select_mbti == "ㅡㅡㅡINㅡㅡㅡ"
-            || temp_select_mbti == "ㅡㅡㅡENㅡㅡㅡ") {
-
+        if(temp_select_mbti == "MBTI를 선택해주세요") {
             mbti_count = 0
         } else {
             mbti_count = 1
@@ -386,5 +385,12 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     override fun onNothingSelected(parent: AdapterView<*>) {
         Log.d("TEST", "onNothingSelected onNothingSelected onNothingSelected")
         // 다른 인터페이스 콜백
+    }
+
+    override fun onBackPressed() {
+//        super.onBackPressed()
+        Log.d("TEST", "ChainActivity - onBackPressed")
+        MoveActivity().login_move(this)
+        finish()
     }
 }

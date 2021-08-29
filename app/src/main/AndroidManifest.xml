@@ -25,18 +25,13 @@
         android:theme="@style/CustomTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
-        <activity android:name=".board.view.BoardUpdateActivity"></activity>
-        <activity android:name=".mypage.view.MypageProfileUpdateActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
+        <activity android:name=".board.view.BoardUpdateActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".mypage.view.MypageProfileUpdateActivity" />
         <activity android:name=".signup.view.SignupActivity" />
-        <activity android:name=".chain.view.ChainActivity" />
+        <activity android:name=".chain.view.ChainActivity"
+            android:windowSoftInputMode="adjustResize"/>
+
         <activity android:name=".login.view.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

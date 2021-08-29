@@ -80,6 +80,28 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         share_profile = share_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
 
+        // 전체 레이아웃 클릭 시, 포커스 해제
+        val write_frame_layout = view.findViewById<FrameLayout>(R.id.write_frame_layout)
+        write_frame_layout.setOnClickListener {
+            Log.d("TEST", "write_frame_layout write_frame_layout write_frame_layout")
+            // 키보드 내리기
+            val mInputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            mInputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+            // 포커스 해제
+            view.findViewById<EditText>(R.id.write_title_input).clearFocus()
+            view.findViewById<EditText>(R.id.write_content_input).clearFocus()
+        }
+        val write_main_layout = view.findViewById<LinearLayout>(R.id.write_main_layout)
+        write_main_layout.setOnClickListener {
+            Log.d("TEST", "write_main_layout write_main_layout write_main_layout")
+            // 키보드 내리기
+            val mInputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            mInputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+            // 포커스 해제
+            view.findViewById<EditText>(R.id.write_title_input).clearFocus()
+            view.findViewById<EditText>(R.id.write_content_input).clearFocus()
+        }
+
         // API 셋팅
         val access_token = share_access_token
         val conn = Connect().connect(access_token)
@@ -154,6 +176,12 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         write_select_daily.setOnClickListener {
             temp_board_type = "daily"
+            // 포커스 해제
+            view.findViewById<EditText>(R.id.write_title_input).clearFocus()
+            view.findViewById<EditText>(R.id.write_content_input).clearFocus()
+            view.findViewById<EditText>(R.id.write_title_input).setText("")
+            view.findViewById<EditText>(R.id.write_content_input).setText("")
+
             write_select_daily.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#C73279"))
             write_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             write_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
@@ -163,6 +191,12 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
         write_select_free.setOnClickListener {
             temp_board_type = "free"
+            // 포커스 해제
+            view.findViewById<EditText>(R.id.write_title_input).clearFocus()
+            view.findViewById<EditText>(R.id.write_content_input).clearFocus()
+            view.findViewById<EditText>(R.id.write_title_input).setText("")
+            view.findViewById<EditText>(R.id.write_content_input).setText("")
+
             write_select_daily.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             write_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#C73279"))
             write_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
@@ -172,6 +206,12 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
         write_select_question.setOnClickListener {
             temp_board_type = "question"
+            // 포커스 해제
+            view.findViewById<EditText>(R.id.write_title_input).clearFocus()
+            view.findViewById<EditText>(R.id.write_content_input).clearFocus()
+            view.findViewById<EditText>(R.id.write_title_input).setText("")
+            view.findViewById<EditText>(R.id.write_content_input).setText("")
+
             write_select_daily.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             write_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             write_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#C73279"))
@@ -181,6 +221,12 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
         write_select_hobby.setOnClickListener {
             temp_board_type = "hobby"
+            // 포커스 해제
+            view.findViewById<EditText>(R.id.write_title_input).clearFocus()
+            view.findViewById<EditText>(R.id.write_content_input).clearFocus()
+            view.findViewById<EditText>(R.id.write_title_input).setText("")
+            view.findViewById<EditText>(R.id.write_content_input).setText("")
+
             write_select_daily.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             write_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             write_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
@@ -190,6 +236,12 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
         write_select_job.setOnClickListener {
             temp_board_type = "job"
+            // 포커스 해제
+            view.findViewById<EditText>(R.id.write_title_input).clearFocus()
+            view.findViewById<EditText>(R.id.write_content_input).clearFocus()
+            view.findViewById<EditText>(R.id.write_title_input).setText("")
+            view.findViewById<EditText>(R.id.write_content_input).setText("")
+
             write_select_daily.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             write_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             write_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
@@ -199,6 +251,12 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
         write_select_support.setOnClickListener {
             temp_board_type = "support"
+            // 포커스 해제
+            view.findViewById<EditText>(R.id.write_title_input).clearFocus()
+            view.findViewById<EditText>(R.id.write_content_input).clearFocus()
+            view.findViewById<EditText>(R.id.write_title_input).setText("")
+            view.findViewById<EditText>(R.id.write_content_input).setText("")
+
             write_select_daily.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             write_select_free.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
             write_select_question.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#000000"))

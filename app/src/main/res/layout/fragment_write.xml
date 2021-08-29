@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#caffffff"
+    android:clickable="true"
     tools:context=".write.view.WriteFragment">
 
     <LinearLayout
@@ -21,9 +22,11 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="70dp"
         android:layout_marginEnd="10dp"
-        android:background="@drawable/page_border">
+        android:background="@drawable/page_border"
+        android:clickable="false">
 
         <LinearLayout
+            android:id="@+id/write_main_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">

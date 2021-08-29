@@ -1,6 +1,7 @@
 package com.kwon.mbti_community.login.view
 
 import android.Manifest
+import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.Gravity
+import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -85,6 +87,16 @@ class LoginActivity : AppCompatActivity() {
             params.gravity = Gravity.TOP
             snack_view.layoutParams = params
             snack.show()
+        }
+
+        // 전체 레이아웃 클릭 시, 포커스 해제
+        login_all_layout.setOnClickListener {
+            // 키보드 내리기
+            val mInputMethodManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            mInputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+            // 포커스 해제
+            login_username_input.clearFocus()
+            login_password_input.clearFocus()
         }
 
         // 텍스트 변환 감지 : 아이디
@@ -216,6 +228,7 @@ class LoginActivity : AppCompatActivity() {
 
         login_signup_btn.setOnClickListener {
             MoveActivity().signup_move(this)
+            finish()
         }
     }
 }

@@ -91,7 +91,7 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val conn = Connect().connect(access_token)
         val board_api: BoardInterface = conn.create(BoardInterface::class.java)
 
-        board_api.getBoard("daily", share_user_type).enqueue(object: Callback<GetBoardData> {
+        board_api.getBoard("daily").enqueue(object: Callback<GetBoardData> {
             override fun onResponse(call: Call<GetBoardData>, response: Response<GetBoardData>) {
                 val body = response.body()
 
