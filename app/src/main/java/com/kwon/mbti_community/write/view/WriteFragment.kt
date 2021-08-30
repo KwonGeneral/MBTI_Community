@@ -59,6 +59,10 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
         Log.d("TEST","WriteFragment - onCreateView")
         val view=inflater.inflate(R.layout.fragment_write, container, false)
 
+        // 프로그레스바 설정
+        val write_progress_layout = view.findViewById<LinearLayout>(R.id.write_progress_layout)
+        write_progress_layout.bringToFront()
+
         // 값 전달
         val bundle = Bundle()
         val bundle_arguments = arguments
@@ -129,6 +133,8 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 return@setOnClickListener
             }
 
+            write_progress_layout.visibility = View.VISIBLE
+
             // 게시글 생성 API
             val parameter:HashMap<String, String> = HashMap()
             parameter["board_profile"] = share_profile
@@ -142,6 +148,7 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
             board_api.createBoard(parameter).enqueue(object: Callback<CreateBoardData> {
                 override fun onResponse(call: Call<CreateBoardData>, response: Response<CreateBoardData>) {
+                    write_progress_layout.visibility = View.GONE
                     val body = response.body()
 
                     if(body != null) {
@@ -162,6 +169,7 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 }
 
                 override fun onFailure(call: Call<CreateBoardData>, t: Throwable) {
+                    write_progress_layout.visibility = View.GONE
                     Log.d("TEST", "createBoard 통신실패 에러 -> " + t.message)
                 }
             })

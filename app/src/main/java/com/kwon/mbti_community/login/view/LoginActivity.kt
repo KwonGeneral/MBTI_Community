@@ -10,6 +10,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -68,6 +69,10 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         app_file_path = this.getExternalFilesDir(null).toString()
+
+        // 프로그레스바 설정
+        val login_progress_layout = findViewById<RelativeLayout>(R.id.login_progress_layout)
+        login_progress_layout.bringToFront()
 
         // API 셋팅
         val conn = Connect().connect("")
@@ -178,10 +183,14 @@ class LoginActivity : AppCompatActivity() {
                 login_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#ff0000"))
                 return@setOnClickListener
             }
+
+            login_progress_layout.visibility = View.VISIBLE
+
             parameter["username"] = temp_login_username
 
             login_api.login(parameter).enqueue(object: Callback<LoginData> {
                 override fun onResponse(call: Call<LoginData>, response: Response<LoginData>) {
+                    login_progress_layout.visibility = View.GONE
                     val body = response.body()
 
                     Log.d("TEST", "Login - login 통신성공 바디 -> $body")
@@ -219,6 +228,7 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<LoginData>, t: Throwable) {
+                    login_progress_layout.visibility = View.GONE
                     Log.d("TEST", "Login - login 통신실패 에러 -> " + t.message)
                 }
             })

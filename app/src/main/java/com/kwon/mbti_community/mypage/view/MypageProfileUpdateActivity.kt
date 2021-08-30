@@ -65,6 +65,10 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
         Log.d("TEST", "MypageProfileUpdateActivity - onCreate")
         app_file_path = this.getExternalFilesDir(null).toString()
 
+        // 프로그레스바 설정
+        val mypage_update_progress_layout = findViewById<LinearLayout>(R.id.mypage_update_progress_layout)
+        mypage_update_progress_layout.bringToFront()
+
         // 값 가져오기
         share_access_token = intent.getStringExtra("access_token").toString()
         share_username = intent.getStringExtra("username").toString()
@@ -244,6 +248,7 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
             mypage_profile_password_check_input.setText("")
 
             // 유저 정보 수정 API
+            mypage_update_progress_layout.visibility = View.VISIBLE
             var part: MultipartBody.Part? = null
             if(profile_image_change_count == 1) {
                 var requestBody : RequestBody = RequestBody.create(MediaType.parse("image/*"), temp_profile_file)
@@ -276,6 +281,7 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
                                 // API 통신 : 유저 정보 가져오기
                                 mypage_api.getUserData(share_username).enqueue(object: Callback<GetUserData> {
                                     override fun onResponse(call: Call<GetUserData>, response: Response<GetUserData>) {
+                                        mypage_update_progress_layout.visibility = View.GONE
                                         val bodyss = response.body()
                                         if(bodyss != null) {
                                             share_access_token = bodyss.data.access_token
@@ -303,6 +309,7 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
                                     }
 
                                     override fun onFailure(call: Call<GetUserData>, t: Throwable) {
+                                        mypage_update_progress_layout.visibility = View.GONE
                                         Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
                                     }
                                 })
@@ -337,6 +344,7 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
                         // API 통신 : 유저 정보 가져오기
                         mypage_api.getUserData(share_username).enqueue(object: Callback<GetUserData> {
                             override fun onResponse(call: Call<GetUserData>, response: Response<GetUserData>) {
+                                mypage_update_progress_layout.visibility = View.GONE
                                 val bodyxx = response.body()
                                 if(bodyxx != null) {
                                     share_access_token = bodyxx.data.access_token
@@ -364,6 +372,7 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
                             }
 
                             override fun onFailure(call: Call<GetUserData>, t: Throwable) {
+                                mypage_update_progress_layout.visibility = View.GONE
                                 Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
                             }
                         })

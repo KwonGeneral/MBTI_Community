@@ -11,6 +11,9 @@ import android.util.Log
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.TypedValue
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kwon.mbti_community.board.adapter.BoardAdapter
@@ -83,8 +86,9 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         share_profile = share_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
 
-        // 최상단 MBTI 표기 변경 -> 게시판도 변경해서 불러와야할 필요가 있음.
-//        select_text.text = share_user_type
+        // 프로그레스바 설정
+        val board_progress_layout = view.findViewById<LinearLayout>(R.id.board_progress_layout)
+        board_progress_layout.bringToFront()
 
         // API 셋팅
         val access_token = share_access_token
@@ -118,6 +122,8 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
 //
                     recyclerView.layoutManager = reverse_manager
                     recyclerView.adapter= BoardAdapter(requireContext(), items)
+
+                    board_progress_layout.visibility = View.GONE
                 }
 
                 Log.d("TEST", "Board - getBoard 통신성공 바디 -> $body")

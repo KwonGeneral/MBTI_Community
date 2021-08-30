@@ -8,14 +8,36 @@
     android:background="@drawable/login_three_background"
     tools:context=".signup.view.SignupActivity">
 
+    <RelativeLayout
+        android:id="@+id/signup_progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|top"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/signup_progress"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:indeterminateTint="#F7CF46" />
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/signup_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="70dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="70dp"
         android:background="@drawable/login_background"
         android:elevation="10dp"
         android:gravity="center"

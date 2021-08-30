@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
 import com.kwon.mbti_community.R
 import com.kwon.mbti_community.board.model.BoardInterface
 import com.kwon.mbti_community.board.model.UpdateBoardData
@@ -42,6 +43,9 @@ class BoardUpdateActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_board_update)
+
+        val board_update_progress_layout = findViewById<LinearLayout>(R.id.board_update_progress_layout)
+        board_update_progress_layout.bringToFront()
 
         // 값 가져오기
         share_access_token = intent.getStringExtra("access_token").toString()
@@ -134,12 +138,14 @@ class BoardUpdateActivity : AppCompatActivity() {
 
         // 글 수정
         board_update_submit_btn.setOnClickListener {
+            board_update_progress_layout.visibility = View.VISIBLE
             var board_parm:HashMap<String, String> = HashMap()
             board_parm["board_title"] = board_update_title_input.text.toString()
             board_parm["board_content"] = board_update_content_input.text.toString()
             // API 통신 : 글 수정
             board_api.updateBoard(share_board_id!!, board_parm).enqueue(object: Callback<UpdateBoardData> {
                 override fun onResponse(call: Call<UpdateBoardData>, response: Response<UpdateBoardData>) {
+                    board_update_progress_layout.visibility = View.GONE
                     val body = response.body()
                     if(body != null) {
                         var ggg_hash:HashMap<String, String> = HashMap()
@@ -157,6 +163,7 @@ class BoardUpdateActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<UpdateBoardData>, t: Throwable) {
+                    board_update_progress_layout.visibility = View.GONE
                     Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
                 }
             })
@@ -164,11 +171,13 @@ class BoardUpdateActivity : AppCompatActivity() {
 
         // 댓글 수정
         comment_update_submit_btn.setOnClickListener {
+            board_update_progress_layout.visibility = View.VISIBLE
             var comment_parm:HashMap<String, String> = HashMap()
             comment_parm["comment_content"] = comment_update_content_input.text.toString()
             // API 통신 : 댓글 수정
             board_api.updateComment(share_comment_id!!, comment_parm).enqueue(object: Callback<UpdateCommentData> {
                 override fun onResponse(call: Call<UpdateCommentData>, response: Response<UpdateCommentData>) {
+                    board_update_progress_layout.visibility = View.GONE
                     val body = response.body()
                     if(body != null) {
                         var rrr_hash:HashMap<String, String> = HashMap()
@@ -186,6 +195,7 @@ class BoardUpdateActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<UpdateCommentData>, t: Throwable) {
+                    board_update_progress_layout.visibility = View.GONE
                     Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
                 }
             })

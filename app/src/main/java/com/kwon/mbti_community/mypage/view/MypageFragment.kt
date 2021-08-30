@@ -1,17 +1,11 @@
 package com.kwon.mbti_community.mypage.view
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.graphics.Outline
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.*
-import android.widget.AdapterView
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,13 +17,9 @@ import com.kwon.mbti_community.mypage.adapter.MypageHistoryItem
 import com.kwon.mbti_community.mypage.model.*
 import com.kwon.mbti_community.z_common.connect.Connect
 import com.kwon.mbti_community.z_common.view.MoveActivity
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
 
 
 class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
@@ -68,6 +58,10 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.d("TEST","MypageFragment - onCreateView")
         val view=inflater.inflate(R.layout.fragment_mypage, container, false)
+
+        val mypage_progress_layout = view.findViewById<LinearLayout>(R.id.mypage_progress_layout)
+        val mypage_main_layout = view.findViewById<ScrollView>(R.id.mypage_main_layout)
+        mypage_progress_layout.bringToFront()
 
         // 값 전달
         val bundle = Bundle()
@@ -199,6 +193,9 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
 //
                                     recyclerView.layoutManager = reverse_manager
                                     recyclerView.adapter = MypageHistoryAdapter(requireContext(), items)
+
+                                    mypage_main_layout.visibility = View.VISIBLE
+                                    mypage_progress_layout.visibility = View.GONE
                                 }
                             }
                             Log.d("TEST", "getUserBoard 통신성공 바디 -> $body")

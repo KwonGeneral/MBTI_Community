@@ -45,6 +45,10 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
 
+        // 프로그레스바 설정
+        val signup_progress_layout = findViewById<RelativeLayout>(R.id.signup_progress_layout)
+        signup_progress_layout.bringToFront()
+
         // API 셋팅
         val conn = Connect().connect("")
         val signup_api: SignupInterface = conn.create(SignupInterface::class.java)
@@ -309,6 +313,8 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 return@setOnClickListener
             }
 
+            signup_progress_layout.visibility = View.VISIBLE
+
             parameter["username"] = temp_username
             parameter["nickname"] = temp_nickname
             parameter["user_type"] = temp_select_mbti
@@ -316,6 +322,7 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
             signup_api.createUser(parameter).enqueue(object: Callback<SignupData> {
                 override fun onResponse(call: Call<SignupData>, response: Response<SignupData>) {
+                    signup_progress_layout.visibility = View.GONE
                     val body = response.body()
 
                     if(body != null) {
@@ -357,6 +364,7 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 }
 
                 override fun onFailure(call: Call<SignupData>, t: Throwable) {
+                    signup_progress_layout.visibility = View.GONE
                     Log.d("TEST", "Signup - createUser 통신실패 에러 -> " + t.message)
                 }
             })

@@ -9,6 +9,30 @@
     tools:context=".mypage.view.MypageProfileUpdateActivity">
 
     <LinearLayout
+        android:id="@+id/mypage_update_progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:contextClickable="false"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/mypage_update_progress"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:indeterminateTint="#F7CF46" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/mypage_profile_top_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"

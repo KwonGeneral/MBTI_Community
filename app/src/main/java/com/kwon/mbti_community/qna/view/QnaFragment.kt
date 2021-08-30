@@ -70,6 +70,10 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
         Log.d("TEST","QnaFragment - onCreateView")
         val view=inflater.inflate(R.layout.fragment_qna, container, false)
 
+        // 프로그레스바 설정
+        val qna_progress_layout = view.findViewById<LinearLayout>(R.id.qna_progress_layout)
+        qna_progress_layout.bringToFront()
+
         // 값 전달
         val bundle = Bundle()
         val bundle_arguments = arguments
@@ -106,9 +110,11 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
         var select_board_type = "free"
 
         fun getBoardApi(board_type:String, board_user_type:String) {
+            qna_progress_layout.visibility = View.VISIBLE
             items.clear()
             board_api.getBoardUserType(board_type, board_user_type).enqueue(object: Callback<GetBoardUserTypeData> {
                 override fun onResponse(call: Call<GetBoardUserTypeData>, response: Response<GetBoardUserTypeData>) {
+                    qna_progress_layout.visibility = View.GONE
                     val body = response.body()
 
                     if(body != null){
@@ -138,6 +144,7 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 }
 
                 override fun onFailure(call: Call<GetBoardUserTypeData>, t: Throwable) {
+                    qna_progress_layout.visibility = View.GONE
                     Log.d("TEST", "Qna - getBoard 통신실패 에러 -> " + t.message)
                 }
             })
