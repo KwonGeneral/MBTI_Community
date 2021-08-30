@@ -28,7 +28,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="gone">
 
             <ProgressBar
                 android:id="@+id/mypage_progress"
@@ -47,8 +49,8 @@
             android:layout_marginEnd="10dp"
             android:background="@drawable/page_border"
             android:elevation="80dp"
-            android:visibility="gone"
-            tools:visibility="gone">
+            android:visibility="visible"
+            tools:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"

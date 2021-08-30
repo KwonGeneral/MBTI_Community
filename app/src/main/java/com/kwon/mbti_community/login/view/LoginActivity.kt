@@ -86,7 +86,7 @@ class LoginActivity : AppCompatActivity() {
             }
             fcm_token = task.result.toString()
             Log.d("TEST", "Fcm Token : $fcm_token")
-            Toast.makeText(baseContext, fcm_token, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(baseContext, fcm_token, Toast.LENGTH_SHORT).show()
         })
 
         // API 셋팅
@@ -202,6 +202,7 @@ class LoginActivity : AppCompatActivity() {
             login_progress_layout.visibility = View.VISIBLE
 
             parameter["username"] = temp_login_username
+            parameter["fcm_token"] = fcm_token
 
             login_api.login(parameter).enqueue(object: Callback<LoginData> {
                 override fun onResponse(call: Call<LoginData>, response: Response<LoginData>) {

@@ -91,6 +91,7 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
         vh.itemView.comment_like_btn.setOnClickListener {
             val parameter:HashMap<String, Int> = HashMap()
             parameter["comment_id"] = item.id!!
+            Log.d("TEST", "??? : ${item.id}")
 
             comment_api.likeComment(parameter).enqueue(object: Callback<LikeCommentData> {
                 override fun onResponse(call: Call<LikeCommentData>, response: Response<LikeCommentData>) {

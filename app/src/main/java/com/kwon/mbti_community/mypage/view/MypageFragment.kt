@@ -83,6 +83,7 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
         Log.d("TEST", "share_message : $share_message")
 
         share_profile = share_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
+//        share_profile = share_profile.replace("https://kwonputer.com/media/", "http://192.168.1.9:3333/media/")
 
         // Glide로 이미지 표시하기
         val user_profile = view.findViewById<ImageView>(R.id.user_profile)
@@ -165,6 +166,9 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         // API 통신 : 글 카운트 가져오기
         if(share_access_token != "") {
+            mypage_progress_layout.visibility = View.VISIBLE
+            mypage_main_layout.visibility = View.GONE
+
             mypage_api.getBoardCount(share_username).enqueue(object: Callback<GetBoardCountData> {
                 override fun onResponse(call: Call<GetBoardCountData>, response: Response<GetBoardCountData>) {
                     val bodys = response.body()
@@ -193,22 +197,29 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
 //
                                     recyclerView.layoutManager = reverse_manager
                                     recyclerView.adapter = MypageHistoryAdapter(requireContext(), items)
-
-                                    mypage_main_layout.visibility = View.VISIBLE
-                                    mypage_progress_layout.visibility = View.GONE
                                 }
                             }
+
+                            mypage_progress_layout.visibility = View.GONE
+                            mypage_main_layout.visibility = View.VISIBLE
+
                             Log.d("TEST", "getUserBoard 통신성공 바디 -> $body")
                         }
 
                         override fun onFailure(call: Call<GetUserBoardData>, t: Throwable) {
                             Log.d("TEST", "getUserBoard 통신실패 에러 -> " + t.message)
+
+                            mypage_progress_layout.visibility = View.GONE
+                            mypage_main_layout.visibility = View.VISIBLE
                         }
                     })
                 }
 
                 override fun onFailure(call: Call<GetBoardCountData>, t: Throwable) {
                     Log.d("TEST", "getBoardCount 통신실패 에러 -> " + t.message)
+
+                    mypage_progress_layout.visibility = View.GONE
+                    mypage_main_layout.visibility = View.VISIBLE
                 }
             })
         }
