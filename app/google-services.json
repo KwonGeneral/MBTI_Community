@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "434333659149",
+    "project_id": "mbti-468df",
+    "storage_bucket": "mbti-468df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:434333659149:android:afa3dea30b4026a0596544",
+        "android_client_info": {
+          "package_name": "com.kwon.mbti_community"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "434333659149-23efnqjb0s62bku66u6ot5g1fric8ner.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6pkaiPSTICpqjP8DQ5yB6l0WYDmAPKAM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "434333659149-23efnqjb0s62bku66u6ot5g1fric8ner.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

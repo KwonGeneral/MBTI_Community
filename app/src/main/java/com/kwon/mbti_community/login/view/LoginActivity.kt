@@ -15,8 +15,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.messaging.FirebaseMessaging
 import com.kwon.mbti_community.R
 import com.kwon.mbti_community.login.model.LoginData
 import com.kwon.mbti_community.login.model.LoginInterface
@@ -47,6 +50,8 @@ class LoginActivity : AppCompatActivity() {
         Manifest.permission.WAKE_LOCK,
     )
 
+    var fcm_token = ""
+
     var app_file_path: String? = null
 
     fun saveTokenFile(access: String) {
@@ -73,6 +78,16 @@ class LoginActivity : AppCompatActivity() {
         // 프로그레스바 설정
         val login_progress_layout = findViewById<RelativeLayout>(R.id.login_progress_layout)
         login_progress_layout.bringToFront()
+
+        // FCM
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                return@OnCompleteListener
+            }
+            fcm_token = task.result.toString()
+            Log.d("TEST", "Fcm Token : $fcm_token")
+            Toast.makeText(baseContext, fcm_token, Toast.LENGTH_SHORT).show()
+        })
 
         // API 셋팅
         val conn = Connect().connect("")
