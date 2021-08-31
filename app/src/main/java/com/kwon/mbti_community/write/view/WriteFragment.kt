@@ -1,10 +1,14 @@
 package com.kwon.mbti_community.write.view
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.InputFilter
+import android.text.TextWatcher
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -20,6 +24,8 @@ import com.kwon.mbti_community.R
 import com.kwon.mbti_community.board.model.BoardInterface
 import com.kwon.mbti_community.board.model.CreateBoardData
 import com.kwon.mbti_community.z_common.connect.Connect
+import com.kwon.mbti_community.z_common.view.PasswordCheck
+import kotlinx.android.synthetic.main.activity_signup.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -54,7 +60,7 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
         Log.d("TEST","WriteFragment - onAttach")
     }
 
-    @SuppressLint("ResourceType")
+    @SuppressLint("ResourceType", "CutPasteId", "SetTextI18n")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.d("TEST","WriteFragment - onCreateView")
         val view=inflater.inflate(R.layout.fragment_write, container, false)
@@ -72,7 +78,7 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
         share_password = bundle_arguments?.getString("password").toString()
         share_profile = bundle_arguments?.getString("profile").toString()
         share_user_type = bundle_arguments?.getString("user_type").toString()
-        share_message = bundle_arguments?.getString("share_message").toString()
+        share_message = bundle_arguments?.getString("message").toString()
 
         Log.d("TEST", "share_access_token : $share_access_token")
         Log.d("TEST", "share_username : $share_username")
@@ -113,7 +119,15 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         val write_submit_btn = view.findViewById<Button>(R.id.write_submit_btn)
         val user_mbti = view.findViewById<TextView>(R.id.user_mbti)
-        user_mbti.text = share_user_type
+        user_mbti.text = "$share_user_type - 일상"
+
+        // Input 길이 제한
+        fun EditText.setMaxLength(maxLength: Int){
+            filters = arrayOf<InputFilter>(InputFilter.LengthFilter(maxLength))
+        }
+        view.findViewById<TextInputEditText>(R.id.write_title_input).setMaxLength(50)
+        view.findViewById<TextInputEditText>(R.id.write_content_input).setMaxLength(200)
+        view.findViewById<TextInputEditText>(R.id.write_content_input).maxLines = 8
 
         // 작성 완료 버튼 클릭
         write_submit_btn.setOnClickListener {
@@ -184,6 +198,7 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         write_select_daily.setOnClickListener {
             temp_board_type = "daily"
+            user_mbti.text = "$share_user_type - 일상"
             // 포커스 해제
             view.findViewById<EditText>(R.id.write_title_input).clearFocus()
             view.findViewById<EditText>(R.id.write_content_input).clearFocus()
@@ -199,6 +214,7 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
         write_select_free.setOnClickListener {
             temp_board_type = "free"
+            user_mbti.text = "$share_user_type - 자유"
             // 포커스 해제
             view.findViewById<EditText>(R.id.write_title_input).clearFocus()
             view.findViewById<EditText>(R.id.write_content_input).clearFocus()
@@ -214,6 +230,7 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
         write_select_question.setOnClickListener {
             temp_board_type = "question"
+            user_mbti.text = "$share_user_type - 질문"
             // 포커스 해제
             view.findViewById<EditText>(R.id.write_title_input).clearFocus()
             view.findViewById<EditText>(R.id.write_content_input).clearFocus()
@@ -229,6 +246,7 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
         write_select_hobby.setOnClickListener {
             temp_board_type = "hobby"
+            user_mbti.text = "$share_user_type - 취미"
             // 포커스 해제
             view.findViewById<EditText>(R.id.write_title_input).clearFocus()
             view.findViewById<EditText>(R.id.write_content_input).clearFocus()
@@ -244,6 +262,7 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
         write_select_job.setOnClickListener {
             temp_board_type = "job"
+            user_mbti.text = "$share_user_type - 직업"
             // 포커스 해제
             view.findViewById<EditText>(R.id.write_title_input).clearFocus()
             view.findViewById<EditText>(R.id.write_content_input).clearFocus()
@@ -259,6 +278,7 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
         write_select_support.setOnClickListener {
             temp_board_type = "support"
+            user_mbti.text = "$share_user_type - 응원"
             // 포커스 해제
             view.findViewById<EditText>(R.id.write_title_input).clearFocus()
             view.findViewById<EditText>(R.id.write_content_input).clearFocus()

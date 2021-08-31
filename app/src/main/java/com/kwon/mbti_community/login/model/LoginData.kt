@@ -17,6 +17,7 @@ data class UserInfo(
     val is_active: Boolean,
     val message: String,
     val fcm_token: String,
+    val push_setting: String,
     val nickname: String,
     val password: String,
     val profile: String,

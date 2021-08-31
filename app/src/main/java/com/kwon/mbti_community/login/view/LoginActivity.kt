@@ -4,19 +4,20 @@ import android.Manifest
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.Toast
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.messaging.FirebaseMessaging
@@ -32,11 +33,13 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 
+
 class LoginActivity : AppCompatActivity() {
     var temp_login_username:String = ""
     var temp_login_password:String = ""
     var login_username_count = 0
     var login_password_count = 0
+    var temp_auto_check_count = 0
 
     // 권한 체크 : 저장소 읽기, 인터넷, 네트워크, 위치정보, GPS, 카메라, 저장소 읽기, 절전모드 방지
     val permission_list = arrayOf(
@@ -45,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
         Manifest.permission.ACCESS_NETWORK_STATE,
         Manifest.permission.ACCESS_COARSE_LOCATION,
         Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.CAMERA,
+//        Manifest.permission.CAMERA,
         Manifest.permission.WRITE_EXTERNAL_STORAGE,
         Manifest.permission.WAKE_LOCK,
     )
@@ -54,7 +57,7 @@ class LoginActivity : AppCompatActivity() {
 
     var app_file_path: String? = null
 
-    fun saveTokenFile(access: String) {
+    fun saveTokenFile(access: String, username: String, temp_auto_check_count: Int) {
         val path = app_file_path
         Log.d("path",path.toString())
 //        토큰 저장 경로
@@ -64,7 +67,7 @@ class LoginActivity : AppCompatActivity() {
 //        경로에 있는 파일에 토큰 저장
         token_file.bufferedWriter().use {
 //            it.write("access_token: $access\nrefresh_token: $refresh\nusername: $username")
-            it.write(access)
+            it.write("$access\n$username\n$temp_auto_check_count")
             Log.d("token/bufferedWriter-->",token_file.toString())
         }
         return
@@ -73,7 +76,28 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        requestPermissions(permission_list, 0)
         app_file_path = this.getExternalFilesDir(null).toString()
+
+        // ADS 설정
+        var mAdView : AdView
+        // 1. ADS 초기화
+        MobileAds.initialize(
+            this
+        ) { }
+        // 2. 광고 띄우기
+        mAdView = findViewById(R.id.login_adv)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
+
+        // Input 길이 제한
+        fun EditText.setMaxLength(maxLength: Int){
+            filters = arrayOf<InputFilter>(InputFilter.LengthFilter(maxLength))
+        }
+        login_username_input.setMaxLength(20)
+        login_password_input.setMaxLength(20)
+        login_username_input.maxLines = 8
+        login_password_input.maxLines = 8
 
         // 프로그레스바 설정
         val login_progress_layout = findViewById<RelativeLayout>(R.id.login_progress_layout)
@@ -117,6 +141,16 @@ class LoginActivity : AppCompatActivity() {
             // 포커스 해제
             login_username_input.clearFocus()
             login_password_input.clearFocus()
+        }
+
+        // 자동 로그인 설정
+        login_auto_check_btn.setOnCheckedChangeListener { buttonView, isChecked ->
+            Log.d("TEST", "isChecked : $isChecked")
+            if(isChecked == true) {
+                temp_auto_check_count = 1
+            }else {
+                temp_auto_check_count = 0
+            }
         }
 
         // 텍스트 변환 감지 : 아이디
@@ -218,7 +252,7 @@ class LoginActivity : AppCompatActivity() {
                             login_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#ff0000"))
                         } else {
                             val hash: HashMap<String, String> = HashMap()
-                            saveTokenFile(body.data.access_token)
+                            saveTokenFile(body.data.access_token, body.data.user_info.username, temp_auto_check_count)
                             val local_mac_profile = "http://192.168.0.38:3333/media/" + body.data.user_info.profile
                             val local_home_profile = "http://192.168.1.9:3333/media/" + body.data.user_info.profile
                             val deploy_profile = "https://kwonputer.com/media/" + body.data.user_info.profile

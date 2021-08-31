@@ -1,5 +1,6 @@
 package com.kwon.mbti_community.mypage.view
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -8,6 +9,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.InputFilter
 import android.util.Log
 import android.view.Gravity
 import android.view.View
@@ -16,6 +18,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.snackbar.Snackbar
 import com.kwon.mbti_community.R
 import com.kwon.mbti_community.mypage.model.GetUserData
@@ -59,11 +64,35 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
     // 뒤로가기 연속 클릭 대기 시간
     var mBackWait:Long = 0
 
+    // 권한 체크 : 저장소 읽기, 인터넷, 네트워크, 위치정보, GPS, 카메라, 저장소 읽기, 절전모드 방지
+    val permission_list = arrayOf(
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.INTERNET,
+        Manifest.permission.ACCESS_NETWORK_STATE,
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION,
+//        Manifest.permission.CAMERA,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.WAKE_LOCK,
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mypage_profile_update)
+        requestPermissions(permission_list, 0)
         Log.d("TEST", "MypageProfileUpdateActivity - onCreate")
         app_file_path = this.getExternalFilesDir(null).toString()
+
+        // ADS 설정
+        var mAdView : AdView
+        // 1. ADS 초기화
+        MobileAds.initialize(
+            this
+        ) { }
+        // 2. 광고 띄우기
+        mAdView = findViewById(R.id.mypage_profile_adv)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
 
         // 프로그레스바 설정
         val mypage_update_progress_layout = findViewById<LinearLayout>(R.id.mypage_update_progress_layout)
@@ -89,6 +118,19 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
         mypage_profile_nickname_input.setText(share_nickname)
         mypage_profile_message_input.setText(share_message)
         mypage_profile_username.text = share_username
+
+        // Input 길이 제한
+        fun EditText.setMaxLength(maxLength: Int){
+            filters = arrayOf<InputFilter>(InputFilter.LengthFilter(maxLength))
+        }
+        mypage_profile_nickname_input.setMaxLength(20)
+        mypage_profile_message_input.setMaxLength(20)
+        mypage_profile_password_input.setMaxLength(20)
+        mypage_profile_password_check_input.setMaxLength(20)
+        mypage_profile_nickname_input.maxLines = 8
+        mypage_profile_message_input.maxLines = 8
+        mypage_profile_password_input.maxLines = 8
+        mypage_profile_password_check_input.maxLines = 8
 
         // Glide로 이미지 표시하기
         val user_profile = findViewById<ImageView>(R.id.mypage_profile_image)
@@ -419,22 +461,22 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
             var temp_position = 0
 
             when(mbti) {
-                "ISTJ" -> temp_position = 2
-                "ISTP" -> temp_position = 3
-                "ISFJ" -> temp_position = 4
-                "ISFP" -> temp_position = 5
-                "INTJ" -> temp_position = 6
-                "INTP" -> temp_position = 7
-                "INFJ" -> temp_position = 8
-                "INFP" -> temp_position = 9
-                "ESTJ" -> temp_position = 10
-                "ESTP" -> temp_position = 11
-                "ESFJ" -> temp_position = 12
-                "ESFP" -> temp_position = 13
-                "ENTJ" -> temp_position = 14
-                "ENTP" -> temp_position = 15
-                "ENFJ" -> temp_position = 16
-                "ENFP" -> temp_position = 17
+                "ISTJ" -> temp_position = 1
+                "ISTP" -> temp_position = 2
+                "ISFJ" -> temp_position = 3
+                "ISFP" -> temp_position = 4
+                "INTJ" -> temp_position = 5
+                "INTP" -> temp_position = 6
+                "INFJ" -> temp_position = 7
+                "INFP" -> temp_position = 8
+                "ESTJ" -> temp_position = 9
+                "ESTP" -> temp_position = 10
+                "ESFJ" -> temp_position = 11
+                "ESFP" -> temp_position = 12
+                "ENTJ" -> temp_position = 13
+                "ENTP" -> temp_position = 14
+                "ENFJ" -> temp_position = 15
+                "ENFP" -> temp_position = 16
             }
 
             return temp_position

@@ -1,11 +1,13 @@
 package com.kwon.mbti_community.board.adapter
 
 import android.content.Context
+import android.text.InputFilter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -30,7 +32,8 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
     // 토큰 확인
     val app_file_path = context.getExternalFilesDir(null).toString()
     val token_file = File("$app_file_path/token.token")
-    val access_token = token_file.readText()
+    val access_token = token_file.readText().split("\n")[0]
+    val username = token_file.readText().split("\n")[1]
     val conn = Connect().connect(access_token)
     val comment_api: BoardInterface = conn.create(BoardInterface::class.java)
 
@@ -86,9 +89,18 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
             vh.itemView.comment_user_more.visibility = View.VISIBLE
         } else {
             vh.itemView.comment_user_more.visibility = View.GONE
+
+            vh.itemView.comment_user_profile.setOnClickListener {
+                var ppp_hash:HashMap<String, String> = HashMap()
+                ppp_hash["access_token"] = access_token
+                ppp_hash["username"] = username
+                ppp_hash["other_username"] = item.comment_username!!
+                ppp_hash["other_profile"] = item.comment_profile!!
+                MoveActivity().other_profile_move(context as ChainActivity, ppp_hash)
+            }
         }
 
-        vh.itemView.comment_like_btn.setOnClickListener {
+        vh.itemView.comment_like_btn_layout.setOnClickListener {
             val parameter:HashMap<String, Int> = HashMap()
             parameter["comment_id"] = item.id!!
             Log.d("TEST", "??? : ${item.id}")

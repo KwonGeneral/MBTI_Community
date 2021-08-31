@@ -232,6 +232,7 @@
 
                 <Button
                     android:id="@+id/write_submit_btn"
+                    style="@style/noto_medium"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginStart="60dp"
@@ -239,7 +240,8 @@
                     android:layout_marginEnd="60dp"
                     android:backgroundTint="#4179d1"
                     android:text="작성완료"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff"
+                    android:textSize="14sp" />
             </LinearLayout>
         </ScrollView>
 

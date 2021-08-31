@@ -1,5 +1,6 @@
 package com.kwon.mbti_community.chain.view
 
+import android.Manifest
 import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,9 @@ import android.util.Log
 import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.RelativeLayout
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.snackbar.Snackbar
 import com.kwon.mbti_community.R
@@ -43,10 +47,34 @@ class ChainActivity : AppCompatActivity() {
     var app_file_path: String? = null
     val bundle = Bundle()
 
+    // 권한 체크 : 저장소 읽기, 인터넷, 네트워크, 위치정보, GPS, 카메라, 저장소 읽기, 절전모드 방지
+    val permission_list = arrayOf(
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.INTERNET,
+        Manifest.permission.ACCESS_NETWORK_STATE,
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION,
+//        Manifest.permission.CAMERA,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.WAKE_LOCK,
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chain)
+        requestPermissions(permission_list, 0)
         Log.d("TEST", "ChainActivity - onCreate")
+
+        // ADS 설정
+        var mAdView : AdView
+        // 1. ADS 초기화
+        MobileAds.initialize(
+            this
+        ) { }
+        // 2. 광고 띄우기
+        mAdView = findViewById(R.id.chain_adv)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
 
         // 로그인에서 값 가져오기
         share_access_token = intent.getStringExtra("access_token").toString()
@@ -94,6 +122,7 @@ class ChainActivity : AppCompatActivity() {
             nav_qna.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
             nav_mypage.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
             changeFragment(1)
+            requestPermissions(permission_list, 0)
 //            nav_board_layout.setBackgroundResource(R.drawable.click_effect)
         }
         nav_write_layout.setOnClickListener {
@@ -103,6 +132,7 @@ class ChainActivity : AppCompatActivity() {
             nav_qna.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
             nav_mypage.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
             changeFragment(2)
+            requestPermissions(permission_list, 0)
 //            nav_hobby_layout.setBackgroundResource(R.drawable.click_effect)
         }
         nav_qna_layout.setOnClickListener {
@@ -112,6 +142,7 @@ class ChainActivity : AppCompatActivity() {
             nav_qna.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#3C1969"))
             nav_mypage.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
             changeFragment(3)
+            requestPermissions(permission_list, 0)
 //            nav_job_layout.setBackgroundResource(R.drawable.click_effect)
         }
         nav_mypage_layout.setOnClickListener {
@@ -121,6 +152,7 @@ class ChainActivity : AppCompatActivity() {
             nav_qna.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dfffffff"))
             nav_mypage.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#3C1969"))
             changeFragment(4)
+            requestPermissions(permission_list, 0)
 //            nav_mypage_layout.setBackgroundResource(R.drawable.click_effect)
         }
     }
@@ -132,7 +164,7 @@ class ChainActivity : AppCompatActivity() {
         bundle.putString("password", share_password)
         bundle.putString("profile", share_profile)
         bundle.putString("user_type", share_user_type)
-        bundle.putString("share_message", share_message)
+        bundle.putString("message", share_message)
 
         if (int == 0) {
             Log.d("TEST", "홈 프레그먼트 - 삭제됨")

@@ -117,4 +117,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging-ktx:22.0.0'
     implementation 'com.google.firebase:firebase-analytics'
     implementation platform('com.google.firebase:firebase-bom:28.0.1')
+    
+    // 광고 SDK
+    implementation 'com.google.android.gms:play-services-ads:20.3.0'
 }

@@ -33,7 +33,8 @@ class MypageHistoryAdapter constructor(var context: Context, var items:ArrayList
     // 토큰 확인
     val app_file_path = context.getExternalFilesDir(null).toString()
     val token_file = File("$app_file_path/token.token")
-    val access_token = token_file.readText()
+    val access_token = token_file.readText().split("\n")[0]
+    val username = token_file.readText().split("\n")[1]
     val conn = Connect().connect(access_token)
     val mypage_api: MypageInterface = conn.create(MypageInterface::class.java)
     val board_api: BoardInterface = conn.create(BoardInterface::class.java)
@@ -119,7 +120,7 @@ class MypageHistoryAdapter constructor(var context: Context, var items:ArrayList
                             for(nn in body.data) {
                                 Log.d("TEST", "getComment 데이터 확인 : $nn")
                                 var comment_my_item_count:Int
-                                if(nn.comment_username == item.board_username) { comment_my_item_count = 1 } else { comment_my_item_count = 0 }
+                                if(nn.comment_username == username) { comment_my_item_count = 1 } else { comment_my_item_count = 0 }
                                 comment_items.add(
                                     CommentItem(nn.id, nn.comment_content, nn.comment_like_count.toString(), nn.comment_nickname, nn.comment_profile, nn.comment_title, nn.comment_user_type, nn.comment_username, nn.updated_at, comment_my_item_count)
                                 )
@@ -165,7 +166,7 @@ class MypageHistoryAdapter constructor(var context: Context, var items:ArrayList
                         if(body != null) {
                             Log.d("TEST", "createComment 데이터확인 : ${body.data}")
                             var comment_my_item_count:Int
-                            if(body.data.comment_username == item.board_username) { comment_my_item_count = 1 } else { comment_my_item_count = 0 }
+                            if(body.data.comment_username == username) { comment_my_item_count = 1 } else { comment_my_item_count = 0 }
                             comment_items.add(
                                 CommentItem(body.data.id, body.data.comment_content, body.data.comment_like_count.toString(), body.data.comment_nickname, body.data.comment_profile, body.data.comment_title, body.data.comment_user_type, body.data.comment_username, body.data.updated_at, comment_my_item_count)
                             )

@@ -1,15 +1,21 @@
 package com.kwon.mbti_community.mypage.view
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.kwon.mbti_community.R
 import com.kwon.mbti_community.chain.view.ChainActivity
 import com.kwon.mbti_community.mypage.adapter.MypageHistoryAdapter
@@ -20,6 +26,7 @@ import com.kwon.mbti_community.z_common.view.MoveActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 
 
 class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
@@ -54,7 +61,7 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
         Log.d("TEST","MypageFragment - onAttach")
     }
 
-    @SuppressLint("ResourceType", "SetTextI18n")
+    @SuppressLint("ResourceType", "SetTextI18n", "UseSwitchCompatOrMaterialCode")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.d("TEST","MypageFragment - onCreateView")
         val view=inflater.inflate(R.layout.fragment_mypage, container, false)
@@ -72,7 +79,7 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
         share_password = bundle_arguments?.getString("password").toString()
         share_profile = bundle_arguments?.getString("profile").toString()
         share_user_type = bundle_arguments?.getString("user_type").toString()
-        share_message = bundle_arguments?.getString("share_message").toString()
+        share_message = bundle_arguments?.getString("message").toString()
 
         Log.d("TEST", "share_access_token : $share_access_token")
         Log.d("TEST", "share_username : $share_username")
@@ -96,21 +103,95 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
         user_profile.setBackgroundResource(R.drawable.image_background_border)
         user_profile.clipToOutline = true
 
-//        user_profile.outlineProvider = object : ViewOutlineProvider() {
-//            override fun getOutline(view: View, outline: Outline) {
-//                outline.setRoundRect(0, 0, view.width, view.height, 20f)
-//            }
-//        }
+        // API 셋팅
+        val access_token = share_access_token
+        val conn = Connect().connect(access_token)
+        val mypage_api: MypageInterface = conn.create(MypageInterface::class.java)
 
         // 설정해줘야 하는 값
         view.findViewById<TextView>(R.id.mypage_user_nickname).text = share_nickname
         view.findViewById<TextView>(R.id.mypage_user_message).text = share_message
         view.findViewById<TextView>(R.id.mypage_user_mbti).text = share_user_type
 
-        // API 셋팅
-        val access_token = share_access_token
-        val conn = Connect().connect(access_token)
-        val mypage_api: MypageInterface = conn.create(MypageInterface::class.java)
+        // 푸시 알림 설정
+        val mypage_push_setting = view.findViewById<Switch>(R.id.mypage_push_setting)
+        val mypage_push_progress = view.findViewById<ProgressBar>(R.id.mypage_push_progress)
+
+        // API 통신 : 유저 정보 가져오기
+        mypage_api.getUserData(share_username).enqueue(object: Callback<GetUserData> {
+            override fun onResponse(call: Call<GetUserData>, response: Response<GetUserData>) {
+                val body = response.body()
+                if(body != null) {
+                    if(body.data.user_info[0].push_setting == "1") {
+                        mypage_push_setting.isChecked = true
+                    }else {
+                        mypage_push_setting.isChecked = false
+                    }
+                }
+                Log.d("TEST", "getUserData 통신성공 바디 -> $body")
+            }
+
+            override fun onFailure(call: Call<GetUserData>, t: Throwable) {
+                Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
+            }
+        })
+
+        mypage_push_setting.setOnCheckedChangeListener { buttonView, isChecked ->
+            Log.d("TEST", "mypage_push_setting : $isChecked")
+            mypage_push_progress.visibility = View.VISIBLE
+            val parameters:HashMap<String, String> = HashMap()
+            if(isChecked == true) {
+                parameters["push_setting"] = "1"
+                mypage_api.updateUserInfo(share_username, parameters).enqueue(object:
+                    Callback<UpdateUserInfoData> {
+                    override fun onResponse(call: Call<UpdateUserInfoData>, response: Response<UpdateUserInfoData>) {
+                        val body = response.body()
+                        Log.d("TEST", "updateUserInfo 통신성공 바디 -> $body")
+                        mypage_push_progress.visibility = View.GONE
+                    }
+
+                    override fun onFailure(call: Call<UpdateUserInfoData>, t: Throwable) {
+                        Log.d("TEST", "updateUserInfo 통신실패 에러 -> " + t.message)
+                        mypage_push_progress.visibility = View.GONE
+                    }
+                })
+            } else if(isChecked == false) {
+                parameters["push_setting"] = "0"
+                mypage_api.updateUserInfo(share_username, parameters).enqueue(object:
+                    Callback<UpdateUserInfoData> {
+                    override fun onResponse(call: Call<UpdateUserInfoData>, response: Response<UpdateUserInfoData>) {
+                        val body = response.body()
+                        Log.d("TEST", "updateUserInfo 통신성공 바디 -> $body")
+                        mypage_push_progress.visibility = View.GONE
+                    }
+
+                    override fun onFailure(call: Call<UpdateUserInfoData>, t: Throwable) {
+                        Log.d("TEST", "updateUserInfo 통신실패 에러 -> " + t.message)
+                        mypage_push_progress.visibility = View.GONE
+                    }
+                })
+            }
+        }
+
+        // 로그아웃 버튼 클릭 이벤트
+        val mypage_logout_btn = view.findViewById<Button>(R.id.mypage_logout_btn)
+        mypage_logout_btn.setOnClickListener {
+            app_file_path = requireContext().getExternalFilesDir(null).toString()
+            fun saveTokenFile(access: String, username: String, temp_auto_check_count: Int) {
+                val path = app_file_path
+                val token_file = File("$path/token.token")
+
+                token_file.bufferedWriter().use {
+                    it.write("$access\n$username\n$temp_auto_check_count")
+                    Log.d("token/bufferedWriter-->",token_file.toString())
+                }
+                return
+            }
+
+            saveTokenFile(share_access_token, share_username, 0)
+            MoveActivity().login_move(requireContext() as Activity)
+            ChainActivity().finish()
+        }
 
         // 유저 프로필 클릭 이벤트
         user_profile.setOnClickListener {

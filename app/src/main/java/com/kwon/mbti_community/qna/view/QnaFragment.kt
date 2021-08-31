@@ -1,5 +1,6 @@
 package com.kwon.mbti_community.qna.view
 
+import android.Manifest
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -83,7 +84,7 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
         share_password = bundle_arguments?.getString("password").toString()
         share_profile = bundle_arguments?.getString("profile").toString()
         share_user_type = bundle_arguments?.getString("user_type").toString()
-        share_message = bundle_arguments?.getString("share_message").toString()
+        share_message = bundle_arguments?.getString("message").toString()
 
         share_profile = share_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
 

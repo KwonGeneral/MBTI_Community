@@ -51,7 +51,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         share_nickname = bundle_arguments?.getString("nickname").toString()
         share_profile = bundle_arguments?.getString("profile").toString()
         share_user_type = bundle_arguments?.getString("user_type").toString()
-        share_message = bundle_arguments?.getString("share_message").toString()
+        share_message = bundle_arguments?.getString("message").toString()
 
         Log.d("TEST", "share_access_token : $share_access_token")
         Log.d("TEST", "share_username : $share_username")

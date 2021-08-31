@@ -70,6 +70,7 @@ data class GetUserInfo(
     val id: Int,
     val is_active: Boolean,
     val message: String,
+    val push_setting: String,
     val nickname: String,
     val password: String,
     val profile: String,

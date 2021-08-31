@@ -1,5 +1,6 @@
 package com.kwon.mbti_community.board.view
 
+import android.Manifest
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -74,7 +75,7 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
         share_password = bundle_arguments?.getString("password").toString()
         share_profile = bundle_arguments?.getString("profile").toString()
         share_user_type = bundle_arguments?.getString("user_type").toString()
-        share_message = bundle_arguments?.getString("share_message").toString()
+        share_message = bundle_arguments?.getString("message").toString()
 
         Log.d("TEST", "share_access_token : $share_access_token")
         Log.d("TEST", "share_username : $share_username")

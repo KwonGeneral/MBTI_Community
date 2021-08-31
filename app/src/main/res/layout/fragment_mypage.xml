@@ -217,11 +217,64 @@
                     android:id="@+id/mypage_history_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
-                    android:layout_marginBottom="100dp"
+                    android:layout_marginBottom="30dp"
                     android:background="@drawable/gray_border"
                     android:paddingStart="15dp"
                     android:paddingEnd="15dp"
-                    android:paddingBottom="20dp" />
+                    android:paddingBottom="20dp">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/gray_border"
+                    android:gravity="end"
+                    android:orientation="horizontal"
+                    android:paddingEnd="15dp">
+
+                    <ProgressBar
+                        android:id="@+id/mypage_push_progress"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="10dp"
+                        android:indeterminateTint="#F7CF46"
+                        android:visibility="gone"
+                        tools:visibility="gone" />
+
+                    <Switch
+                        android:id="@+id/mypage_push_setting"
+                        style="@style/noto_medium"
+                        android:layout_width="160dp"
+                        android:layout_height="50dp"
+                        android:text="푸시 알림 설정"
+                        android:textColor="#eeeeee" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/mypage_logout_btn"
+                    style="@style/noto_medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginEnd="60dp"
+                    android:background="@android:color/transparent"
+                    android:backgroundTint="@android:color/transparent"
+                    android:text="로그아웃"
+                    android:textColor="#999999"
+                    android:textSize="14sp" />
+
+                <View
+                    android:id="@+id/view39"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginEnd="100dp"
+                    android:background="#eeeeee" />
 
                 <TextView
                     android:id="@+id/textView18"

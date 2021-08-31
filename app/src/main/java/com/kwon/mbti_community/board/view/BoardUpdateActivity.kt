@@ -1,12 +1,18 @@
 package com.kwon.mbti_community.board.view
 
+import android.Manifest
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputFilter
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.LinearLayout
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.kwon.mbti_community.R
 import com.kwon.mbti_community.board.model.BoardInterface
 import com.kwon.mbti_community.board.model.UpdateBoardData
@@ -40,9 +46,33 @@ class BoardUpdateActivity : AppCompatActivity() {
     var share_comment_id:String? = null
     var share_comment_content:String? = null
 
+    // 권한 체크 : 저장소 읽기, 인터넷, 네트워크, 위치정보, GPS, 카메라, 저장소 읽기, 절전모드 방지
+    val permission_list = arrayOf(
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.INTERNET,
+        Manifest.permission.ACCESS_NETWORK_STATE,
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION,
+//        Manifest.permission.CAMERA,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.WAKE_LOCK,
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_board_update)
+        requestPermissions(permission_list, 0)
+
+        // ADS 설정
+        var mAdView : AdView
+        // 1. ADS 초기화
+        MobileAds.initialize(
+            this
+        ) { }
+        // 2. 광고 띄우기
+        mAdView = findViewById(R.id.board_update_adv)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
 
         val board_update_progress_layout = findViewById<LinearLayout>(R.id.board_update_progress_layout)
         board_update_progress_layout.bringToFront()
@@ -63,6 +93,15 @@ class BoardUpdateActivity : AppCompatActivity() {
         Log.d("TEST", "share_board_title : $share_board_title")
         Log.d("TEST", "share_board_content : $share_board_content")
         Log.d("TEST", "share_comment_content : $share_comment_content")
+
+        // Input 길이 제한
+        fun EditText.setMaxLength(maxLength: Int){
+            filters = arrayOf<InputFilter>(InputFilter.LengthFilter(maxLength))
+        }
+        board_update_title_input.setMaxLength(50)
+        board_update_content_input.setMaxLength(200)
+        board_update_title_input.maxLines = 8
+        board_update_content_input.maxLines = 8
 
         // 전체 레이아웃 클릭 시, 포커스 해제
         board_update_all_layout.setOnClickListener {

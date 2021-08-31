@@ -2,12 +2,14 @@ package com.kwon.mbti_community.board.adapter
 
 import android.content.Context
 import android.graphics.Color
+import android.text.InputFilter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,7 +31,8 @@ class BoardAdapter constructor(var context:Context, var items:ArrayList<BoardIte
     // 토큰 확인
     val app_file_path = context.getExternalFilesDir(null).toString()
     val token_file = File("$app_file_path/token.token")
-    val access_token = token_file.readText()
+    val access_token = token_file.readText().split("\n")[0]
+    val username = token_file.readText().split("\n")[1]
     val conn = Connect().connect(access_token)
     val board_api: BoardInterface = conn.create(BoardInterface::class.java)
 
@@ -71,9 +74,24 @@ class BoardAdapter constructor(var context:Context, var items:ArrayList<BoardIte
             vh.itemView.board_user_more.visibility = View.VISIBLE
         } else {
             vh.itemView.board_user_more.visibility = View.GONE
+            vh.itemView.board_user_profile.setOnClickListener {
+                var ppp_hash:HashMap<String, String> = HashMap()
+                ppp_hash["access_token"] = access_token
+                ppp_hash["username"] = username
+                ppp_hash["other_username"] = item.board_username!!
+                ppp_hash["other_profile"] = item.board_profile!!
+                MoveActivity().other_profile_move(context as ChainActivity, ppp_hash)
+            }
         }
 
-        vh.itemView.board_like_btn.setOnClickListener {
+        // Input 길이 제한
+        fun EditText.setMaxLength(maxLength: Int){
+            filters = arrayOf<InputFilter>(InputFilter.LengthFilter(maxLength))
+        }
+        vh.itemView.comment_input.setMaxLength(150)
+        vh.itemView.comment_input.maxLines = 8
+
+        vh.itemView.board_like_btn_layout.setOnClickListener {
             val parameter:HashMap<String, Int> = HashMap()
             parameter["board_id"] = item.id
 
@@ -123,7 +141,7 @@ class BoardAdapter constructor(var context:Context, var items:ArrayList<BoardIte
                             for(nn in body.data) {
                                 Log.d("TEST", "getComment 데이터 확인 : $nn")
                                 var comment_my_item_count:Int
-                                if(nn.comment_username == item.board_username) { comment_my_item_count = 1 } else { comment_my_item_count = 0 }
+                                if(nn.comment_username == username) { comment_my_item_count = 1 } else { comment_my_item_count = 0 }
 
                                 var check_comment_profile = nn.comment_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
 
@@ -172,7 +190,7 @@ class BoardAdapter constructor(var context:Context, var items:ArrayList<BoardIte
                         if(body != null) {
                             Log.d("TEST", "createComment 데이터확인 : ${body.data}")
                             var comment_my_item_count:Int
-                            if(body.data.comment_username == item.board_username) { comment_my_item_count = 1 } else { comment_my_item_count = 0 }
+                            if(body.data.comment_username == username) { comment_my_item_count = 1 } else { comment_my_item_count = 0 }
 
                             var check_comment_profile2 = body.data.comment_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
 

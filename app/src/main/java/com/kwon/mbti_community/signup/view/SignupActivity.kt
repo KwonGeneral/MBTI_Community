@@ -6,6 +6,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.Log
 import android.view.Gravity
@@ -15,6 +16,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.snackbar.Snackbar
 import com.kwon.mbti_community.R
 import com.kwon.mbti_community.signup.model.SignupData
@@ -44,6 +48,30 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
+
+        // ADS 설정
+        var mAdView : AdView
+        // 1. ADS 초기화
+        MobileAds.initialize(
+            this
+        ) { }
+        // 2. 광고 띄우기
+        mAdView = findViewById(R.id.signup_adv)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
+
+        // Input 길이 제한
+        fun EditText.setMaxLength(maxLength: Int){
+            filters = arrayOf<InputFilter>(InputFilter.LengthFilter(maxLength))
+        }
+        signup_nickname_input.setMaxLength(20)
+        signup_username_input.setMaxLength(20)
+        signup_password_input.setMaxLength(20)
+        signup_password_check_input.setMaxLength(20)
+        signup_nickname_input.maxLines = 8
+        signup_username_input.maxLines = 8
+        signup_password_input.maxLines = 8
+        signup_password_check_input.maxLines = 8
 
         // 프로그레스바 설정
         val signup_progress_layout = findViewById<RelativeLayout>(R.id.signup_progress_layout)

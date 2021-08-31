@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.kwon.mbti_community.board.view.BoardUpdateActivity
 import com.kwon.mbti_community.chain.view.ChainActivity
 import com.kwon.mbti_community.login.view.LoginActivity
+import com.kwon.mbti_community.mypage.view.MypageOtherProfileActivity
 import com.kwon.mbti_community.mypage.view.MypageProfileUpdateActivity
 import com.kwon.mbti_community.signup.view.SignupActivity
 import com.kwon.mbti_community.z_common.model.MoveInterface
@@ -58,6 +59,18 @@ class MoveActivity : MoveInterface, AppCompatActivity() {
         intent.putExtra("board_content", hash["board_content"])
         intent.putExtra("comment_id", hash["comment_id"])
         intent.putExtra("comment_content", hash["comment_content"])
+
+        activity.startActivity(intent)
+        activity.finish()
+        return
+    }
+
+    override fun other_profile_move(activity: Activity, hash:HashMap<String, String>) {
+        val intent = Intent(activity, MypageOtherProfileActivity::class.java)
+        intent.putExtra("access_token", hash["access_token"])
+        intent.putExtra("username", hash["username"])
+        intent.putExtra("other_username", hash["other_username"])
+        intent.putExtra("other_profile", hash["other_profile"])
 
         activity.startActivity(intent)
         activity.finish()
