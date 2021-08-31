@@ -24,7 +24,8 @@ interface MypageInterface {
     // 유저가 올린 게시글만 가져오기
     @GET("/board/")
     fun getUserBoard(
-        @Query("board_username") board_username: String
+        @Query("board_username") board_username: String,
+        @Query("page") page: String
     ): Call<GetUserBoardData>
 
     // 회원정보 프로필 수정

@@ -47,7 +47,7 @@
 
                 <TextView
                     android:id="@+id/board_datetime"
-                    style="@style/noto_lite"
+                    style="@style/noto_regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="1 hours ago"
@@ -213,7 +213,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible"
-        tools:visibility="visible" >
+        tools:visibility="visible">
 
     </androidx.recyclerview.widget.RecyclerView>
 

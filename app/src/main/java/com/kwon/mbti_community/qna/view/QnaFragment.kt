@@ -7,20 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.kwon.mbti_community.R
-import android.widget.AdapterView
 import android.util.Log
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.TypedValue
-import android.widget.LinearLayout
-import android.widget.ScrollView
-import android.widget.TextView
-import android.widget.RelativeLayout
+import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.kwon.mbti_community.board.adapter.BoardAdapter
 import com.kwon.mbti_community.board.model.BoardInterface
 import com.kwon.mbti_community.board.model.GetBoardData
 import com.kwon.mbti_community.board.model.GetBoardUserTypeData
@@ -44,6 +42,9 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     lateinit var recyclerView: RecyclerView
     var items = arrayListOf<QnaItem>()
+
+    // 페이지 넘버
+    var page = "1"
 
     companion object{
         fun newInstance() : QnaFragment {
@@ -113,7 +114,7 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
         fun getBoardApi(board_type:String, board_user_type:String) {
             qna_progress_layout.visibility = View.VISIBLE
             items.clear()
-            board_api.getBoardUserType(board_type, board_user_type).enqueue(object: Callback<GetBoardUserTypeData> {
+            board_api.getBoardUserType(board_type, board_user_type, page).enqueue(object: Callback<GetBoardUserTypeData> {
                 override fun onResponse(call: Call<GetBoardUserTypeData>, response: Response<GetBoardUserTypeData>) {
                     qna_progress_layout.visibility = View.GONE
                     val body = response.body()
@@ -133,11 +134,12 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
 
                         recyclerView=view.findViewById(R.id.qna_recycler) as RecyclerView
-                        val reverse_manager = LinearLayoutManager(requireContext())
-                        reverse_manager.reverseLayout = true
-                        reverse_manager.stackFromEnd = true
-//
-                        recyclerView.layoutManager = reverse_manager
+                        recyclerView.layoutManager = LinearLayoutManager(context)
+//                        val reverse_manager = LinearLayoutManager(requireContext())
+//                        reverse_manager.reverseLayout = true
+//                        reverse_manager.stackFromEnd = true
+////
+//                        recyclerView.layoutManager = reverse_manager
                         recyclerView.adapter= QnaAdapter(requireContext(), items)
                     }
 
@@ -150,6 +152,58 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 }
             })
         }
+
+        // 페이지 갱신
+        val qna_recycler = view.findViewById<RecyclerView>(R.id.qna_recycler)
+        val qna_loading_progress = view.findViewById<ProgressBar>(R.id.qna_loading_progress)
+        qna_recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                // 스크롤이 끝에 도달했는지 확인
+                if (!qna_recycler.canScrollVertically(1)) {
+                    page = (page.toInt() + 1).toString()
+                    val temp_y = items.lastIndex - 2
+
+                    qna_loading_progress.visibility = View.VISIBLE
+                    board_api.getBoardUserType(select_board_type, select_text.text.toString(), page).enqueue(object: Callback<GetBoardUserTypeData> {
+                        override fun onResponse(call: Call<GetBoardUserTypeData>, response: Response<GetBoardUserTypeData>) {
+                            qna_progress_layout.visibility = View.GONE
+                            val body = response.body()
+
+                            if(body != null){
+                                for(nn in body.data) {
+                                    Log.d("TEST", "하하하 : $nn")
+                                    var my_item_count_check:Int
+                                    if(nn.board_username == share_username) { my_item_count_check = 1 } else { my_item_count_check = 0 }
+
+                                    var check_board_profile = nn.board_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
+
+                                    items.add(
+                                        QnaItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, check_board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at, my_item_count_check)
+                                    )
+                                }
+
+                                Thread.sleep(200)
+                                this@QnaFragment.recyclerView =view.findViewById(R.id.qna_recycler) as RecyclerView
+                                recyclerView.layoutManager = LinearLayoutManager(context)
+                                recyclerView.adapter= QnaAdapter(requireContext(), items)
+                                recyclerView.scrollToPosition(temp_y)
+                            }
+
+                            Log.d("TEST", "Qna - getBoard 통신성공 바디 -> $body")
+                            qna_loading_progress.visibility = View.GONE
+                        }
+
+                        override fun onFailure(call: Call<GetBoardUserTypeData>, t: Throwable) {
+                            Log.d("TEST", "Qna - getBoard 통신실패 에러 -> " + t.message)
+                            qna_loading_progress.visibility = View.GONE
+                        }
+                    })
+
+                }
+            }
+        })
 
         qna_select_free.setOnClickListener {
             getBoardApi("free", select_text.text.toString())
@@ -203,7 +257,7 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val qna_top_layout = view.findViewById<LinearLayout>(R.id.qna_top_layout)
         val qna_top_rel_layout = view.findViewById<RelativeLayout>(R.id.qna_top_rel_layout)
         val qna_select_scroll_view = view.findViewById<ScrollView>(R.id.qna_select_scroll_view).layoutParams as ViewGroup.MarginLayoutParams
-        val qna_main_scroll_view = view.findViewById<ScrollView>(R.id.qna_main_scroll_view).layoutParams as ViewGroup.MarginLayoutParams
+        val qna_main_constrain_view = view.findViewById<ConstraintLayout>(R.id.qna_main_constrain_view).layoutParams as ViewGroup.MarginLayoutParams
 
         val menu_istp = view.findViewById<TextView>(R.id.menu_istp)
         val menu_isfp = view.findViewById<TextView>(R.id.menu_isfp)
@@ -232,7 +286,7 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
             qna_top_layout.layoutParams.height = 100.dp()
             qna_top_rel_layout.layoutParams.height = 120.dp()
 //            qna_select_scroll_view.setMargins(10.dp(), 60.dp(), 10.dp(), 0)
-            qna_main_scroll_view.setMargins(10.dp(), 120.dp(), 10.dp(), 0)
+            qna_main_constrain_view.setMargins(10.dp(), 120.dp(), 10.dp(), 0)
             select_text.text = select_item.text
 
             getBoardApi(select_board_type, select_text.text.toString())
@@ -264,7 +318,7 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 qna_top_layout.layoutParams.height = 100.dp()
                 qna_top_rel_layout.layoutParams.height = 120.dp()
 //                qna_select_scroll_view.setMargins(10.dp(), 60.dp(), 10.dp(), 0)
-                qna_main_scroll_view.setMargins(10.dp(), 100.dp(), 10.dp(), 0)
+                qna_main_constrain_view.setMargins(10.dp(), 100.dp(), 10.dp(), 0)
                 
             }else {
                 only_select_layout.visibility = View.GONE
@@ -272,7 +326,7 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 qna_top_layout.layoutParams.height = 220.dp()
                 qna_top_rel_layout.layoutParams.height = 240.dp()
 //                qna_select_scroll_view.setMargins(10.dp(), 180.dp(), 10.dp(), 0)
-                qna_main_scroll_view.setMargins(10.dp(), 240.dp(), 10.dp(), 0)
+                qna_main_constrain_view.setMargins(10.dp(), 240.dp(), 10.dp(), 0)
             }
         }
 

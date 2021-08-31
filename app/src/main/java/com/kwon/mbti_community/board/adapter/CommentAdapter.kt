@@ -1,6 +1,8 @@
 package com.kwon.mbti_community.board.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.text.InputFilter
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.PopupMenu
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kwon.mbti_community.R
@@ -26,6 +29,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 
 class CommentAdapter constructor(var context:Context, var items:ArrayList<CommentItem>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -49,6 +54,8 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
         notifyDataSetChanged()
     }
 
+    @SuppressLint("SetTextI18n")
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val vh: VH =holder as VH
 
@@ -68,6 +75,34 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
 
             vh.itemView.comment_user_profile.setBackgroundResource(R.drawable.image_background_border)
             vh.itemView.comment_user_profile.clipToOutline = true
+
+            val temp_now_datetime = LocalDateTime.now()
+            val now_date: LocalDate = LocalDate.now()
+            val temp_updated_at = item.updated_at
+            val now_hour = temp_now_datetime.toString().split("T")[1].split(":")[0].toInt()
+            val now_min = temp_now_datetime.toString().split("T")[1].split(":")[1].toInt()
+
+            if (temp_updated_at != null) {
+                val temp_updated_date = temp_updated_at.split("T")[0]
+                val temp_updated_hour = temp_updated_at.split("T")[1].split(":")[0].toInt()
+                val temp_updated_min = temp_updated_at.split("T")[1].split(":")[1].toInt()
+
+                if(temp_updated_at.split("T")[0] == now_date.toString()) {
+                    Log.d("TEST", "날짜 같음!!! -> $now_min --> $temp_updated_min")
+                    if(temp_updated_hour == now_hour) {
+                        if((now_min - temp_updated_min) < 3) {
+                            vh.itemView.comment_datetime.text = "방금"
+                        } else {
+                            vh.itemView.comment_datetime.text = "${(now_min - temp_updated_min)} 분 전"
+                        }
+                    } else {
+                        vh.itemView.comment_datetime.text = (now_hour - temp_updated_hour).toString() + " 시간 전"
+                    }
+                }else {
+                    Log.d("TEST", "날짜 다름!!!!! : ${item.updated_at}")
+                    vh.itemView.comment_datetime.text = "$temp_updated_date ${temp_updated_hour}시 ${temp_updated_min}분"
+                }
+            }
 
         } else {
             vh.itemView.comment_user_abled_layout.visibility = View.GONE

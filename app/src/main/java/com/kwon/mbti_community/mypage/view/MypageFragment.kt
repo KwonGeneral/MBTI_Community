@@ -17,6 +17,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.kwon.mbti_community.R
+import com.kwon.mbti_community.board.adapter.BoardAdapter
+import com.kwon.mbti_community.board.adapter.BoardItem
+import com.kwon.mbti_community.board.model.GetBoardData
 import com.kwon.mbti_community.chain.view.ChainActivity
 import com.kwon.mbti_community.mypage.adapter.MypageHistoryAdapter
 import com.kwon.mbti_community.mypage.adapter.MypageHistoryItem
@@ -44,6 +47,9 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
     var share_message = ""
 
     var app_file_path: String? = null
+
+    // 페이지 넘버
+    var page = "1"
 
     companion object{
         fun newInstance() : MypageFragment {
@@ -259,7 +265,7 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     Log.d("TEST", "getBoardCount 통신성공 바디 -> $bodys")
 
                     // API 통신 : 유저가 올린 게시글 가져오기
-                    mypage_api.getUserBoard(share_username).enqueue(object: Callback<GetUserBoardData> {
+                    mypage_api.getUserBoard(share_username, page).enqueue(object: Callback<GetUserBoardData> {
                         override fun onResponse(call: Call<GetUserBoardData>, response: Response<GetUserBoardData>) {
                             val body = response.body()
                             if(body != null) {
@@ -272,11 +278,12 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
                                     }
 
                                     recyclerView=view.findViewById(R.id.mypage_history_recycler) as RecyclerView
-                                    val reverse_manager = LinearLayoutManager(requireContext())
-                                    reverse_manager.reverseLayout = true
-                                    reverse_manager.stackFromEnd = true
-//
-                                    recyclerView.layoutManager = reverse_manager
+                                    recyclerView.layoutManager = LinearLayoutManager(context)
+//                                    val reverse_manager = LinearLayoutManager(requireContext())
+//                                    reverse_manager.reverseLayout = true
+//                                    reverse_manager.stackFromEnd = true
+////
+//                                    recyclerView.layoutManager = reverse_manager
                                     recyclerView.adapter = MypageHistoryAdapter(requireContext(), items)
                                 }
                             }
@@ -304,6 +311,55 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 }
             })
         }
+
+        val mypage_history_recycler = view.findViewById<RecyclerView>(R.id.mypage_history_recycler)
+        val mypage_history_loading_progress = view.findViewById<ProgressBar>(R.id.mypage_history_loading_progress)
+        mypage_history_recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                // 스크롤이 끝에 도달했는지 확인
+                if (!mypage_history_recycler.canScrollVertically(1)) {
+                    page = (page.toInt() + 1).toString()
+
+                    mypage_history_loading_progress.visibility = View.VISIBLE
+                    // API 통신 : 유저가 올린 게시글 가져오기
+                    mypage_api.getUserBoard(share_username, page).enqueue(object: Callback<GetUserBoardData> {
+                        override fun onResponse(call: Call<GetUserBoardData>, response: Response<GetUserBoardData>) {
+                            val body = response.body()
+                            val temp_y = items.lastIndex - 2
+
+                            if(body != null) {
+                                if(body.data.isNotEmpty()) {
+                                    for(nn in body.data) {
+                                        Log.d("TEST", "하하하 : $nn")
+                                        items.add(
+                                            MypageHistoryItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, nn.board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at)
+                                        )
+                                    }
+
+                                    this@MypageFragment.recyclerView =view.findViewById(R.id.mypage_history_recycler) as RecyclerView
+                                    recyclerView.layoutManager = LinearLayoutManager(context)
+                                    recyclerView.adapter = MypageHistoryAdapter(requireContext(), items)
+
+                                }
+                            }
+
+                            Thread.sleep(200)
+                            recyclerView.scrollToPosition(temp_y)
+                            mypage_history_loading_progress.visibility = View.GONE
+                            Log.d("TEST", "getUserBoard 통신성공 바디 -> $body")
+                        }
+
+                        override fun onFailure(call: Call<GetUserBoardData>, t: Throwable) {
+                            Log.d("TEST", "getUserBoard 통신실패 에러 -> " + t.message)
+                            mypage_history_loading_progress.visibility = View.GONE
+                        }
+                    })
+
+                }
+            }
+        })
 
 
         /*

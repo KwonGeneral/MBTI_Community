@@ -1,6 +1,8 @@
 package com.kwon.mbti_community.qna.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.text.InputFilter
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +12,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.PopupMenu
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -22,11 +25,14 @@ import com.kwon.mbti_community.z_common.connect.Connect
 import com.kwon.mbti_community.z_common.view.MoveActivity
 import kotlinx.android.synthetic.main.fragment_board_item.view.*
 import kotlinx.android.synthetic.main.fragment_comment_item.view.*
+import kotlinx.android.synthetic.main.fragment_qna.view.*
 import kotlinx.android.synthetic.main.fragment_qna_item.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 
 class QnaAdapter constructor(var context:Context, var items:ArrayList<QnaItem>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -41,6 +47,9 @@ class QnaAdapter constructor(var context:Context, var items:ArrayList<QnaItem>):
     lateinit var recyclerView: RecyclerView
     var comment_items = arrayListOf<CommentItem>()
 
+    // 페이지 넘버
+    var page = "1"
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(context)
         val itemView = inflater.inflate(R.layout.fragment_qna_item, parent, false)
@@ -53,6 +62,8 @@ class QnaAdapter constructor(var context:Context, var items:ArrayList<QnaItem>):
         notifyDataSetChanged()
     }
 
+    @SuppressLint("SetTextI18n")
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val vh: VH =holder as VH
 
@@ -70,6 +81,34 @@ class QnaAdapter constructor(var context:Context, var items:ArrayList<QnaItem>):
             .error(R.drawable.user_default_profile)
             .into(vh.itemView.qna_user_profile)
 
+        val temp_now_datetime = LocalDateTime.now()
+        val now_date: LocalDate = LocalDate.now()
+        val temp_updated_at = item.updated_at
+        val now_hour = temp_now_datetime.toString().split("T")[1].split(":")[0].toInt()
+        val now_min = temp_now_datetime.toString().split("T")[1].split(":")[1].toInt()
+
+        if (temp_updated_at != null) {
+            val temp_updated_date = temp_updated_at.split("T")[0]
+            val temp_updated_hour = temp_updated_at.split("T")[1].split(":")[0].toInt()
+            val temp_updated_min = temp_updated_at.split("T")[1].split(":")[1].toInt()
+
+            if(temp_updated_at.split("T")[0] == now_date.toString()) {
+                Log.d("TEST", "날짜 같음!!!")
+                if(temp_updated_hour == now_hour) {
+                    if((now_min - temp_updated_min) < 3) {
+                        vh.itemView.qna_datetime.text = "방금"
+                    } else {
+                        vh.itemView.qna_datetime.text = "${(now_min - temp_updated_min)} 분 전"
+                    }
+                } else {
+                    vh.itemView.qna_datetime.text = (now_hour - temp_updated_hour).toString() + " 시간 전"
+                }
+            }else {
+                Log.d("TEST", "날짜 다름!!!!! : ${item.updated_at}")
+                vh.itemView.qna_datetime.text = "$temp_updated_date ${temp_updated_hour}시 ${temp_updated_min}분"
+            }
+        }
+
         vh.itemView.qna_user_profile.setBackgroundResource(R.drawable.image_background_border)
         vh.itemView.qna_user_profile.clipToOutline = true
 
@@ -77,7 +116,7 @@ class QnaAdapter constructor(var context:Context, var items:ArrayList<QnaItem>):
             vh.itemView.qna_user_more.visibility = View.VISIBLE
         } else {
             vh.itemView.qna_user_more.visibility = View.GONE
-            vh.itemView.board_user_profile.setOnClickListener {
+            vh.itemView.qna_user_profile.setOnClickListener {
                 var ppp_hash:HashMap<String, String> = HashMap()
                 ppp_hash["access_token"] = access_token
                 ppp_hash["username"] = username
@@ -135,7 +174,9 @@ class QnaAdapter constructor(var context:Context, var items:ArrayList<QnaItem>):
             val mInputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             mInputMethodManager.hideSoftInputFromWindow(vh.itemView.windowToken, 0)
 
-            qna_api.getComment(item.id).enqueue(object: Callback<GetCommentData> {
+//            vh.itemView.qna_recycler
+
+            qna_api.getComment(item.id, page).enqueue(object: Callback<GetCommentData> {
                 override fun onResponse(call: Call<GetCommentData>, response: Response<GetCommentData>) {
                     val body = response.body()
                     if(body != null) {
@@ -159,10 +200,11 @@ class QnaAdapter constructor(var context:Context, var items:ArrayList<QnaItem>):
                         }
 
                         recyclerView=vh.itemView.findViewById(R.id.qna_comment_recycler) as RecyclerView
-                        val reverse_manager = LinearLayoutManager(context)
-                        reverse_manager.reverseLayout = true
-                        reverse_manager.stackFromEnd = true
-                        recyclerView.layoutManager = reverse_manager
+                        recyclerView.layoutManager = LinearLayoutManager(context)
+//                        val reverse_manager = LinearLayoutManager(context)
+//                        reverse_manager.reverseLayout = true
+//                        reverse_manager.stackFromEnd = true
+//                        recyclerView.layoutManager = reverse_manager
                         recyclerView.adapter = CommentAdapter(context, comment_items)
                     }
                     Log.d("TEST", "getComment 통신성공 바디 -> $body")
@@ -201,10 +243,11 @@ class QnaAdapter constructor(var context:Context, var items:ArrayList<QnaItem>):
                                 CommentItem(body.data.id, body.data.comment_content, body.data.comment_like_count.toString(), body.data.comment_nickname, check_comment_profile, body.data.comment_title, body.data.comment_user_type, body.data.comment_username, body.data.updated_at, comment_my_item_count)
                             )
                             recyclerView=vh.itemView.findViewById(R.id.qna_comment_recycler) as RecyclerView
-                            val reverse_manager = LinearLayoutManager(context)
-                            reverse_manager.reverseLayout = true
-                            reverse_manager.stackFromEnd = true
-                            recyclerView.layoutManager = reverse_manager
+                            recyclerView.layoutManager = LinearLayoutManager(context)
+//                            val reverse_manager = LinearLayoutManager(context)
+//                            reverse_manager.reverseLayout = true
+//                            reverse_manager.stackFromEnd = true
+//                            recyclerView.layoutManager = reverse_manager
                             recyclerView.adapter = CommentAdapter(context, comment_items)
                         }
 
