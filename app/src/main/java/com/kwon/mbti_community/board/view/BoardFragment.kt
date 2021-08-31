@@ -56,12 +56,12 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("TEST","BoardFragment - onCreate")
+//        Log.d("TEST","BoardFragment - onCreate")
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.d("TEST","BoardFragment - onAttach")
+//        Log.d("TEST","BoardFragment - onAttach")
     }
 
     fun Int.dp(): Int {
@@ -72,7 +72,7 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("ResourceType")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.d("TEST","BoardFragment - onCreateView")
+//        Log.d("TEST","BoardFragment - onCreateView")
         val view=inflater.inflate(R.layout.fragment_board, container, false)
 
         // 값 전달
@@ -85,19 +85,6 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
         share_profile = bundle_arguments?.getString("profile").toString()
         share_user_type = bundle_arguments?.getString("user_type").toString()
         share_message = bundle_arguments?.getString("message").toString()
-
-        Log.d("TEST", "share_access_token : $share_access_token")
-        Log.d("TEST", "share_username : $share_username")
-        Log.d("TEST", "share_nickname : $share_nickname")
-        Log.d("TEST", "share_password : $share_password")
-        Log.d("TEST", "share_profile : $share_profile")
-        Log.d("TEST", "share_user_type : $share_user_type")
-        Log.d("TEST", "share_message : $share_message")
-
-        val temp_now_date = LocalDateTime.now()
-        val onlyDate: LocalDate = LocalDate.now()
-        Log.d("TEST", "temp_now_date : $temp_now_date")
-        Log.d("TEST", "onlyDate : $onlyDate")
 
         share_profile = share_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
 
@@ -116,7 +103,6 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
                 if(body != null){
                     for(nn in body.data) {
-                        Log.d("TEST", "하하하 : $nn")
                         var my_item_count_check:Int
                         if(nn.board_username == share_username) { my_item_count_check = 1 } else { my_item_count_check = 0 }
 
@@ -132,21 +118,16 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
                     recyclerView=view.findViewById(R.id.board_recycler) as RecyclerView
                     recyclerView.layoutManager = LinearLayoutManager(context)
-//                    val reverse_manager = LinearLayoutManager(requireContext())
-//                    reverse_manager.reverseLayout = true
-//                    reverse_manager.stackFromEnd = true
-////
-//                    recyclerView.layoutManager = reverse_manager
                     recyclerView.adapter= BoardAdapter(requireContext(), items)
 
                     board_progress_layout.visibility = View.GONE
                 }
 
-                Log.d("TEST", "Board - getBoard 통신성공 바디 -> $body")
+//                Log.d("TEST", "Board - getBoard 통신성공 바디 -> $body")
             }
 
             override fun onFailure(call: Call<GetBoardData>, t: Throwable) {
-                Log.d("TEST", "Board - getBoard 통신실패 에러 -> " + t.message)
+//                Log.d("TEST", "Board - getBoard 통신실패 에러 -> " + t.message)
             }
         })
 
@@ -168,7 +149,6 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
                             if(body != null){
                                 for(nn in body.data) {
-                                    Log.d("TEST", "하하하 : $nn")
                                     var my_item_count_check:Int
                                     if(nn.board_username == share_username) { my_item_count_check = 1 } else { my_item_count_check = 0 }
 
@@ -190,11 +170,11 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
                             }
 
                             board_loading_progress.visibility = View.GONE
-                            Log.d("TEST", "Board - getBoard 통신성공 바디 -> $body")
+//                            Log.d("TEST", "Board - getBoard 통신성공 바디 -> $body")
                         }
 
                         override fun onFailure(call: Call<GetBoardData>, t: Throwable) {
-                            Log.d("TEST", "Board - getBoard 통신실패 에러 -> " + t.message)
+//                            Log.d("TEST", "Board - getBoard 통신실패 에러 -> " + t.message)
                             board_loading_progress.visibility = View.GONE
                         }
                     })
@@ -214,21 +194,21 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onPause() {
         super.onPause()
-        Log.d("TEST", "BoardFragment - onPause")
+//        Log.d("TEST", "BoardFragment - onPause")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("TEST", "BoardFragment - onResume")
+//        Log.d("TEST", "BoardFragment - onResume")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("TEST", "BoardFragment - onStop")
+//        Log.d("TEST", "BoardFragment - onStop")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("TEST", "BoardFragment - onDestroy")
+//        Log.d("TEST", "BoardFragment - onDestroy")
     }
 }

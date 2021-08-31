@@ -63,7 +63,7 @@ class ChainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chain)
         requestPermissions(permission_list, 0)
-        Log.d("TEST", "ChainActivity - onCreate")
+//        Log.d("TEST", "ChainActivity - onCreate")
 
         // ADS 설정
         var mAdView : AdView
@@ -85,15 +85,6 @@ class ChainActivity : AppCompatActivity() {
         share_user_type = intent.getStringExtra("user_type").toString()
         share_message = intent.getStringExtra("message").toString()
         check_move_status = intent.getStringExtra("move_status").toString()
-
-        Log.d("TEST", "share_access_token : $share_access_token")
-        Log.d("TEST", "share_username : $share_username")
-        Log.d("TEST", "share_nickname : $share_nickname")
-        Log.d("TEST", "share_password : $share_password")
-        Log.d("TEST", "share_profile : $share_profile")
-        Log.d("TEST", "share_user_type : $share_user_type")
-        Log.d("TEST", "share_message : $share_message")
-        Log.d("TEST", "check_move_status : $check_move_status")
 
         share_profile = share_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
 
@@ -167,27 +158,27 @@ class ChainActivity : AppCompatActivity() {
         bundle.putString("message", share_message)
 
         if (int == 0) {
-            Log.d("TEST", "홈 프레그먼트 - 삭제됨")
+//            Log.d("TEST", "홈 프레그먼트 - 삭제됨")
 //            home_fragment = HomeFragment.newInstance()
 //            home_fragment.arguments = bundle
 //            supportFragmentManager.beginTransaction().replace(R.id.chain_frag, home_fragment).commit()
         } else if (int == 1) {
-            Log.d("TEST", "게시판 프레그먼트")
+//            Log.d("TEST", "게시판 프레그먼트")
             board_fragment = BoardFragment.newInstance()
             board_fragment.arguments = bundle
             supportFragmentManager.beginTransaction().replace(R.id.chain_frag, board_fragment).commit()
         } else if (int == 2) {
-            Log.d("TEST", "글쓰기 프레그먼트")
+//            Log.d("TEST", "글쓰기 프레그먼트")
             write_fragment = WriteFragment.newInstance()
             write_fragment.arguments = bundle
             supportFragmentManager.beginTransaction().replace(R.id.chain_frag, write_fragment).commit()
         } else if (int == 3) {
-            Log.d("TEST", "취미 프레그먼트")
+//            Log.d("TEST", "취미 프레그먼트")
             qna_fragment = QnaFragment.newInstance()
             qna_fragment.arguments = bundle
             supportFragmentManager.beginTransaction().replace(R.id.chain_frag, qna_fragment).commit()
         } else if (int == 4) {
-            Log.d("TEST", "마이페이지 프레그먼트")
+//            Log.d("TEST", "마이페이지 프레그먼트")
             mypage_fragment = MypageFragment.newInstance()
             mypage_fragment.arguments = bundle
             supportFragmentManager.beginTransaction().replace(R.id.chain_frag, mypage_fragment).commit()
@@ -196,7 +187,7 @@ class ChainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 //        super.onBackPressed()
-        Log.d("TEST", "ChainActivity - onBackPressed")
+//        Log.d("TEST", "ChainActivity - onBackPressed")
 
         // 뒤로가기 버튼 클릭
         if(System.currentTimeMillis() - mBackWait >= 1000 ) {
@@ -218,21 +209,21 @@ class ChainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        Log.d("TEST", "ChainActivity - onPause")
+//        Log.d("TEST", "ChainActivity - onPause")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("TEST", "ChainActivity - onResume")
+//        Log.d("TEST", "ChainActivity - onResume")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("TEST", "ChainActivity - onStop")
+//        Log.d("TEST", "ChainActivity - onStop")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("TEST", "ChainActivity - onDestroy")
+//        Log.d("TEST", "ChainActivity - onDestroy")
     }
 }

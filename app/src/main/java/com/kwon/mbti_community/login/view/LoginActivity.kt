@@ -59,14 +59,11 @@ class LoginActivity : AppCompatActivity() {
 
     fun saveTokenFile(access: String, username: String, temp_auto_check_count: Int) {
         val path = app_file_path
-        Log.d("path",path.toString())
-//        토큰 저장 경로
+        // 토큰 저장 경로
         val token_file = File("$path/token.token")
-        Log.d("token",token_file.toString())
 
-//        경로에 있는 파일에 토큰 저장
+        // 경로에 있는 파일에 토큰 저장
         token_file.bufferedWriter().use {
-//            it.write("access_token: $access\nrefresh_token: $refresh\nusername: $username")
             it.write("$access\n$username\n$temp_auto_check_count")
             Log.d("token/bufferedWriter-->",token_file.toString())
         }
@@ -109,7 +106,7 @@ class LoginActivity : AppCompatActivity() {
                 return@OnCompleteListener
             }
             fcm_token = task.result.toString()
-            Log.d("TEST", "Fcm Token : $fcm_token")
+//            Log.d("TEST", "Fcm Token : $fcm_token")
 //            Toast.makeText(baseContext, fcm_token, Toast.LENGTH_SHORT).show()
         })
 
@@ -145,7 +142,7 @@ class LoginActivity : AppCompatActivity() {
 
         // 자동 로그인 설정
         login_auto_check_btn.setOnCheckedChangeListener { buttonView, isChecked ->
-            Log.d("TEST", "isChecked : $isChecked")
+//            Log.d("TEST", "isChecked : $isChecked")
             if(isChecked == true) {
                 temp_auto_check_count = 1
             }else {
@@ -243,7 +240,7 @@ class LoginActivity : AppCompatActivity() {
                     login_progress_layout.visibility = View.GONE
                     val body = response.body()
 
-                    Log.d("TEST", "Login - login 통신성공 바디 -> $body")
+//                    Log.d("TEST", "Login - login 통신성공 바디 -> $body")
 
                     if(body != null) {
                         if(body.code == "E0005") {
@@ -279,7 +276,7 @@ class LoginActivity : AppCompatActivity() {
 
                 override fun onFailure(call: Call<LoginData>, t: Throwable) {
                     login_progress_layout.visibility = View.GONE
-                    Log.d("TEST", "Login - login 통신실패 에러 -> " + t.message)
+//                    Log.d("TEST", "Login - login 통신실패 에러 -> " + t.message)
                 }
             })
 

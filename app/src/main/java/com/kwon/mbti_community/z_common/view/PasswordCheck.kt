@@ -15,8 +15,6 @@ class PasswordCheck: PasswordCheckInterface {
             val key = "kwonputer7777777"
             encText = encByKey(key, password).toString()
             val decText: String? = decByKey(key, encText)
-            Log.d("TEST", "암호화 결과 : $encText")
-            Log.d("TEST", "복호화 결과 : $decText")
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
@@ -29,7 +27,6 @@ class PasswordCheck: PasswordCheckInterface {
         try {
             val key = "kwonputer7777777"
             decText = decByKey(key, encText)
-            Log.d("TEST", "복호화 결과 : $decText")
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }

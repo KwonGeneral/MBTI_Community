@@ -41,6 +41,7 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
+import java.time.LocalDateTime
 
 class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
@@ -80,7 +81,7 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mypage_profile_update)
         requestPermissions(permission_list, 0)
-        Log.d("TEST", "MypageProfileUpdateActivity - onCreate")
+//        Log.d("TEST", "MypageProfileUpdateActivity - onCreate")
         app_file_path = this.getExternalFilesDir(null).toString()
 
         // ADS 설정
@@ -106,14 +107,6 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
         share_profile = intent.getStringExtra("profile").toString()
         share_user_type = intent.getStringExtra("user_type").toString()
         share_message = intent.getStringExtra("message").toString()
-
-        Log.d("TEST", "share_access_token : $share_access_token")
-        Log.d("TEST", "share_username : $share_username")
-        Log.d("TEST", "share_nickname : $share_nickname")
-        Log.d("TEST", "share_password : $share_password")
-        Log.d("TEST", "share_profile : $share_profile")
-        Log.d("TEST", "share_user_type : $share_user_type")
-        Log.d("TEST", "share_message : $share_message")
 
         mypage_profile_nickname_input.setText(share_nickname)
         mypage_profile_message_input.setText(share_message)
@@ -203,9 +196,9 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
                     temp_password
                 )
                 if(password_reg != null) {
-                    Log.d("TEST", "password_reg 정규표현식 통과")
+//                    Log.d("TEST", "password_reg 정규표현식 통과")
                 } else {
-                    Log.d("TEST", "password_reg 정규표현식 통과 실패")
+//                    Log.d("TEST", "password_reg 정규표현식 통과 실패")
                     mypage_profile_status_message.text = "변경할 비밀번호가 올바르지 않습니다"
                     mypage_profile_password_input.setText("")
                     mypage_profile_password_check_input.setText("")
@@ -218,9 +211,9 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
                     temp_password_change
                 )
                 if(password_change_reg != null) {
-                    Log.d("TEST", "password_change_reg 정규표현식 통과")
+//                    Log.d("TEST", "password_change_reg 정규표현식 통과")
                 } else {
-                    Log.d("TEST", "password_change_reg 정규표현식 통과 실패")
+//                    Log.d("TEST", "password_change_reg 정규표현식 통과 실패")
                     mypage_profile_status_message.text = "변경할 비밀번호가 올바르지 않습니다"
                     mypage_profile_password_input.setText("")
                     mypage_profile_password_check_input.setText("")
@@ -228,8 +221,6 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
                 }
 
                 if(temp_password != PasswordCheck().check_aes256(share_password)) {
-                    Log.d("TEST", "체크 1 : $temp_password")
-                    Log.d("TEST", "체크 2 : $share_password")
                     if(temp_password_change == "") {
                         mypage_profile_status_message.text = "변경할 비밀번호를 입력해주세요"
                         mypage_profile_password_input.setText("")
@@ -269,9 +260,9 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
                 // 닉네임 체크
                 val nickname_reg = PasswordCheck().check("^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{1,12}\$", temp_nickname)
                 if(nickname_reg != null) {
-                    Log.d("TEST", "nickname_reg 정규표현식 통과")
+//                    Log.d("TEST", "nickname_reg 정규표현식 통과")
                 }else {
-                    Log.d("TEST", "nickname_reg 정규표현식 통과 실패")
+//                    Log.d("TEST", "nickname_reg 정규표현식 통과 실패")
                     mypage_profile_status_message.text = "변경할 닉네임이 올바르지 않습니다"
                     return@setOnClickListener
                 }
@@ -293,17 +284,14 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
             mypage_update_progress_layout.visibility = View.VISIBLE
             var part: MultipartBody.Part? = null
             if(profile_image_change_count == 1) {
-                var requestBody : RequestBody = RequestBody.create(MediaType.parse("image/*"), temp_profile_file)
+                var requestBody : RequestBody = RequestBody.create(MediaType.parse("image/*"), temp_profile_file!!)
                 part = MultipartBody.Part.createFormData("profile", temp_profile_file_name, requestBody)
-
-                Log.d("TEST", " requestBody : $requestBody")
-                Log.d("TEST", " part : $part")
 
                 mypage_api.updateUserProfile(share_username, part).enqueue(object:
                     Callback<UpdateUserProfileData> {
                     override fun onResponse(call: Call<UpdateUserProfileData>, response: Response<UpdateUserProfileData>) {
                         val body = response.body()
-                        Log.d("TEST", "updateUserProfile 통신성공 바디 -> $body")
+//                        Log.d("TEST", "updateUserProfile 통신성공 바디 -> $body")
 
                         var kkk_parameters:HashMap<String, String> = HashMap()
                         kkk_parameters["nickname"] = temp_nickname
@@ -318,7 +306,7 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
                             Callback<UpdateUserInfoData> {
                             override fun onResponse(call: Call<UpdateUserInfoData>, response: Response<UpdateUserInfoData>) {
                                 val bodys = response.body()
-                                Log.d("TEST", "updateUserInfo 통신성공 바디 -> $bodys")
+//                                Log.d("TEST", "updateUserInfo 통신성공 바디 -> $bodys")
 
                                 // API 통신 : 유저 정보 가져오기
                                 mypage_api.getUserData(share_username).enqueue(object: Callback<GetUserData> {
@@ -347,24 +335,24 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
                                             snack_view.layoutParams = params
                                             snack.show()
                                         }
-                                        Log.d("TEST", "getUserData 통신성공 바디 -> $bodyss")
+//                                        Log.d("TEST", "getUserData 통신성공 바디 -> $bodyss")
                                     }
 
                                     override fun onFailure(call: Call<GetUserData>, t: Throwable) {
                                         mypage_update_progress_layout.visibility = View.GONE
-                                        Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
+//                                        Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
                                     }
                                 })
                             }
 
                             override fun onFailure(call: Call<UpdateUserInfoData>, t: Throwable) {
-                                Log.d("TEST", "updateUserInfo 통신실패 에러 -> " + t.message)
+//                                Log.d("TEST", "updateUserInfo 통신실패 에러 -> " + t.message)
                             }
                         })
                     }
 
                     override fun onFailure(call: Call<UpdateUserProfileData>, t: Throwable) {
-                        Log.d("TEST", "updateUserProfile 통신실패 에러 -> " + t.message)
+//                        Log.d("TEST", "updateUserProfile 통신실패 에러 -> " + t.message)
                     }
                 })
             } else if (profile_image_change_count == 0) {
@@ -381,7 +369,7 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
                     Callback<UpdateUserInfoData> {
                     override fun onResponse(call: Call<UpdateUserInfoData>, response: Response<UpdateUserInfoData>) {
                         val bodyx = response.body()
-                        Log.d("TEST", "updateUserInfo 통신성공 바디 -> $bodyx")
+//                        Log.d("TEST", "updateUserInfo 통신성공 바디 -> $bodyx")
 
                         // API 통신 : 유저 정보 가져오기
                         mypage_api.getUserData(share_username).enqueue(object: Callback<GetUserData> {
@@ -410,18 +398,18 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
                                     snack_view.layoutParams = params
                                     snack.show()
                                 }
-                                Log.d("TEST", "getUserData 통신성공 바디 -> $bodyxx")
+//                                Log.d("TEST", "getUserData 통신성공 바디 -> $bodyxx")
                             }
 
                             override fun onFailure(call: Call<GetUserData>, t: Throwable) {
                                 mypage_update_progress_layout.visibility = View.GONE
-                                Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
+//                                Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
                             }
                         })
                     }
 
                     override fun onFailure(call: Call<UpdateUserInfoData>, t: Throwable) {
-                        Log.d("TEST", "updateUserInfo 통신실패 에러 -> " + t.message)
+//                        Log.d("TEST", "updateUserInfo 통신실패 에러 -> " + t.message)
                     }
                 })
             }
@@ -487,23 +475,8 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
     }
 
     // 비트맵 -> JPG 변환
-    fun saveBitmapToJpg(bitmap: Bitmap, name: String): String? {
-        /**
-         * 캐시 디렉토리에 비트맵을 이미지파일로 저장하는 코드입니다.
-         *
-         * @version target API 28 ★ API29이상은 테스트 하지않았습니다.★
-         * @param Bitmap bitmap - 저장하고자 하는 이미지의 비트맵
-         * @param String fileName - 저장하고자 하는 이미지의 비트맵
-         *
-         * File storage = 저장이 될 저장소 위치
-         *
-         * return = 저장된 이미지의 경로
-         *
-         * 비트맵에 사용될 스토리지와 이름을 지정하고 이미지파일을 생성합니다.
-         * FileOutputStream으로 이미지파일에 비트맵을 추가해줍니다.
-         */
-//        val storage: File = getCacheDir() //  path = /data/user/0/YOUR_PACKAGE_NAME/cache
-        val storage: File = File(app_file_path) //  path = /data/user/0/YOUR_PACKAGE_NAME/cache
+    fun saveBitmapToJpg(bitmap: Bitmap, name: String): String {
+        val storage: File = File(app_file_path!!) //  path = /data/user/0/YOUR_PACKAGE_NAME/cache
         val fileName = "$name.jpg"
         val imgFile = File(storage, fileName)
         try {
@@ -517,7 +490,6 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
             Log.e("saveBitmapToJpg", "IOException : " + e.message)
         }
 
-        Log.d("TEXT", "saveBitmapToJpg : ${getCacheDir().toString()}/$fileName")
         profile_image_change_count = 1
         return getCacheDir().toString() + "/" + fileName
     }
@@ -526,21 +498,20 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
     @SuppressLint("Recycle")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d("TEXT", "onActivityResult onActivityResult onActivityResult")
 
         if(resultCode == RESULT_OK){
             // 선택한 이미지의 경로 데이터를 관리하는 Uri 객체를 추출한다.
             val uri = data?.data
-            Log.d("TEST", "uri ---> ${uri?.path}")
 
             if(uri != null){
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
                     // 안드로이드 10버전 부터
                     val source = ImageDecoder.createSource(contentResolver, uri)
                     val bitmap = ImageDecoder.decodeBitmap(source)
-                    saveBitmapToJpg(bitmap, "profile_test2")
-                    temp_profile_file = File("$app_file_path/profile_test2.jpg")
-                    temp_profile_file_name = "profile_test2.jpg"
+                    val temp_now_datetime = LocalDateTime.now().toString()
+                    saveBitmapToJpg(bitmap, temp_now_datetime)
+                    temp_profile_file = File("$app_file_path/$temp_now_datetime.jpg")
+                    temp_profile_file_name = "$temp_now_datetime.jpg"
                     mypage_profile_image.setImageBitmap(bitmap)
                 } else {
                     // 안드로이드 9버전 까지
@@ -561,7 +532,6 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
 
     override fun onBackPressed() {
 //        super.onBackPressed()
-        Log.d("TEST", "MypageProfileUpdateActivity - onBackPressed")
         var zzz_hash:HashMap<String, String> = HashMap()
         zzz_hash["access_token"] = share_access_token
         zzz_hash["username"] = share_username
@@ -576,7 +546,6 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
 
     // ========================== 스피너 제어 ==========================
     override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
-        Log.d("TEST", "onItemSelected onItemSelected onItemSelected")
         // 항목이 선택되었습니다. 다음을 사용하여 선택한 항목을 검색할 수 있습니다.
         // parent.getItemAtPosition(pos)
         val position = parent.getItemAtPosition(pos)
@@ -589,32 +558,30 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
             mbti_count = 1
         }
 
-        Log.d("TEST", "position : $position")
     }
 
     override fun onNothingSelected(parent: AdapterView<*>) {
-        Log.d("TEST", "onNothingSelected onNothingSelected onNothingSelected")
         // 다른 인터페이스 콜백
     }
     // ==============================================================
 
     override fun onPause() {
         super.onPause()
-        Log.d("TEST", "MypageProfileUpdateActivity - onPause")
+//        Log.d("TEST", "MypageProfileUpdateActivity - onPause")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("TEST", "MypageProfileUpdateActivity - onResume")
+//        Log.d("TEST", "MypageProfileUpdateActivity - onResume")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("TEST", "MypageProfileUpdateActivity - onStop")
+//        Log.d("TEST", "MypageProfileUpdateActivity - onStop")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("TEST", "MypageProfileUpdateActivity - onDestroy")
+//        Log.d("TEST", "MypageProfileUpdateActivity - onDestroy")
     }
 }

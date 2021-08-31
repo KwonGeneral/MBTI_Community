@@ -54,12 +54,12 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("TEST","QnaFragment - onCreate")
+//        Log.d("TEST","QnaFragment - onCreate")
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.d("TEST","QnaFragment - onAttach")
+//        Log.d("TEST","QnaFragment - onAttach")
     }
 
     fun Int.dp(): Int {
@@ -69,7 +69,7 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     @SuppressLint("ResourceType")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.d("TEST","QnaFragment - onCreateView")
+//        Log.d("TEST","QnaFragment - onCreateView")
         val view=inflater.inflate(R.layout.fragment_qna, container, false)
 
         // 프로그레스바 설정
@@ -89,14 +89,6 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         share_profile = share_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
 
-        Log.d("TEST", "share_access_token : $share_access_token")
-        Log.d("TEST", "share_username : $share_username")
-        Log.d("TEST", "share_nickname : $share_nickname")
-        Log.d("TEST", "share_password : $share_password")
-        Log.d("TEST", "share_profile : $share_profile")
-        Log.d("TEST", "share_user_type : $share_user_type")
-        Log.d("TEST", "share_message : $share_message")
-
         // API 셋팅
         val access_token = share_access_token
         val conn = Connect().connect(access_token)
@@ -114,14 +106,13 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
         fun getBoardApi(board_type:String, board_user_type:String) {
             qna_progress_layout.visibility = View.VISIBLE
             items.clear()
-            board_api.getBoardUserType(board_type, board_user_type, page).enqueue(object: Callback<GetBoardUserTypeData> {
+            board_api.getBoardUserType(board_type, board_user_type, "1").enqueue(object: Callback<GetBoardUserTypeData> {
                 override fun onResponse(call: Call<GetBoardUserTypeData>, response: Response<GetBoardUserTypeData>) {
                     qna_progress_layout.visibility = View.GONE
                     val body = response.body()
 
                     if(body != null){
                         for(nn in body.data) {
-                            Log.d("TEST", "하하하 : $nn")
                             var my_item_count_check:Int
                             if(nn.board_username == share_username) { my_item_count_check = 1 } else { my_item_count_check = 0 }
 
@@ -132,23 +123,17 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
                             )
                         }
 
-
                         recyclerView=view.findViewById(R.id.qna_recycler) as RecyclerView
                         recyclerView.layoutManager = LinearLayoutManager(context)
-//                        val reverse_manager = LinearLayoutManager(requireContext())
-//                        reverse_manager.reverseLayout = true
-//                        reverse_manager.stackFromEnd = true
-////
-//                        recyclerView.layoutManager = reverse_manager
                         recyclerView.adapter= QnaAdapter(requireContext(), items)
                     }
 
-                    Log.d("TEST", "Qna - getBoard 통신성공 바디 -> $body")
+//                    Log.d("TEST", "Qna - getBoard 통신성공 바디 -> $body")
                 }
 
                 override fun onFailure(call: Call<GetBoardUserTypeData>, t: Throwable) {
                     qna_progress_layout.visibility = View.GONE
-                    Log.d("TEST", "Qna - getBoard 통신실패 에러 -> " + t.message)
+//                    Log.d("TEST", "Qna - getBoard 통신실패 에러 -> " + t.message)
                 }
             })
         }
@@ -173,7 +158,6 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
                             if(body != null){
                                 for(nn in body.data) {
-                                    Log.d("TEST", "하하하 : $nn")
                                     var my_item_count_check:Int
                                     if(nn.board_username == share_username) { my_item_count_check = 1 } else { my_item_count_check = 0 }
 
@@ -191,12 +175,12 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
                                 recyclerView.scrollToPosition(temp_y)
                             }
 
-                            Log.d("TEST", "Qna - getBoard 통신성공 바디 -> $body")
+//                            Log.d("TEST", "Qna - getBoard 통신성공 바디 -> $body")
                             qna_loading_progress.visibility = View.GONE
                         }
 
                         override fun onFailure(call: Call<GetBoardUserTypeData>, t: Throwable) {
-                            Log.d("TEST", "Qna - getBoard 통신실패 에러 -> " + t.message)
+//                            Log.d("TEST", "Qna - getBoard 통신실패 에러 -> " + t.message)
                             qna_loading_progress.visibility = View.GONE
                         }
                     })
@@ -362,21 +346,21 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onPause() {
         super.onPause()
-        Log.d("TEST", "QnaFragment - onPause")
+//        Log.d("TEST", "QnaFragment - onPause")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("TEST", "QnaFragment - onResume")
+//        Log.d("TEST", "QnaFragment - onResume")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("TEST", "QnaFragment - onStop")
+//        Log.d("TEST", "QnaFragment - onStop")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("TEST", "QnaFragment - onDestroy")
+//        Log.d("TEST", "QnaFragment - onDestroy")
     }
 }

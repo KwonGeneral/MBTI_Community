@@ -86,14 +86,6 @@ class BoardUpdateActivity : AppCompatActivity() {
         share_comment_id = intent.getStringExtra("comment_id").toString()
         share_comment_content = intent.getStringExtra("comment_content").toString()
 
-        Log.d("TEST", "share_access_token : $share_access_token")
-        Log.d("TEST", "share_username : $share_username")
-        Log.d("TEST", "share_board_id : $share_board_id")
-        Log.d("TEST", "share_comment_id : $share_comment_id")
-        Log.d("TEST", "share_board_title : $share_board_title")
-        Log.d("TEST", "share_board_content : $share_board_content")
-        Log.d("TEST", "share_comment_content : $share_comment_content")
-
         // Input 길이 제한
         fun EditText.setMaxLength(maxLength: Int){
             filters = arrayOf<InputFilter>(InputFilter.LengthFilter(maxLength))
@@ -154,11 +146,11 @@ class BoardUpdateActivity : AppCompatActivity() {
                     share_user_type = body.data.user_info[0].user_type
                     share_message = body.data.user_info[0].message
                 }
-                Log.d("TEST", "getUserData 통신성공 바디 -> $body")
+//                Log.d("TEST", "getUserData 통신성공 바디 -> $body")
             }
 
             override fun onFailure(call: Call<GetUserData>, t: Throwable) {
-                Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
+//                Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
             }
         })
 
@@ -198,12 +190,12 @@ class BoardUpdateActivity : AppCompatActivity() {
                         ggg_hash["move_status"] = "1"
                         MoveActivity().chain_move(this@BoardUpdateActivity, ggg_hash)
                     }
-                    Log.d("TEST", "getUserData 통신성공 바디 -> $body")
+//                    Log.d("TEST", "getUserData 통신성공 바디 -> $body")
                 }
 
                 override fun onFailure(call: Call<UpdateBoardData>, t: Throwable) {
                     board_update_progress_layout.visibility = View.GONE
-                    Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
+//                    Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
                 }
             })
         }
@@ -230,12 +222,12 @@ class BoardUpdateActivity : AppCompatActivity() {
                         rrr_hash["move_status"] = "1"
                         MoveActivity().chain_move(this@BoardUpdateActivity, rrr_hash)
                     }
-                    Log.d("TEST", "getUserData 통신성공 바디 -> $body")
+//                    Log.d("TEST", "getUserData 통신성공 바디 -> $body")
                 }
 
                 override fun onFailure(call: Call<UpdateCommentData>, t: Throwable) {
                     board_update_progress_layout.visibility = View.GONE
-                    Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
+//                    Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
                 }
             })
         }
@@ -244,7 +236,7 @@ class BoardUpdateActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 //        super.onBackPressed()
-        Log.d("TEST", "MypageProfileUpdateActivity - onBackPressed")
+//        Log.d("TEST", "MypageProfileUpdateActivity - onBackPressed")
         var zzz_hash:HashMap<String, String> = HashMap()
         zzz_hash["access_token"] = share_access_token!!
         zzz_hash["username"] = share_username!!
@@ -259,21 +251,21 @@ class BoardUpdateActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        Log.d("TEST", "MypageProfileUpdateActivity - onPause")
+//        Log.d("TEST", "MypageProfileUpdateActivity - onPause")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("TEST", "MypageProfileUpdateActivity - onResume")
+//        Log.d("TEST", "MypageProfileUpdateActivity - onResume")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("TEST", "MypageProfileUpdateActivity - onStop")
+//        Log.d("TEST", "MypageProfileUpdateActivity - onStop")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("TEST", "MypageProfileUpdateActivity - onDestroy")
+//        Log.d("TEST", "MypageProfileUpdateActivity - onDestroy")
     }
 }

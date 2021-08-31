@@ -79,16 +79,19 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
             val temp_now_datetime = LocalDateTime.now()
             val now_date: LocalDate = LocalDate.now()
             val temp_updated_at = item.updated_at
+            val now_yaer = temp_now_datetime.toString().split("T")[0].split("-")[0].toInt()
             val now_hour = temp_now_datetime.toString().split("T")[1].split(":")[0].toInt()
             val now_min = temp_now_datetime.toString().split("T")[1].split(":")[1].toInt()
 
             if (temp_updated_at != null) {
-                val temp_updated_date = temp_updated_at.split("T")[0]
+                val temp_updated_date = temp_updated_at.split("T")[0].split("-")
+                val temp_updated_year = temp_updated_date[0].toInt()
+                val temp_updated_month = temp_updated_date[1].toInt()
+                val temp_updated_day = temp_updated_date[2].toInt()
                 val temp_updated_hour = temp_updated_at.split("T")[1].split(":")[0].toInt()
                 val temp_updated_min = temp_updated_at.split("T")[1].split(":")[1].toInt()
 
                 if(temp_updated_at.split("T")[0] == now_date.toString()) {
-                    Log.d("TEST", "날짜 같음!!! -> $now_min --> $temp_updated_min")
                     if(temp_updated_hour == now_hour) {
                         if((now_min - temp_updated_min) < 3) {
                             vh.itemView.comment_datetime.text = "방금"
@@ -99,8 +102,11 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
                         vh.itemView.comment_datetime.text = (now_hour - temp_updated_hour).toString() + " 시간 전"
                     }
                 }else {
-                    Log.d("TEST", "날짜 다름!!!!! : ${item.updated_at}")
-                    vh.itemView.comment_datetime.text = "$temp_updated_date ${temp_updated_hour}시 ${temp_updated_min}분"
+                    if(now_yaer == temp_updated_year) {
+                        vh.itemView.comment_datetime.text = "${temp_updated_month}월 ${temp_updated_day}일 ${temp_updated_hour}시 ${temp_updated_min}분"
+                    } else {
+                        vh.itemView.comment_datetime.text = "${temp_updated_year}년 ${temp_updated_month}월 ${temp_updated_day}일 ${temp_updated_hour}시 ${temp_updated_min}분"
+                    }
                 }
             }
 
@@ -108,8 +114,6 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
             vh.itemView.comment_user_abled_layout.visibility = View.GONE
             vh.itemView.comment_user_disabled_layout.visibility = View.VISIBLE
         }
-
-        Log.d("TEST", "??? : ${item.comment_profile}")
 
 //        Glide.with(context)
 //            .load(item.comment_profile)
@@ -138,13 +142,11 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
         vh.itemView.comment_like_btn_layout.setOnClickListener {
             val parameter:HashMap<String, Int> = HashMap()
             parameter["comment_id"] = item.id!!
-            Log.d("TEST", "??? : ${item.id}")
 
             comment_api.likeComment(parameter).enqueue(object: Callback<LikeCommentData> {
                 override fun onResponse(call: Call<LikeCommentData>, response: Response<LikeCommentData>) {
                     val body = response.body()
                     if(body != null) {
-                        Log.d("TEST", "??? : ${body.data.username}")
                         if(body.code == "S0001") {
                             vh.itemView.comment_like_count.text = (vh.itemView.comment_like_count.text.toString().toInt() + 1).toString()
                         }else {
@@ -152,11 +154,11 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
                         }
                     }
 
-                    Log.d("TEST", "likeComment 통신성공 바디 -> $body")
+//                    Log.d("TEST", "likeComment 통신성공 바디 -> $body")
                 }
 
                 override fun onFailure(call: Call<LikeCommentData>, t: Throwable) {
-                    Log.d("TEST", "likeComment 통신실패 에러 -> " + t.message)
+//                    Log.d("TEST", "likeComment 통신실패 에러 -> " + t.message)
                 }
             })
         }
@@ -171,7 +173,6 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
             popup.setOnMenuItemClickListener { menu_item ->
                 when (menu_item.itemId) {
                     R.id.board_update_menu -> {
-                        Log.d("TEST", "메뉴 - 수정버튼 클릭")
                         val bo_parm:HashMap<String, String> = HashMap()
                         bo_parm["access_token"] = access_token
                         bo_parm["username"] = item.comment_username!!
@@ -181,7 +182,6 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
                         true
                     }
                     R.id.board_delete_menu -> {
-                        Log.d("TEST", "메뉴 - 삭제버튼 클릭")
                         val del_parm:HashMap<String, Int> = HashMap()
                         del_parm["comment_id"] = item.id!!
                         comment_api.deleteComment(del_parm).enqueue(object: Callback<DeleteCommentData> {
@@ -191,11 +191,11 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
                                     items.removeAt(position)
                                     notifyDataSetChanged()
                                 }
-                                Log.d("TEST", "deleteComment 통신성공 바디 -> $body")
+//                                Log.d("TEST", "deleteComment 통신성공 바디 -> $body")
                             }
 
                             override fun onFailure(call: Call<DeleteCommentData>, t: Throwable) {
-                                Log.d("TEST", "deleteComment 통신실패 에러 -> " + t.message)
+//                                Log.d("TEST", "deleteComment 통신실패 에러 -> " + t.message)
                             }
                         })
                         true

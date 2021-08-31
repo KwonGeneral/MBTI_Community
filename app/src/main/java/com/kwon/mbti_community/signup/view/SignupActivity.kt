@@ -158,10 +158,10 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 )
 
                 if(password_reg != null) {
-                    Log.d("TEST", "정규표현식 통과")
+//                    Log.d("TEST", "정규표현식 통과")
                     signup_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#53AF6D"))
                 } else {
-                    Log.d("TEST", "정규표현식 통과 XXXXX")
+//                    Log.d("TEST", "정규표현식 통과 X")
                     signup_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#66CDCDCD"))
                 }
 
@@ -170,7 +170,6 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                         password_count = 0
                         signup_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#66CDCDCD"))
                         signup_password_check_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#66CDCDCD"))
-                        Log.d("TEST", "비밀번호가 불일치 : $temp_password")
                     } else {
                         signup_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#53AF6D"))
                         signup_password_check_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#53AF6D"))
@@ -205,14 +204,12 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                         )
 
                         if(password_reg != null) {
-                            Log.d("TEST", "정규표현식 통과")
+//                            Log.d("TEST", "정규표현식 통과")
                             signup_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#53AF6D"))
                         } else {
-                            Log.d("TEST", "정규표현식 통과 XXXXX")
+//                            Log.d("TEST", "정규표현식 통과 X")
                             signup_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#66CDCDCD"))
                         }
-
-                        Log.d("TEST", "비밀번호가 불일치 : $temp_password")
                     } else {
                         signup_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#53AF6D"))
                         signup_password_check_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#53AF6D"))
@@ -326,12 +323,6 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }
 
             val password_aes = PasswordCheck().password_aes256(temp_password)
-            Log.d("TEST", "비밀번호가 암호화 : $password_aes")
-
-//            if(temp_password != temp_password_check) {
-//                Log.d("TEST", "패스워드가 불일치 : $temp_select_mbti")
-//                return@setOnClickListener
-//            }
 
             // 회원가입 API 통신
             val parameter:HashMap<String, String> = HashMap()
@@ -388,12 +379,12 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                         }
                     }
 
-                    Log.d("TEST", "Signup - createUser 통신성공 바디 -> $body")
+//                    Log.d("TEST", "Signup - createUser 통신성공 바디 -> $body")
                 }
 
                 override fun onFailure(call: Call<SignupData>, t: Throwable) {
                     signup_progress_layout.visibility = View.GONE
-                    Log.d("TEST", "Signup - createUser 통신실패 에러 -> " + t.message)
+//                    Log.d("TEST", "Signup - createUser 통신실패 에러 -> " + t.message)
                 }
             })
 
@@ -402,7 +393,6 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     // 스피너 제어
     override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
-        Log.d("TEST", "onItemSelected onItemSelected onItemSelected")
         // 항목이 선택되었습니다. 다음을 사용하여 선택한 항목을 검색할 수 있습니다.
         // parent.getItemAtPosition(pos)
         val position = parent.getItemAtPosition(pos)
@@ -414,18 +404,15 @@ class SignupActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         } else {
             mbti_count = 1
         }
-
-        Log.d("TEST", "position : $position")
     }
 
     override fun onNothingSelected(parent: AdapterView<*>) {
-        Log.d("TEST", "onNothingSelected onNothingSelected onNothingSelected")
         // 다른 인터페이스 콜백
     }
 
     override fun onBackPressed() {
 //        super.onBackPressed()
-        Log.d("TEST", "ChainActivity - onBackPressed")
+//        Log.d("TEST", "ChainActivity - onBackPressed")
         MoveActivity().login_move(this)
         finish()
     }

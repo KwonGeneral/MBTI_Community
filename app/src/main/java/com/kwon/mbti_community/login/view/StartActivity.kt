@@ -27,10 +27,6 @@ class StartActivity : AppCompatActivity() {
             val file_username = token_file.readText().split("\n")[1]
             val file_auto_login = token_file.readText().split("\n")[2]
 
-            Log.d("TEST", "file_access_token : $file_access_token")
-            Log.d("TEST", "file_username : $file_username")
-            Log.d("TEST", "file_auto_login : $file_auto_login")
-
             if(file_auto_login == "1") {
                 val conn = Connect().connect(file_access_token)
                 val mypage_api: MypageInterface = conn.create(MypageInterface::class.java)
@@ -56,11 +52,11 @@ class StartActivity : AppCompatActivity() {
                             MoveActivity().login_move(this@StartActivity)
                             finish()
                         }
-                        Log.d("TEST", "getUserData 통신성공 바디 -> $body")
+//                        Log.d("TEST", "getUserData 통신성공 바디 -> $body")
                     }
 
                     override fun onFailure(call: Call<GetUserData>, t: Throwable) {
-                        Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
+//                        Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
                         MoveActivity().login_move(this@StartActivity)
                         finish()
                     }

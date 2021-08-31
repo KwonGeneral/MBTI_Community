@@ -75,11 +75,6 @@ class MypageOtherProfileActivity : AppCompatActivity() {
         share_other_username = intent.getStringExtra("other_username").toString()
         share_other_profile = intent.getStringExtra("other_profile").toString()
 
-        Log.d("TEST", "share_access_token : $share_access_token")
-        Log.d("TEST", "share_username : $share_username")
-        Log.d("TEST", "share_other_nickname : $share_other_nickname")
-        Log.d("TEST", "share_other_profile : $share_other_profile")
-
         // API 셋팅
         val access_token = share_access_token
         val conn = Connect().connect(access_token)
@@ -96,12 +91,12 @@ class MypageOtherProfileActivity : AppCompatActivity() {
                     mypage_other_profile_message.text = body.data.user_info[0].message
                 }
                 mypage_other_profile_progress_layout.visibility = View.GONE
-                Log.d("TEST", "getUserData 통신성공 바디 -> $body")
+//                Log.d("TEST", "getUserData 통신성공 바디 -> $body")
             }
 
             override fun onFailure(call: Call<GetUserData>, t: Throwable) {
                 mypage_other_profile_progress_layout.visibility = View.GONE
-                Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
+//                Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
             }
         })
 
@@ -119,11 +114,11 @@ class MypageOtherProfileActivity : AppCompatActivity() {
                     share_message = bodyss.data.user_info[0].message
                     share_profile = share_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
                 }
-                Log.d("TEST", "getUserData 통신성공 바디 -> $bodyss")
+//                Log.d("TEST", "getUserData 통신성공 바디 -> $bodyss")
             }
 
             override fun onFailure(call: Call<GetUserData>, t: Throwable) {
-                Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
+//                Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
             }
         })
 

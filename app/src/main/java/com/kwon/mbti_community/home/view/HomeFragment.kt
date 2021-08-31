@@ -30,17 +30,17 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("TEST","HomeFragment - onCreate")
+//        Log.d("TEST","HomeFragment - onCreate")
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.d("TEST","HomeFragment - onAttach")
+//        Log.d("TEST","HomeFragment - onAttach")
     }
 
     @SuppressLint("ResourceType")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.d("TEST","HomeFragment - onCreateView")
+//        Log.d("TEST","HomeFragment - onCreateView")
         val view=inflater.inflate(R.layout.fragment_home, container, false)
 
         // 값 전달
@@ -52,15 +52,6 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         share_profile = bundle_arguments?.getString("profile").toString()
         share_user_type = bundle_arguments?.getString("user_type").toString()
         share_message = bundle_arguments?.getString("message").toString()
-
-        Log.d("TEST", "share_access_token : $share_access_token")
-        Log.d("TEST", "share_username : $share_username")
-        Log.d("TEST", "share_nickname : $share_nickname")
-        Log.d("TEST", "share_profile : $share_profile")
-        Log.d("TEST", "share_user_type : $share_user_type")
-        Log.d("TEST", "share_message : $share_message")
-
-        // 프로필 이미지 모서리 둥글게 설정
 
         return view
     }

@@ -52,17 +52,17 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("TEST","WriteFragment - onCreate")
+//        Log.d("TEST","WriteFragment - onCreate")
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.d("TEST","WriteFragment - onAttach")
+//        Log.d("TEST","WriteFragment - onAttach")
     }
 
     @SuppressLint("ResourceType", "CutPasteId", "SetTextI18n")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.d("TEST","WriteFragment - onCreateView")
+//        Log.d("TEST","WriteFragment - onCreateView")
         val view=inflater.inflate(R.layout.fragment_write, container, false)
 
         // 프로그레스바 설정
@@ -80,20 +80,11 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
         share_user_type = bundle_arguments?.getString("user_type").toString()
         share_message = bundle_arguments?.getString("message").toString()
 
-        Log.d("TEST", "share_access_token : $share_access_token")
-        Log.d("TEST", "share_username : $share_username")
-        Log.d("TEST", "share_nickname : $share_nickname")
-        Log.d("TEST", "share_password : $share_password")
-        Log.d("TEST", "share_profile : $share_profile")
-        Log.d("TEST", "share_user_type : $share_user_type")
-        Log.d("TEST", "share_message : $share_message")
-
         share_profile = share_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
 
         // 전체 레이아웃 클릭 시, 포커스 해제
         val write_frame_layout = view.findViewById<FrameLayout>(R.id.write_frame_layout)
         write_frame_layout.setOnClickListener {
-            Log.d("TEST", "write_frame_layout write_frame_layout write_frame_layout")
             // 키보드 내리기
             val mInputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             mInputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
@@ -103,7 +94,6 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
         val write_main_layout = view.findViewById<LinearLayout>(R.id.write_main_layout)
         write_main_layout.setOnClickListener {
-            Log.d("TEST", "write_main_layout write_main_layout write_main_layout")
             // 키보드 내리기
             val mInputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             mInputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
@@ -143,9 +133,6 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
             val mInputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             mInputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 
-            Log.d("TEST", "write_title_input : $write_title_input")
-            Log.d("TEST", "write_content_input : $write_content_input")
-
             if(write_title_input.replace(" ", "") == "" || write_content_input.replace(" ", "") == "") {
                 return@setOnClickListener
             }
@@ -182,12 +169,12 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
                         
                     }
 
-                    Log.d("TEST", "createBoard 통신성공 바디 -> $body")
+//                    Log.d("TEST", "createBoard 통신성공 바디 -> $body")
                 }
 
                 override fun onFailure(call: Call<CreateBoardData>, t: Throwable) {
                     write_progress_layout.visibility = View.GONE
-                    Log.d("TEST", "createBoard 통신실패 에러 -> " + t.message)
+//                    Log.d("TEST", "createBoard 통신실패 에러 -> " + t.message)
                 }
             })
         }
@@ -308,21 +295,21 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onPause() {
         super.onPause()
-        Log.d("TEST", "WriteFragment - onPause")
+//        Log.d("TEST", "WriteFragment - onPause")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("TEST", "WriteFragment - onResume")
+//        Log.d("TEST", "WriteFragment - onResume")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("TEST", "WriteFragment - onStop")
+//        Log.d("TEST", "WriteFragment - onStop")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("TEST", "WriteFragment - onDestroy")
+//        Log.d("TEST", "WriteFragment - onDestroy")
     }
 }

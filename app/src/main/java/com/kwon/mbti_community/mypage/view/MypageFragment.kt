@@ -59,17 +59,17 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("TEST","MypageFragment - onCreate")
+//        Log.d("TEST","MypageFragment - onCreate")
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.d("TEST","MypageFragment - onAttach")
+//        Log.d("TEST","MypageFragment - onAttach")
     }
 
     @SuppressLint("ResourceType", "SetTextI18n", "UseSwitchCompatOrMaterialCode")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.d("TEST","MypageFragment - onCreateView")
+//        Log.d("TEST","MypageFragment - onCreateView")
         val view=inflater.inflate(R.layout.fragment_mypage, container, false)
 
         val mypage_progress_layout = view.findViewById<LinearLayout>(R.id.mypage_progress_layout)
@@ -87,16 +87,9 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
         share_user_type = bundle_arguments?.getString("user_type").toString()
         share_message = bundle_arguments?.getString("message").toString()
 
-        Log.d("TEST", "share_access_token : $share_access_token")
-        Log.d("TEST", "share_username : $share_username")
-        Log.d("TEST", "share_nickname : $share_nickname")
-        Log.d("TEST", "share_password : $share_password")
-        Log.d("TEST", "share_profile : $share_profile")
-        Log.d("TEST", "share_user_type : $share_user_type")
-        Log.d("TEST", "share_message : $share_message")
-
         share_profile = share_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
 //        share_profile = share_profile.replace("https://kwonputer.com/media/", "http://192.168.1.9:3333/media/")
+        Log.d("TEST", "??...?? : $share_profile")
 
         // Glide로 이미지 표시하기
         val user_profile = view.findViewById<ImageView>(R.id.user_profile)
@@ -134,16 +127,15 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
                         mypage_push_setting.isChecked = false
                     }
                 }
-                Log.d("TEST", "getUserData 통신성공 바디 -> $body")
+//                Log.d("TEST", "getUserData 통신성공 바디 -> $body")
             }
 
             override fun onFailure(call: Call<GetUserData>, t: Throwable) {
-                Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
+//                Log.d("TEST", "getUserData 통신실패 에러 -> " + t.message)
             }
         })
 
         mypage_push_setting.setOnCheckedChangeListener { buttonView, isChecked ->
-            Log.d("TEST", "mypage_push_setting : $isChecked")
             mypage_push_progress.visibility = View.VISIBLE
             val parameters:HashMap<String, String> = HashMap()
             if(isChecked == true) {
@@ -152,12 +144,12 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     Callback<UpdateUserInfoData> {
                     override fun onResponse(call: Call<UpdateUserInfoData>, response: Response<UpdateUserInfoData>) {
                         val body = response.body()
-                        Log.d("TEST", "updateUserInfo 통신성공 바디 -> $body")
+//                        Log.d("TEST", "updateUserInfo 통신성공 바디 -> $body")
                         mypage_push_progress.visibility = View.GONE
                     }
 
                     override fun onFailure(call: Call<UpdateUserInfoData>, t: Throwable) {
-                        Log.d("TEST", "updateUserInfo 통신실패 에러 -> " + t.message)
+//                        Log.d("TEST", "updateUserInfo 통신실패 에러 -> " + t.message)
                         mypage_push_progress.visibility = View.GONE
                     }
                 })
@@ -167,12 +159,12 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     Callback<UpdateUserInfoData> {
                     override fun onResponse(call: Call<UpdateUserInfoData>, response: Response<UpdateUserInfoData>) {
                         val body = response.body()
-                        Log.d("TEST", "updateUserInfo 통신성공 바디 -> $body")
+//                        Log.d("TEST", "updateUserInfo 통신성공 바디 -> $body")
                         mypage_push_progress.visibility = View.GONE
                     }
 
                     override fun onFailure(call: Call<UpdateUserInfoData>, t: Throwable) {
-                        Log.d("TEST", "updateUserInfo 통신실패 에러 -> " + t.message)
+//                        Log.d("TEST", "updateUserInfo 통신실패 에러 -> " + t.message)
                         mypage_push_progress.visibility = View.GONE
                     }
                 })
@@ -189,7 +181,7 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
                 token_file.bufferedWriter().use {
                     it.write("$access\n$username\n$temp_auto_check_count")
-                    Log.d("token/bufferedWriter-->",token_file.toString())
+//                    Log.d("token/bufferedWriter-->",token_file.toString())
                 }
                 return
             }
@@ -262,7 +254,6 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     if(bodys != null) {
                         mypage_user_board_count.text = bodys.data.board_total_count
                     }
-                    Log.d("TEST", "getBoardCount 통신성공 바디 -> $bodys")
 
                     // API 통신 : 유저가 올린 게시글 가져오기
                     mypage_api.getUserBoard(share_username, page).enqueue(object: Callback<GetUserBoardData> {
@@ -271,7 +262,6 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
                             if(body != null) {
                                 if(body.data.isNotEmpty()) {
                                     for(nn in body.data) {
-                                        Log.d("TEST", "하하하 : $nn")
                                         items.add(
                                             MypageHistoryItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, nn.board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at)
                                         )
@@ -279,11 +269,6 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
                                     recyclerView=view.findViewById(R.id.mypage_history_recycler) as RecyclerView
                                     recyclerView.layoutManager = LinearLayoutManager(context)
-//                                    val reverse_manager = LinearLayoutManager(requireContext())
-//                                    reverse_manager.reverseLayout = true
-//                                    reverse_manager.stackFromEnd = true
-////
-//                                    recyclerView.layoutManager = reverse_manager
                                     recyclerView.adapter = MypageHistoryAdapter(requireContext(), items)
                                 }
                             }
@@ -291,11 +276,11 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
                             mypage_progress_layout.visibility = View.GONE
                             mypage_main_layout.visibility = View.VISIBLE
 
-                            Log.d("TEST", "getUserBoard 통신성공 바디 -> $body")
+//                            Log.d("TEST", "getUserBoard 통신성공 바디 -> $body")
                         }
 
                         override fun onFailure(call: Call<GetUserBoardData>, t: Throwable) {
-                            Log.d("TEST", "getUserBoard 통신실패 에러 -> " + t.message)
+//                            Log.d("TEST", "getUserBoard 통신실패 에러 -> " + t.message)
 
                             mypage_progress_layout.visibility = View.GONE
                             mypage_main_layout.visibility = View.VISIBLE
@@ -304,7 +289,7 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 }
 
                 override fun onFailure(call: Call<GetBoardCountData>, t: Throwable) {
-                    Log.d("TEST", "getBoardCount 통신실패 에러 -> " + t.message)
+//                    Log.d("TEST", "getBoardCount 통신실패 에러 -> " + t.message)
 
                     mypage_progress_layout.visibility = View.GONE
                     mypage_main_layout.visibility = View.VISIBLE
@@ -332,7 +317,6 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
                             if(body != null) {
                                 if(body.data.isNotEmpty()) {
                                     for(nn in body.data) {
-                                        Log.d("TEST", "하하하 : $nn")
                                         items.add(
                                             MypageHistoryItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, nn.board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at)
                                         )
@@ -348,11 +332,11 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
                             Thread.sleep(200)
                             recyclerView.scrollToPosition(temp_y)
                             mypage_history_loading_progress.visibility = View.GONE
-                            Log.d("TEST", "getUserBoard 통신성공 바디 -> $body")
+//                            Log.d("TEST", "getUserBoard 통신성공 바디 -> $body")
                         }
 
                         override fun onFailure(call: Call<GetUserBoardData>, t: Throwable) {
-                            Log.d("TEST", "getUserBoard 통신실패 에러 -> " + t.message)
+//                            Log.d("TEST", "getUserBoard 통신실패 에러 -> " + t.message)
                             mypage_history_loading_progress.visibility = View.GONE
                         }
                     })
@@ -418,22 +402,22 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onPause() {
         super.onPause()
-        Log.d("TEST", "MypageFragment - onPause")
+//        Log.d("TEST", "MypageFragment - onPause")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("TEST", "MypageFragment - onResume")
+//        Log.d("TEST", "MypageFragment - onResume")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("TEST", "MypageFragment - onStop")
+//        Log.d("TEST", "MypageFragment - onStop")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("TEST", "MypageFragment - onDestroy")
+//        Log.d("TEST", "MypageFragment - onDestroy")
     }
 
 //    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
