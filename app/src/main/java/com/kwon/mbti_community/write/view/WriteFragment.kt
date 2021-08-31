@@ -135,6 +135,9 @@ class WriteFragment : Fragment(), AdapterView.OnItemSelectedListener {
             val write_content_input = view.findViewById<TextInputEditText>(R.id.write_content_input).text.toString()
             view.findViewById<TextInputEditText>(R.id.write_title_input).text!!.clear()
             view.findViewById<TextInputEditText>(R.id.write_content_input).text!!.clear()
+            // 포커스 해제
+            view.findViewById<TextInputEditText>(R.id.write_title_input).clearFocus()
+            view.findViewById<TextInputEditText>(R.id.write_content_input).clearFocus()
 
             // 키보드 내리기
             val mInputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
