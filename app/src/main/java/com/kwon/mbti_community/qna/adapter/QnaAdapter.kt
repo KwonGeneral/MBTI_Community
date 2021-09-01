@@ -41,6 +41,9 @@ class QnaAdapter constructor(var context:Context, var items:ArrayList<QnaItem>):
     val token_file = File("$app_file_path/token.token")
     val access_token = token_file.readText().split("\n")[0]
     val username = token_file.readText().split("\n")[1]
+    val nickname = token_file.readText().split("\n")[3]
+    val user_type = token_file.readText().split("\n")[4]
+    val profile = token_file.readText().split("\n")[5]
     val conn = Connect().connect(access_token)
     val qna_api: BoardInterface = conn.create(BoardInterface::class.java)
 
@@ -83,20 +86,20 @@ class QnaAdapter constructor(var context:Context, var items:ArrayList<QnaItem>):
 
         val temp_now_datetime = LocalDateTime.now()
         val now_date: LocalDate = LocalDate.now()
-        val temp_updated_at = item.updated_at
+        val temp_created_at = item.created_at
         val now_yaer = temp_now_datetime.toString().split("T")[0].split("-")[0].toInt()
         val now_hour = temp_now_datetime.toString().split("T")[1].split(":")[0].toInt()
         val now_min = temp_now_datetime.toString().split("T")[1].split(":")[1].toInt()
 
-        if (temp_updated_at != null) {
-            val temp_updated_date = temp_updated_at.split("T")[0].split("-")
+        if (temp_created_at != null) {
+            val temp_updated_date = temp_created_at.split("T")[0].split("-")
             val temp_updated_year = temp_updated_date[0].toInt()
             val temp_updated_month = temp_updated_date[1].toInt()
             val temp_updated_day = temp_updated_date[2].toInt()
-            val temp_updated_hour = temp_updated_at.split("T")[1].split(":")[0].toInt()
-            val temp_updated_min = temp_updated_at.split("T")[1].split(":")[1].toInt()
+            val temp_updated_hour = temp_created_at.split("T")[1].split(":")[0].toInt()
+            val temp_updated_min = temp_created_at.split("T")[1].split(":")[1].toInt()
 
-            if(temp_updated_at.split("T")[0] == now_date.toString()) {
+            if(temp_created_at.split("T")[0] == now_date.toString()) {
                 if(temp_updated_hour == now_hour) {
                     if((now_min - temp_updated_min) < 3) {
                         vh.itemView.qna_datetime.text = "방금"
@@ -195,7 +198,7 @@ class QnaAdapter constructor(var context:Context, var items:ArrayList<QnaItem>):
                                 var check_comment_profile = nn.comment_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
 
                                 comment_items.add(
-                                    CommentItem(nn.id, nn.comment_content, nn.comment_like_count.toString(), nn.comment_nickname, check_comment_profile, nn.comment_title, nn.comment_user_type, nn.comment_username, nn.updated_at, comment_my_item_count)
+                                    CommentItem(nn.id, nn.comment_content, nn.comment_like_count.toString(), nn.comment_nickname, check_comment_profile, nn.comment_title, nn.comment_user_type, nn.comment_username, nn.created_at, comment_my_item_count)
                                 )
                             }
                         } else {
@@ -230,6 +233,10 @@ class QnaAdapter constructor(var context:Context, var items:ArrayList<QnaItem>):
                 paramter["comment_content"] = temp_comment_text.toString()
                 paramter["board_id"] = item.id.toString()
 
+                comment_items.add(
+                    CommentItem(1, temp_comment_text.toString(), "0", nickname, profile, "", user_type, username, temp_now_datetime.toString(), 1)
+                )
+
                 qna_api.createComment(paramter).enqueue(object: Callback<CreateCommentData> {
                     override fun onResponse(call: Call<CreateCommentData>, response: Response<CreateCommentData>) {
                         val body = response.body()
@@ -239,9 +246,10 @@ class QnaAdapter constructor(var context:Context, var items:ArrayList<QnaItem>):
 
                             var check_comment_profile = body.data.comment_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
 
-                            comment_items.add(
-                                CommentItem(body.data.id, body.data.comment_content, body.data.comment_like_count.toString(), body.data.comment_nickname, check_comment_profile, body.data.comment_title, body.data.comment_user_type, body.data.comment_username, body.data.updated_at, comment_my_item_count)
-                            )
+//                            comment_items.add(
+//                                CommentItem(body.data.id, body.data.comment_content, body.data.comment_like_count.toString(), body.data.comment_nickname, check_comment_profile, body.data.comment_title, body.data.comment_user_type, body.data.comment_username, body.data.created_at, comment_my_item_count)
+//                            )
+                            comment_items[comment_items.lastIndex] = CommentItem(body.data.id, body.data.comment_content, body.data.comment_like_count.toString(), body.data.comment_nickname, check_comment_profile, body.data.comment_title, body.data.comment_user_type, body.data.comment_username, body.data.created_at, comment_my_item_count)
                             recyclerView=vh.itemView.findViewById(R.id.qna_comment_recycler) as RecyclerView
                             recyclerView.layoutManager = LinearLayoutManager(context)
                             recyclerView.adapter = CommentAdapter(context, comment_items)

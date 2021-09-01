@@ -17,10 +17,7 @@ import com.bumptech.glide.Glide
 import com.kwon.mbti_community.R
 import com.kwon.mbti_community.board.adapter.CommentAdapter
 import com.kwon.mbti_community.board.adapter.CommentItem
-import com.kwon.mbti_community.board.model.BoardInterface
-import com.kwon.mbti_community.board.model.CreateCommentData
-import com.kwon.mbti_community.board.model.DeleteBoardData
-import com.kwon.mbti_community.board.model.GetCommentData
+import com.kwon.mbti_community.board.model.*
 import com.kwon.mbti_community.mypage.model.MypageInterface
 import com.kwon.mbti_community.z_common.connect.Connect
 import kotlinx.android.synthetic.main.fragment_board_item.view.*
@@ -41,6 +38,9 @@ class MypageHistoryAdapter constructor(var context: Context, var items:ArrayList
     val token_file = File("$app_file_path/token.token")
     val access_token = token_file.readText().split("\n")[0]
     val username = token_file.readText().split("\n")[1]
+    val nickname = token_file.readText().split("\n")[3]
+    val user_type = token_file.readText().split("\n")[4]
+    val profile = token_file.readText().split("\n")[5]
     val conn = Connect().connect(access_token)
     val mypage_api: MypageInterface = conn.create(MypageInterface::class.java)
     val board_api: BoardInterface = conn.create(BoardInterface::class.java)
@@ -92,20 +92,20 @@ class MypageHistoryAdapter constructor(var context: Context, var items:ArrayList
 
         val temp_now_datetime = LocalDateTime.now()
         val now_date: LocalDate = LocalDate.now()
-        val temp_updated_at = item.updated_at
+        val temp_created_at = item.created_at
         val now_yaer = temp_now_datetime.toString().split("T")[0].split("-")[0].toInt()
         val now_hour = temp_now_datetime.toString().split("T")[1].split(":")[0].toInt()
         val now_min = temp_now_datetime.toString().split("T")[1].split(":")[1].toInt()
 
-        if (temp_updated_at != null) {
-            val temp_updated_date = temp_updated_at.split("T")[0].split("-")
+        if (temp_created_at != null) {
+            val temp_updated_date = temp_created_at.split("T")[0].split("-")
             val temp_updated_year = temp_updated_date[0].toInt()
             val temp_updated_month = temp_updated_date[1].toInt()
             val temp_updated_day = temp_updated_date[2].toInt()
-            val temp_updated_hour = temp_updated_at.split("T")[1].split(":")[0].toInt()
-            val temp_updated_min = temp_updated_at.split("T")[1].split(":")[1].toInt()
+            val temp_updated_hour = temp_created_at.split("T")[1].split(":")[0].toInt()
+            val temp_updated_min = temp_created_at.split("T")[1].split(":")[1].toInt()
 
-            if(temp_updated_at.split("T")[0] == now_date.toString()) {
+            if(temp_created_at.split("T")[0] == now_date.toString()) {
                 if(temp_updated_hour == now_hour) {
                     if((now_min - temp_updated_min) < 3) {
                         vh.itemView.mypage_history_datetime.text = "방금"
@@ -166,7 +166,7 @@ class MypageHistoryAdapter constructor(var context: Context, var items:ArrayList
                                 var comment_my_item_count:Int
                                 if(nn.comment_username == username) { comment_my_item_count = 1 } else { comment_my_item_count = 0 }
                                 comment_items.add(
-                                    CommentItem(nn.id, nn.comment_content, nn.comment_like_count.toString(), nn.comment_nickname, nn.comment_profile, nn.comment_title, nn.comment_user_type, nn.comment_username, nn.updated_at, comment_my_item_count)
+                                    CommentItem(nn.id, nn.comment_content, nn.comment_like_count.toString(), nn.comment_nickname, nn.comment_profile, nn.comment_title, nn.comment_user_type, nn.comment_username, nn.created_at, comment_my_item_count)
                                 )
                             }
                         } else {
@@ -188,6 +188,33 @@ class MypageHistoryAdapter constructor(var context: Context, var items:ArrayList
             })
         }
 
+        // 좋아요 버튼 클릭
+        vh.itemView.mypage_history_like_btn.setOnClickListener {
+            val parameter:HashMap<String, Int> = HashMap()
+            parameter["board_id"] = item.id
+
+            board_api.likeBoard(parameter).enqueue(object: Callback<LikeBoardData> {
+                override fun onResponse(call: Call<LikeBoardData>, response: Response<LikeBoardData>) {
+                    val body = response.body()
+                    if(body != null) {
+                        if(body.code == "S0001") {
+                            vh.itemView.mypage_history_like_count.text = (vh.itemView.mypage_history_like_count.text.toString().toInt() + 1).toString()
+                            vh.itemView.mypage_history_board_like_count.text = (vh.itemView.mypage_history_board_like_count.text.toString().toInt() + 1).toString()
+                        }else {
+                            vh.itemView.mypage_history_like_count.text = (vh.itemView.mypage_history_like_count.text.toString().toInt() - 1).toString()
+                            vh.itemView.mypage_history_board_like_count.text = (vh.itemView.mypage_history_board_like_count.text.toString().toInt() - 1).toString()
+                        }
+                    }
+
+                    Log.d("TEST", "likeBoard 통신성공 바디 -> $body")
+                }
+
+                override fun onFailure(call: Call<LikeBoardData>, t: Throwable) {
+                    Log.d("TEST", "likeBoard 통신실패 에러 -> " + t.message)
+                }
+            })
+        }
+
         vh.itemView.mypage_history_comment_submit_btn.setOnClickListener {
             val temp_comment_text = vh.itemView.mypage_history_comment_input.text
             if(temp_comment_text.toString() != "") {
@@ -201,15 +228,21 @@ class MypageHistoryAdapter constructor(var context: Context, var items:ArrayList
                 paramter["comment_content"] = temp_comment_text.toString()
                 paramter["board_id"] = item.id.toString()
 
+                comment_items.add(
+                    CommentItem(1, temp_comment_text.toString(), "0", nickname, profile, "", user_type, username, temp_now_datetime.toString(), 1)
+                )
+
                 board_api.createComment(paramter).enqueue(object: Callback<CreateCommentData> {
                     override fun onResponse(call: Call<CreateCommentData>, response: Response<CreateCommentData>) {
                         val body = response.body()
                         if(body != null) {
                             var comment_my_item_count:Int
                             if(body.data.comment_username == username) { comment_my_item_count = 1 } else { comment_my_item_count = 0 }
-                            comment_items.add(
-                                CommentItem(body.data.id, body.data.comment_content, body.data.comment_like_count.toString(), body.data.comment_nickname, body.data.comment_profile, body.data.comment_title, body.data.comment_user_type, body.data.comment_username, body.data.updated_at, comment_my_item_count)
-                            )
+                            var check_comment_profile = body.data.comment_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
+//                            comment_items.add(
+//                                CommentItem(body.data.id, body.data.comment_content, body.data.comment_like_count.toString(), body.data.comment_nickname, body.data.comment_profile, body.data.comment_title, body.data.comment_user_type, body.data.comment_username, body.data.created_at, comment_my_item_count)
+//                            )
+                            comment_items[comment_items.lastIndex] = CommentItem(body.data.id, body.data.comment_content, body.data.comment_like_count.toString(), body.data.comment_nickname, check_comment_profile, body.data.comment_title, body.data.comment_user_type, body.data.comment_username, body.data.created_at, comment_my_item_count)
                             recyclerView=vh.itemView.findViewById(R.id.mypage_history_comment_recycler) as RecyclerView
                             recyclerView.layoutManager = LinearLayoutManager(context)
                             recyclerView.adapter = CommentAdapter(context, comment_items)

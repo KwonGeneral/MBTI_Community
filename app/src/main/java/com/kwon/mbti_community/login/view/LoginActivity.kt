@@ -57,15 +57,14 @@ class LoginActivity : AppCompatActivity() {
 
     var app_file_path: String? = null
 
-    fun saveTokenFile(access: String, username: String, temp_auto_check_count: Int) {
+    fun saveTokenFile(access: String, username: String, temp_auto_check_count: Int, nickname:String, user_type:String, profile:String) {
         val path = app_file_path
         // 토큰 저장 경로
         val token_file = File("$path/token.token")
 
         // 경로에 있는 파일에 토큰 저장
         token_file.bufferedWriter().use {
-            it.write("$access\n$username\n$temp_auto_check_count")
-            Log.d("token/bufferedWriter-->",token_file.toString())
+            it.write("$access\n$username\n$temp_auto_check_count\n$nickname\n$user_type\n$profile")
         }
         return
     }
@@ -249,10 +248,10 @@ class LoginActivity : AppCompatActivity() {
                             login_password_circle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#ff0000"))
                         } else {
                             val hash: HashMap<String, String> = HashMap()
-                            saveTokenFile(body.data.access_token, body.data.user_info.username, temp_auto_check_count)
                             val local_mac_profile = "http://192.168.0.38:3333/media/" + body.data.user_info.profile
                             val local_home_profile = "http://192.168.1.9:3333/media/" + body.data.user_info.profile
                             val deploy_profile = "https://kwonputer.com/media/" + body.data.user_info.profile
+                            saveTokenFile(body.data.access_token, body.data.user_info.username, temp_auto_check_count, body.data.user_info.nickname, body.data.user_info.user_type, deploy_profile)
                             hash["access_token"] = body.data.access_token
                             hash["username"] = body.data.user_info.username
                             hash["nickname"] = body.data.user_info.nickname

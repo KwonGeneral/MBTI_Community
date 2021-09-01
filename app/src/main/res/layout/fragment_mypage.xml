@@ -275,11 +275,14 @@
 
                     <Switch
                         android:id="@+id/mypage_push_setting"
-                        style="@style/noto_medium"
-                        android:layout_width="160dp"
+                        style="@style/noto_regular"
+                        android:layout_width="150dp"
                         android:layout_height="50dp"
                         android:text="푸시 알림 설정"
-                        android:textColor="#eeeeee" />
+                        android:textColor="#777777"
+                        android:textSize="14sp"
+                        android:thumb="@drawable/switch_thumb_selector"
+                        android:track="@drawable/switch_track_selector" />
                 </LinearLayout>
 
                 <Button

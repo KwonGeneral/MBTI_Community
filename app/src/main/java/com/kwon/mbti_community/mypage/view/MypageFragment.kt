@@ -263,7 +263,7 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
                                 if(body.data.isNotEmpty()) {
                                     for(nn in body.data) {
                                         items.add(
-                                            MypageHistoryItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, nn.board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at)
+                                            MypageHistoryItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, nn.board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.created_at)
                                         )
                                     }
 
@@ -318,7 +318,7 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
                                 if(body.data.isNotEmpty()) {
                                     for(nn in body.data) {
                                         items.add(
-                                            MypageHistoryItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, nn.board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at)
+                                            MypageHistoryItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, nn.board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.created_at)
                                         )
                                     }
 

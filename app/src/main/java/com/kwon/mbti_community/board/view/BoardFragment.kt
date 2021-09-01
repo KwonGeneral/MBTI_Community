@@ -112,7 +112,7 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
                         }
 
                         items.add(
-                            BoardItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, check_board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at, my_item_count_check)
+                            BoardItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, check_board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.created_at, my_item_count_check)
                         )
                     }
 
@@ -158,7 +158,7 @@ class BoardFragment : Fragment(), AdapterView.OnItemSelectedListener {
                                     }
 
                                     items.add(
-                                        BoardItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, check_board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at, my_item_count_check)
+                                        BoardItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, check_board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.created_at, my_item_count_check)
                                     )
                                 }
 

@@ -78,20 +78,20 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
 
             val temp_now_datetime = LocalDateTime.now()
             val now_date: LocalDate = LocalDate.now()
-            val temp_updated_at = item.updated_at
+            val temp_created_at = item.created_at
             val now_yaer = temp_now_datetime.toString().split("T")[0].split("-")[0].toInt()
             val now_hour = temp_now_datetime.toString().split("T")[1].split(":")[0].toInt()
             val now_min = temp_now_datetime.toString().split("T")[1].split(":")[1].toInt()
 
-            if (temp_updated_at != null) {
-                val temp_updated_date = temp_updated_at.split("T")[0].split("-")
+            if (temp_created_at != null) {
+                val temp_updated_date = temp_created_at.split("T")[0].split("-")
                 val temp_updated_year = temp_updated_date[0].toInt()
                 val temp_updated_month = temp_updated_date[1].toInt()
                 val temp_updated_day = temp_updated_date[2].toInt()
-                val temp_updated_hour = temp_updated_at.split("T")[1].split(":")[0].toInt()
-                val temp_updated_min = temp_updated_at.split("T")[1].split(":")[1].toInt()
+                val temp_updated_hour = temp_created_at.split("T")[1].split(":")[0].toInt()
+                val temp_updated_min = temp_created_at.split("T")[1].split(":")[1].toInt()
 
-                if(temp_updated_at.split("T")[0] == now_date.toString()) {
+                if(temp_created_at.split("T")[0] == now_date.toString()) {
                     if(temp_updated_hour == now_hour) {
                         if((now_min - temp_updated_min) < 3) {
                             vh.itemView.comment_datetime.text = "방금"

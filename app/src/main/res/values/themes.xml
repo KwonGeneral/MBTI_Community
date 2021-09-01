@@ -38,6 +38,16 @@
 <!--        <item name="android:itemBackground">#392f31</item>-->
     </style>
 
+    <style name="nanum_brush" parent="android:TextAppearance">
+        <item name="android:fontFamily">@font/nanum_brush</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="nanum_pen" parent="android:TextAppearance">
+        <item name="android:fontFamily">@font/nanum_pen</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
     <style name="noto_regular" parent="android:TextAppearance">
         <item name="android:fontFamily">@font/noto_regular</item>
         <item name="android:includeFontPadding">false</item>

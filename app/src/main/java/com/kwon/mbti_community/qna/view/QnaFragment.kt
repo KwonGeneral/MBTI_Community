@@ -119,7 +119,7 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
                             var check_board_profile = nn.board_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
 
                             items.add(
-                                QnaItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, check_board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at, my_item_count_check)
+                                QnaItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, check_board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.created_at, my_item_count_check)
                             )
                         }
 
@@ -164,7 +164,7 @@ class QnaFragment : Fragment(), AdapterView.OnItemSelectedListener {
                                     var check_board_profile = nn.board_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
 
                                     items.add(
-                                        QnaItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, check_board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.updated_at, my_item_count_check)
+                                        QnaItem(nn.id, nn.board_content, nn.board_like_count.toString(), nn.board_nickname, check_board_profile, nn.board_title, nn.board_type, nn.board_user_type, nn.board_username, nn.created_at, my_item_count_check)
                                     )
                                 }
 

@@ -10,6 +10,6 @@ class MypageHistoryItem constructor(
     val board_type: String?,
     val board_user_type: String?,
     val board_username: String?,
-    val updated_at: String?,
+    val created_at: String?,
 ) {
 }

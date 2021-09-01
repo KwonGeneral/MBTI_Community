@@ -167,6 +167,18 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
             MoveActivity().chain_move(this, kkk_hash)
         }
 
+        fun saveTokenFile(access: String, username: String, temp_auto_check_count: Int, nickname:String, user_type:String, profile:String) {
+            val path = app_file_path
+            // 토큰 저장 경로
+            val token_file = File("$path/token.token")
+
+            // 경로에 있는 파일에 토큰 저장
+            token_file.bufferedWriter().use {
+                it.write("$access\n$username\n$temp_auto_check_count\n$nickname\n$user_type\n$profile")
+            }
+            return
+        }
+
         // API 셋팅
         val access_token = share_access_token
         val conn = Connect().connect(access_token)
@@ -323,6 +335,12 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
                                             share_message = bodyss.data.user_info[0].message
 
                                             share_profile = share_profile.replace("http://kwonputer.com/media/", "https://kwonputer.com/media/")
+
+                                            // 토큰 확인
+                                            val app_file_path = this@MypageProfileUpdateActivity.getExternalFilesDir(null).toString()
+                                            val token_file = File("$app_file_path/token.token")
+                                            val auto_check_count = token_file.readText().split("\n")[2]
+                                            saveTokenFile(share_access_token, share_username, auto_check_count.toInt(), share_nickname, share_user_type, share_profile)
 
                                             val snack: Snackbar = Snackbar
                                                 .make(findViewById<ConstraintLayout>(R.id.mypage_profile_all_layout), "수정된 프로필을 반영했습니다.", 2000)

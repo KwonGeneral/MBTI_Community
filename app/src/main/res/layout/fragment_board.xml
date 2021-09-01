@@ -43,33 +43,37 @@
 
                 <TextView
                     android:id="@+id/textView4"
-                    style="@style/noto_medium"
+                    style="@style/nanum_pen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="일상 "
                     android:textColor="#53AF6D"
-                    android:textSize="20sp" />
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView10"
-                    style="@style/noto_regular"
+                    style="@style/nanum_pen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="속 "
                     android:textColor="#aaffffff"
-                    android:textSize="12sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView3"
-                    style="@style/noto_medium"
+                    style="@style/nanum_pen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:paddingTop="2dp"
                     android:text=" MBTI"
                     android:textColor="#F7CF46"
-                    android:textSize="20sp" />
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
 
                 <View
                     android:id="@+id/view14"
