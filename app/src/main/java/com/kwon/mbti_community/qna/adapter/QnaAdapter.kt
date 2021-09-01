@@ -77,8 +77,8 @@ class QnaAdapter constructor(var context:Context, var items:ArrayList<QnaItem>):
 
         Glide.with(context)
             .load(item.board_profile)
-            .placeholder(R.drawable.user_default_profile)
-            .error(R.drawable.user_default_profile)
+            .placeholder(R.drawable.white_background)
+            .error(R.drawable.white_background)
             .into(vh.itemView.qna_user_profile)
 
         val temp_now_datetime = LocalDateTime.now()

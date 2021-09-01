@@ -110,8 +110,8 @@ class BoardAdapter constructor(var context:Context, var items:ArrayList<BoardIte
 
         Glide.with(context)
             .load(item.board_profile)
-            .placeholder(R.drawable.user_default_profile)
-            .error(R.drawable.user_default_profile)
+            .placeholder(R.drawable.white_background)
+            .error(R.drawable.white_background)
             .into(vh.itemView.board_user_profile)
 
         vh.itemView.board_user_profile.setBackgroundResource(R.drawable.image_background_border)

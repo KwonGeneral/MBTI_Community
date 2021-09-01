@@ -83,8 +83,8 @@ class MypageHistoryAdapter constructor(var context: Context, var items:ArrayList
 
         Glide.with(context)
             .load(item.board_profile)
-            .placeholder(R.drawable.user_default_profile)
-            .error(R.drawable.user_default_profile)
+            .placeholder(R.drawable.white_background)
+            .error(R.drawable.white_background)
             .into(vh.itemView.mypage_history_user_profile)
 
         vh.itemView.mypage_history_user_profile.setBackgroundResource(R.drawable.image_background_border)

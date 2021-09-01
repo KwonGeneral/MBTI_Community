@@ -95,8 +95,8 @@ class MypageFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val user_profile = view.findViewById<ImageView>(R.id.user_profile)
         Glide.with(requireContext())
             .load(share_profile)
-            .placeholder(R.drawable.user_default_profile)
-            .error(R.drawable.user_default_profile)
+            .placeholder(R.drawable.white_background)
+            .error(R.drawable.white_background)
             .into(user_profile)
 
         user_profile.setBackgroundResource(R.drawable.image_background_border)

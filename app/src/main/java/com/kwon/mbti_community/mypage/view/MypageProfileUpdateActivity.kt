@@ -129,8 +129,8 @@ class MypageProfileUpdateActivity : AppCompatActivity(), AdapterView.OnItemSelec
         val user_profile = findViewById<ImageView>(R.id.mypage_profile_image)
         Glide.with(this)
             .load(share_profile)
-            .placeholder(R.drawable.user_default_profile)
-            .error(R.drawable.user_default_profile)
+            .placeholder(R.drawable.white_background)
+            .error(R.drawable.white_background)
             .into(user_profile)
 
         user_profile.setBackgroundResource(R.drawable.image_background_border)

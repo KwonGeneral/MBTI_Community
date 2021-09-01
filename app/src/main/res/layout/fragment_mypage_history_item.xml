@@ -56,9 +56,7 @@
                     android:id="@+id/mypage_history_board_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:text="제목 입니다."
+                    android:layout_centerInParent="true"
                     android:textColor="#ba000000" />
 
                 <LinearLayout
@@ -81,7 +79,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="2dp"
-                            android:text="10"
+                            android:text="0"
                             android:textColor="#C73279"
                             android:textSize="12sp" />
 
@@ -173,7 +171,6 @@
                         style="@style/noto_medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="KwonGeneral"
                         android:textColor="#ba000000"
                         android:textSize="14sp" />
 
@@ -182,7 +179,6 @@
                         style="@style/noto_regular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="1 hours ago"
                         android:textColor="#9a000000"
                         android:textSize="10sp" />
                 </LinearLayout>
@@ -215,7 +211,6 @@
                     style="@style/noto_medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="이제 곧 점심시간"
                     android:textColor="#ba000000"
                     android:textSize="14sp" />
 
@@ -225,7 +220,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="배가 별로 고프지가 않다.\n돈가스가 너무 질려..;;"
                     android:textColor="#ba000000"
                     android:textSize="12sp"
                     card_view:lineHeight="19dp" />
@@ -269,7 +263,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="2dp"
-                        android:text="10"
+                        android:text="0"
                         android:textColor="#C73279"
                         android:textSize="12sp" />
 

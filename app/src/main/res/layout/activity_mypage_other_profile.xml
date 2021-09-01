@@ -123,7 +123,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="ENTJ"
                     android:textColor="#333333"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -150,7 +149,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="권장군"
                     android:textColor="#333333"
                     android:textSize="16sp" />
 
@@ -178,7 +176,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="안녕하세요"
                     android:textColor="#333333"
                     android:textSize="16sp" />
             </LinearLayout>

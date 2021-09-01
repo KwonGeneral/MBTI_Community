@@ -69,8 +69,8 @@ class CommentAdapter constructor(var context:Context, var items:ArrayList<Commen
 
             Glide.with(context)
                 .load(item.comment_profile)
-                .placeholder(R.drawable.user_default_profile)
-                .error(R.drawable.user_default_profile)
+                .placeholder(R.drawable.white_background)
+                .error(R.drawable.white_background)
                 .into(vh.itemView.comment_user_profile)
 
             vh.itemView.comment_user_profile.setBackgroundResource(R.drawable.image_background_border)
